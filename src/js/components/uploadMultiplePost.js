@@ -9,6 +9,7 @@ export default class multiplePost extends(Component){
     this.state={
       postNo:2,
       selectedIndex:0,
+      mediaTypes:['image', 'image'],
       collages:{
         2:[
             [
@@ -120,21 +121,27 @@ export default class multiplePost extends(Component){
 
     })
   }
+  changeMediaType(index, e ){
+    console.log(e.target.value)
+    let newMediaType= this.state.mediaTypes
+    newMediaType[index]= e.target.value
+    this.setState({mediaTypes:newMediaType})
+  }
 
   uploadMedia(){
     const {postNo, collages,selectedIndex} =this.state
     return collages[postNo][selectedIndex].map( (item, index)=>{
       return(
-        <Col md={2} sm={4} xs={12} className="multipleFileItem">
+        <Col md={2} key={index} sm={4} xs={12} className="multipleFileItem">
           <span className="indexNum">{index+1}</span>
           <p>
             Media Type
-            <select>
-              <option>Image</option>
-              <option>Video</option>
-              <option>Web Url</option>
+            <select onChange={this.changeMediaType.bind(this,index)} value={this.state.mediaTypes[index]}>
+              <option value='image'>Image</option>
+              <option value='video'>Video</option>
+              <option value='url'>Web Url</option>
             </select>
-            <input type="file" />
+            <input type="file" onChange={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index] )} />
             <Heading size="xs" title="Upload Instruction" />
             <span>
               some Instruction about what to upload

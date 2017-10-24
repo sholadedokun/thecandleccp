@@ -50,6 +50,20 @@ export default class uploadAdCreative extends Component{
     this.setState({creative:newCreativeCollages})
     console.log(newCreativeCollages)
   }
+  renderPreview(index, mediaType, e){
+    let reader =new FileReader();
+    let allCreatives = this.state.creative
+    let that =this
+    reader.onload=function (){
+      allCreatives[index].data=reader.result,
+      allCreatives[index].type=mediaType
+      console.log(allCreatives)
+      that.setState({
+        creative:allCreatives
+      })
+    }
+    reader.readAsDataURL(e.target.files[0])
+  }
   mapAdCreativeToBoard(){
     const {creative, displayBoardWidth}= this.state
     const actualWidth= displayBoardWidth*0.885
@@ -76,11 +90,15 @@ export default class uploadAdCreative extends Component{
               height: unitHeight*(parseFloat(item.dimension.y.split('|')[1])),
               left:unitWidth*(parseFloat(item.dimension.x.split('|')[0])),
               top:unitHeight*(parseFloat(item.dimension.y.split('|')[0])),
-              border:'1px solid #555',
               position:'absolute',
+              overflow:'hidden'
             }
+            creativeStyle.border=(item.data ==='')?'1px solid #555':'';
             return(
               <div style={creativeStyle}>
+
+                   {(item.data !=='')?<img src={item.data} width="100%" />:''}
+
               </div>
             )
 
@@ -108,7 +126,7 @@ export default class uploadAdCreative extends Component{
             <Row>
               {
                 (postType==='single')?<SinglePost />:
-                <MultiplePost boardWidth="2000" boardHeight="1000" changeCollage={this.setCreativeCollage.bind(this)} />
+                <MultiplePost boardWidth="2000" boardHeight="1000" changeCollage={this.setCreativeCollage.bind(this)} renderPreview={this.renderPreview.bind(this)} />
               }
               <Col xs={12} className="creativeContainer imagePreview">
                 <Heading size="sm" title="Image Preview" />
