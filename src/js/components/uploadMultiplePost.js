@@ -7,7 +7,7 @@ export default class multiplePost extends(Component){
   constructor(props){
     super(props)
     this.state={
-      postNo:3,
+      postNo:2,
       selectedIndex:0,
       collages:{
         2:[
@@ -77,7 +77,7 @@ export default class multiplePost extends(Component){
     return currentCollage.map((container, index)=>{
 
       return(
-        <div className={selectedIndex===index?"collageContainer activeCollage":"collageContainer"} onClick={()=>this.setState({selectedIndex:index})} key={index} style={containerStyle}>
+        <div className={selectedIndex===index?"collageContainer activeCollage":"collageContainer"} onClick={this.setCollage.bind(this, index)} key={index} style={containerStyle}>
           {
               container.map((item, spIndex)=>{
                 let xPosition = item.x.split('|')[0]*unitWidth
@@ -102,13 +102,25 @@ export default class multiplePost extends(Component){
   )
 
   }
+  setCollage(index){
+    const {collages, postNo}=this.state
+    this.setState({selectedIndex:index})
+    this.props.changeCollage(collages[postNo][index])
+  }
+  changeMediaNum(index){
+    const {collages, postNo}=this.state
+    this.setState({postNo:index, selectedIndex:0 })
+    this.props.changeCollage(collages[index][0])
+
+  }
   renderPostNo(){
     const {collages, postNo}=this.state
     return _.map(collages, (item, index)=>{
-      return <li key={index} className={postNo==index? 'active':''} onClick={()=>this.setState({postNo:index})}>{index}</li>
+      return <li key={index} className={postNo==index? 'active':''} onClick={this.changeMediaNum.bind(this, index)}>{index}</li>
 
     })
   }
+
   uploadMedia(){
     const {postNo, collages,selectedIndex} =this.state
     return collages[postNo][selectedIndex].map( (item, index)=>{
