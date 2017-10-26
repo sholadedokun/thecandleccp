@@ -53,16 +53,26 @@ export default class uploadAdCreative extends Component{
   renderPreview(index, mediaType, e){
     let reader =new FileReader();
     let allCreatives = this.state.creative
-    let that =this
-    reader.onload=function (){
-      allCreatives[index].data=reader.result,
+    if(mediaType != 'url'){
+      let that =this
+      reader.onload=function (){
+        allCreatives[index].data=reader.result,
+        allCreatives[index].type=mediaType
+        console.log(allCreatives)
+        that.setState({
+          creative:allCreatives
+        })
+      }
+      reader.readAsDataURL(e.target.files[0])
+    }
+    else{
+      allCreatives[index].data=e.target.value;
       allCreatives[index].type=mediaType
-      console.log(allCreatives)
-      that.setState({
+      this.setState({
         creative:allCreatives
       })
     }
-    reader.readAsDataURL(e.target.files[0])
+
   }
   mapAdCreativeToBoard(){
     const {creative, displayBoardWidth}= this.state
@@ -97,8 +107,18 @@ export default class uploadAdCreative extends Component{
             return(
               <div style={creativeStyle}>
 
-                   {(item.data !=='')?<img src={item.data} width="100%" />:''}
+                   {
+                     function(){
+                       console.log(item.type)
+                       switch(item.type){
+                       case 'image': return <img src={item.data} width="100%" />;
+                       case 'video': return <video width="100%" autoPlay loop><source src={item.data} /></video>;
+                       case 'url': return <iframe src={item.data} style={{border:'none'}}></iframe>;
+                       default: return ''
+                     }
+                   }()
 
+                   }
               </div>
             )
 

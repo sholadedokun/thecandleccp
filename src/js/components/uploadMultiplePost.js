@@ -61,7 +61,6 @@ export default class multiplePost extends(Component){
     }
   }
   displayCollages(){
-    console.log('here')
     const {postNo, collages, selectedIndex} =this.state
     const {boardWidth, boardHeight} = this.props
     const divisor=25;
@@ -98,9 +97,7 @@ export default class multiplePost extends(Component){
           }
         </div>
       )
-    }
-
-  )
+    })
 
   }
   setCollage(index){
@@ -118,11 +115,9 @@ export default class multiplePost extends(Component){
     const {collages, postNo}=this.state
     return _.map(collages, (item, index)=>{
       return <li key={index} className={postNo==index? 'active':''} onClick={this.changeMediaNum.bind(this, index)}>{index}</li>
-
     })
   }
   changeMediaType(index, e ){
-    console.log(e.target.value)
     let newMediaType= this.state.mediaTypes
     newMediaType[index]= e.target.value
     this.setState({mediaTypes:newMediaType})
@@ -132,7 +127,7 @@ export default class multiplePost extends(Component){
     const {postNo, collages,selectedIndex} =this.state
     return collages[postNo][selectedIndex].map( (item, index)=>{
       return(
-        <Col md={2} key={index} sm={4} xs={12} className="multipleFileItem">
+        <Col md={3} key={index} sm={4} xs={12} className="multipleFileItem">
           <span className="indexNum">{index+1}</span>
           <p>
             Media Type
@@ -141,7 +136,18 @@ export default class multiplePost extends(Component){
               <option value='video'>Video</option>
               <option value='url'>Web Url</option>
             </select>
-            <input type="file" onChange={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index] )} />
+            {
+              (()=>{
+                switch(this.state.mediaTypes[index]){
+                  case 'image': return <input type="file" accept="image/*" onChange={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index] )} />
+                  case 'video': return <input type="file"  accept="video/*" onChange={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index] )} />
+                  case 'url': return <input type="text" onBlur={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index])} placeholder="Please type Web URL" />
+                  default: return <input type="file" onChange={this.props.renderPreview.bind(this, index, this.state.mediaTypes[index] )} />
+                }
+
+              })()
+            }
+
             <Heading size="xs" title="Upload Instruction" />
             <span>
               some Instruction about what to upload
@@ -150,9 +156,7 @@ export default class multiplePost extends(Component){
         </Col>
       )
     }
-
     )
-
   }
   render(){
     const {postNo}=this.state

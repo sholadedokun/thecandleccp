@@ -52,10 +52,10 @@ class App extends Component {
     const {currentStep}=this.props
     return (
       <Col xs={12} className="navigator">
-        <Col xs={4} className="header">
+        <Col xs={3} className="header">
           <Heading size="md" title="TheCandle"></Heading>
         </Col>
-        <Col xs={8} componentClass="ul">
+        <Col xs={9} componentClass="ul">
           {steps.map( (item, index)=>{
             return <li key={index} className={(currentStep===index)?'active':(currentStep>index)?'past':''}>
               <span>{`${index+1}. ${item.title}`}</span>

@@ -6,9 +6,35 @@ body{
     margin: 0;
     padding: 0;
     font-family: 'Lato','Raleway';
+    background: #F8FBFD;
+}
+.linearBackground{
+  background: linear-gradient(#38C4B1, #1A9179) !important;
+}
+.errorNotification{
+  margin: 2em 0 0;
+  color: #955;
+  font-weight: bold;
+  font-size: 0.9em
+}
+.lg{
+  width:100%
+}
+.md{
+  width:66%
+}
+.sm{
+  width: 45%
+}
+.xs{
+  width: 33%
 }
 .navigator {
+  position: relative;
+  background: #fff;
+  z-index: 10;
   .header{
+    text-align: center;
     border-right: 1px solid #aaa;
   }
   li{
@@ -34,7 +60,8 @@ body{
   .liner{
     width:100%;
     margin-top: 10px;
-    border-bottom:8px #454543 solid
+    height:10px;
+    @extend .linearBackground
   }
   .activeLiner{
     width:90%;
@@ -51,14 +78,22 @@ ul{
   padding: 0px !important;
   margin: 0px;
 }
+.descriptMenu{
+  padding-top: 20vh;
+  height: 130vh;
+  top:-20vh;
+  position: fixed;
+  width: inherit;
+  height: 130vh;
+  background: #F3F5F6;
+}
 .formField, .subLabel, .inlineSelect{
   background: linear-gradient(#fafafa, #eee) !important;
 }
 .formField{
   display: inline-block;
-  margin-top: 1em;
   width: auto;
-  padding: 5px 15px;
+  padding: 10px 15px;
   border-radius: 4px;
   // border: 1px solid #ccc;
   box-shadow: 0 0 1px 0px #999;
@@ -67,7 +102,7 @@ ul{
   background: #fafafa
 }
 .boardSelection{
-  padding:2em;
+  padding:2em 4em;
 }
 input, select, textarea, button{
   background: none !important;
@@ -76,6 +111,25 @@ input, select, textarea, button{
 }
 .spaceList{
   padding:1em 0 2em;
+  .active::before{
+    position: absolute;
+    top:0;
+    left:0;
+    content: "";
+    border-radius: 5px;
+    background: url("./backgroundPictures/Rectangleoverlay.png") repeat;
+    height:100%;
+    width:100%;
+  }
+  .active::after{
+    position: absolute;
+    top:45%;
+    left:45%;
+    text-align: center;
+    padding: 40% auto;
+    content:'\f053';
+    color:#fff;
+  }
 }
 .spaceContainer{
   position: relative;
@@ -85,6 +139,7 @@ input, select, textarea, button{
   border-radius: 5px;
   box-shadow: 0 0 5px 4px #eee;
   padding:1em;
+  cursor:pointer;
   img{
     border-radius: 4px;
     width: 100%;
@@ -102,12 +157,13 @@ input, select, textarea, button{
 
 }
 .primaryButton{
+  @extend .linearBackground;
   padding:10px 20px;
   min-width: 160px;
   text-align: center;
   margin-right: 20px;
-  color:#fff;
-  background: linear-gradient(#44aa33, #229911) !important
+  color: #fff;
+
 }
 .cancelButton{
   padding:10px 20px;
@@ -136,12 +192,35 @@ input, select, textarea, button{
     }
    }
 }
-input{
+.formSections{
+  margin-top:3em;
+  margin-bottom:3em;
 
+}
+.moreAdder, .moreRemover{
+    cursor: pointer;
+    width: 30px;
+    display: inline-block;
+    padding: 10px;
+    font-size: 18px;
+  }
+.moreRemover{
+  color: #977;
 }
 .inputField{
   position: relative;
   margin: 1em 0;
+  .DayPickerInput{
+    display:inline !important;
+    border-radius: inherit;
+    position: relative;
+    z-index: 20;
+    .DayPickerInput-OverlayWrapper{
+      position: relative;
+      z-index: 20;
+    }
+  }
+
   label{
     display: block;
     font-size: 0.85em;
@@ -213,6 +292,7 @@ input{
     border: 0;
     padding: 10px 15px;
     background: #fff !important;
+    width:inherit;
   }
   .subLabel{
     height: 100%;
