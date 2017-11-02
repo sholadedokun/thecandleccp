@@ -4,6 +4,8 @@ import Icon from './icon'
 import {Col, Row} from 'react-bootstrap'
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import AdvanceTiming from './timingForm';
+
 import 'react-day-picker/lib/style.css';
 
 export default class selectBoard extends Component{
@@ -21,6 +23,8 @@ export default class selectBoard extends Component{
         gender:'all',
         scenario:[''],
         fastDisplay:'',
+        timing:[''],
+        advanceTiming:[]
 
       },
       scenariosList:['Car Accident', 'User Stares at Board', 'Kim Jong Un Lunched a Nuclear Bomb']
@@ -29,6 +33,7 @@ export default class selectBoard extends Component{
     for (let i=20; i<=100; i+=5){
       this.ageOption.push(i)
     }
+
   }
   componentWillMount(){
   }
@@ -43,19 +48,52 @@ export default class selectBoard extends Component{
     this.setState({ data })
 
   }
-  addMoreScenarios(){
+  addMoreField(dataLable){
       let data= this.state.data
-      data.scenario.push('')
+      data[dataLable].push('')
       this.setState({data})
 
   }
-  removeThisScenario(index){
+  removeThisField(dataLable, index){
     let data= this.state.data
-    data.scenario.splice(index, 1)
+    data[dataLable].splice(index, 1)
     this.setState({data})
   }
-  confirmInput(){
-    
+  selectTime(index, from, to){
+      let newTime= this.state.data;
+
+      if(newTime.advanceTiming.length==0 && (newTime.timing[index]==="" || typeof newTime.timing[index]==="undefined") ){
+          newTime.timing[index]=`${from} - ${to}`
+      }
+      else{
+          newTime.timing[index]=""
+      }
+      this.setState({data:newTime})
+  }
+  advanceTimingToggle(operands){
+
+      let data=this.state.data
+      if(operands==1){
+          data.advanceTiming.push('');
+          data.timing=[""]
+          this.setState({ data})
+      }
+      else{
+          data.advanceTiming=[]
+      }
+      this.setState({data})
+  }
+  setTime(index, position, value){
+      console.log(value)
+      let advanceTiming= this.state.data.advanceTiming;
+      advanceTiming[index]= advanceTiming[index] || {}
+      advanceTiming[index][position]=value;
+      this.setState(
+          {
+              data:{...this.state.data, advanceTiming}
+          }
+      )
+      console.log(this.state.data.advanceTiming)
   }
   render(){
     const dayPickerPropsFrom = {
@@ -69,7 +107,7 @@ export default class selectBoard extends Component{
             before: new Date (this.state.data.dateFrom),
           }
         };
-    const {scenariosList, data:{scenario, fastDisplay, ageTo, ageFrom, gender, traffic, weather}}=this.state;
+    const {scenariosList, data:{campaignName, scenario, fastDisplay, ageTo, ageFrom, gender, traffic, weather, timing, advanceTiming}}=this.state;
     return(
       <Row className="campaignContainer">
         <Col xs={3}>
@@ -85,7 +123,7 @@ export default class selectBoard extends Component{
             </Col>
           </Row>
         </Col>
-        <Col xs={5}  className="boardSelection">
+        <Col xs={6}  className="boardSelection">
           <Heading size="md" title="Describe Campaign and target Audience" />
           <Col xs={12}>
             <Row id="campaign_details" className="formSections">
@@ -93,7 +131,7 @@ export default class selectBoard extends Component{
               <div class="inputField">
                 <label>Name</label>
                 <span className="inputContainer lg">
-                  <input type="text" name="campaign_name" placeholder="Enter Campaign Name" />
+                  <input type="text" value={campaignName} onChange={(e)=>this.setState({data:{...this.state.data, campaignName:e.target.value}})} name="campaign_name" placeholder="Enter Campaign Name" />
                 </span>
               </div>
               <div class="inputField">
@@ -194,8 +232,8 @@ export default class selectBoard extends Component{
                             })}
                           </select>
                         </span>
-                          {index===  scenario.length-1 ?<span className="moreAdder"  onClick={this.addMoreScenarios.bind(this)}><Icon icon="plus-circle" /></span>:
-                          <span  className="moreRemover" onClick={this.removeThisScenario.bind(this,index)}><Icon icon="minus-circle"  /></span>}
+                          {index===  scenario.length-1 ?<span className="moreAdder"  onClick={this.addMoreField.bind(this, 'scenario')}><Icon icon="plus-circle" /></span>:
+                          <span  className="moreRemover" onClick={this.removeThisField.bind(this, 'scenario' ,index)}><Icon icon="minus-circle"  /></span>}
                       </div>
                     )
                   })
@@ -203,16 +241,43 @@ export default class selectBoard extends Component{
               </div>
               <div class="inputField">
                 <label>Time</label>
-                <span className="inputContainer selectInput">
-                  <input type="text" name="campaign_name" className="xs" placeholder="Enter Time"  />
-                  <span className="inlineSelect">
-                  <select>
-                    <option>AM</option>
-                    <option>PM</option>
-                  </select>
-                  </span>
+                <span className="inputContainer radio" onClick={this.selectTime.bind(this, 0,'6:00AM', '12:00PM')}>
+                  <span className={`radioLabel ${timing[0]==='6:00AM - 12:00PM'?'active':''}`}>6AM - 12PM</span>
                 </span>
-                <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
+                <span className="inputContainer radio" onClick={this.selectTime.bind(this, 1,'12:00PM', '6:00PM')}>
+                  <span  className={`radioLabel ${timing[1]==='12:00PM - 6:00PM'?'active':''}`}>12PM - 6PM</span>
+                </span>
+                <span  className="inputContainer radio" onClick={this.selectTime.bind(this, 2,'6:00PM', '12:00AM')}>
+                  <span  className={`radioLabel ${timing[2]==='6:00PM - 12:00AM'?'active':''}`}>6PM - 12AM</span>
+                </span>
+                <span  className="inputContainer radio" onClick={this.selectTime.bind(this, 3,'12:00AM', '6:00AM')}>
+                  <span className={`radioLabel ${timing[3]==='12:00AM - 6:00AM'?'active':''}`}>12AM - 6AM</span>
+                </span>
+                <label>Add Advance Timing
+                    {
+                        advanceTiming.length== 0 ?
+                            <span className="moreAdder"  onClick={this.advanceTimingToggle.bind(this, 1)}><Icon icon="plus-circle" /></span>:
+                            <span  className="moreRemover" onClick={this.advanceTimingToggle.bind(this, 0)}><Icon icon="minus-circle"  /></span>
+
+                    }
+                </label>
+                {
+                    advanceTiming.map((item, index)=>{
+                        return(
+                            <div>
+                                <AdvanceTiming setNewTime={this.setTime.bind(this, index, "from" )}  />
+                                <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
+                                <AdvanceTiming setNewTime={this.setTime.bind(this, index, "to" )}  />
+                                {
+                                    advanceTiming.length-1 === index ?
+                                        <span className="moreAdder"  onClick={this.addMoreField.bind(this, 'advanceTiming')}><Icon icon="plus-circle" /></span>:
+                                        <span className="moreRemover" onClick={this.removeThisField.bind(this, 'advanceTiming', index)}><Icon icon="minus-circle"  /></span>
+                                }
+                            </div>
+                        )
+                    })
+                }
+
               </div>
             </Row>
             <Row id="Budget" className="formSections">
@@ -247,7 +312,7 @@ export default class selectBoard extends Component{
               </div>
             </Row>
           </Col>
-            <button className="primaryButton" onClick={this.confirmInput.bind(this)}>Next</button>
+            <button className="primaryButton" onClick={console.log(this.state)}>Next</button>
             <button className="cancelButton">Cancel</button>
         </Col>
       </Row>

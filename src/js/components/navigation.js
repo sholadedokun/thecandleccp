@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Heading from './heading'
 import {Col, Row, Grid} from 'react-bootstrap'
-class App extends Component {
+class navigation extends Component {
   constructor(props){
     super(props)
     this.state={
@@ -74,4 +74,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default navigation;

@@ -258,6 +258,14 @@ input, select, textarea, button{
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
     }
+    .timeSelect{
+        border-radius: 0;
+        display:inline-block;
+    }
+    .timeSelect:first-child{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
 
   }
   .radio{
