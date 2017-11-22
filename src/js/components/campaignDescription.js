@@ -5,8 +5,9 @@ import {Col, Row} from 'react-bootstrap'
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import AdvanceTiming from './timingForm';
-
+import ToolTipMarker from './tooltip.js';
 import 'react-day-picker/lib/style.css';
+import _ from 'lodash'
 
 export default class selectBoard extends Component{
   constructor(props){
@@ -14,7 +15,8 @@ export default class selectBoard extends Component{
     this.state={
       data:{
         campaignName:'',
-        dateFrom: new Date(),
+        brandColor:'',
+        dateFrom: '',
         dateTo:'12/12/2017',
         ageFrom:20,
         ageTo:25,
@@ -22,9 +24,12 @@ export default class selectBoard extends Component{
         weather:'all',
         gender:'all',
         scenario:[''],
-        fastDisplay:'',
         timing:[''],
-        advanceTiming:[]
+        advanceTiming:[],
+        totalSpendAmount:12000,
+        totalSpendType:'Daily',
+        mcpv:100,
+        fastDisplay:''
 
       },
       scenariosList:['Car Accident', 'User Stares at Board', 'Kim Jong Un Lunched a Nuclear Bomb']
@@ -95,6 +100,10 @@ export default class selectBoard extends Component{
       )
       console.log(this.state.data.advanceTiming)
   }
+  confirmInput(){
+      console.log(this.state.data)
+      this.props.setCampaignDetails()
+  }
   render(){
     const dayPickerPropsFrom = {
         disabledDays: {
@@ -107,7 +116,7 @@ export default class selectBoard extends Component{
             before: new Date (this.state.data.dateFrom),
           }
         };
-    const {scenariosList, data:{campaignName, scenario, fastDisplay, ageTo, ageFrom, gender, traffic, weather, timing, advanceTiming}}=this.state;
+    const {scenariosList, data:{campaignName, brandColor, scenario, ageTo, ageFrom, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
     return(
       <Row className="campaignContainer">
         <Col xs={3}>
@@ -117,9 +126,9 @@ export default class selectBoard extends Component{
                 <a href="#campaign_details" role="presentation">Campaign Details</a>
               </li>
               <li><a href="#audience" role="presentation">Audience</a></li>
-              <li><a href="#Situation" role="presentation">Situation</a></li>
-              <li><a href="#campaign_details" role="presentation">Budget</a></li>
-              <li><a href="#campaign_details" role="presentation">Pricing</a></li>
+              <li><a href="#situation" role="presentation">Situation</a></li>
+              <li><a href="#budget" role="presentation">Budget</a></li>
+              <li><a href="#pricing" role="presentation">Pricing</a></li>
             </Col>
           </Row>
         </Col>
@@ -128,36 +137,22 @@ export default class selectBoard extends Component{
           <Col xs={12}>
             <Row id="campaign_details" className="formSections">
               <Heading size="sm" title="Campaign Details" />
-              <div class="inputField">
+              <div className="inputField">
                 <label>Name</label>
                 <span className="inputContainer lg">
                   <input type="text" value={campaignName} onChange={(e)=>this.setState({data:{...this.state.data, campaignName:e.target.value}})} name="campaign_name" placeholder="Enter Campaign Name" />
                 </span>
               </div>
-              <div class="inputField">
-                <label>Desired Period</label>
-                <span className="inputContainer rangeInput">
-                  <span className="subLabel">From</span>
-                  <DayPickerInput
-                    placeholder="MM/DD/YYYY"
-                    onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
-                    dayPickerProps={dayPickerPropsFrom}
-                  />
-                </span>
-                <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
-                <span className="inputContainer rangeInput">
-                  <span className="subLabel">To</span>
-                  <DayPickerInput
-                    placeholder="MM/DD/YYYY"
-                    onDayChange={(date)=>{this.setState({data:{...this.state.data, dateTo:date} })}}
-                    dayPickerProps={dayPickerPropsTo}
-                  />
+              <div className="inputField">
+                <label>Brand Major Color</label>
+                <span className="inputContainer md">
+                  <input type="text" value={brandColor} onChange={(e)=>this.setState({data:{...this.state.data, brandColor:e.target.value}})} name="brandColor" placeholder="Enter Brand Color Pantone" />
                 </span>
               </div>
             </Row>
             <Row id="audience" className="formSections">
               <Heading size="sm" title="Audience" />
-              <div class="inputField">
+              <div className="inputField">
                 <label>Age</label>
                 <span className="formField rangeSelect">
                   <select onChange={(e)=>this.setState({data:{...this.state.data, ageFrom:e.target.value}})} value={ageFrom}>
@@ -175,7 +170,7 @@ export default class selectBoard extends Component{
                   </select>
                 </span>
               </div>
-              <div class="inputField">
+              <div className="inputField">
                 <label>Gender</label>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'all'}})}>
                   <span className={`radioLabel ${gender==='all'?'active':''}`} >All</span>
@@ -188,9 +183,9 @@ export default class selectBoard extends Component{
                 </span>
               </div>
             </Row>
-            <Row id="Situation" className="formSections">
+            <Row id="situation" className="formSections">
               <Heading size="sm" title="Situation" />
-              <div class="inputField">
+              <div className="inputField">
                 <label>Traffic</label>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, traffic:'all'}})}>
                   <span className={`radioLabel ${traffic==='all'?'active':''}`}>All Traffic Situations</span>
@@ -202,7 +197,7 @@ export default class selectBoard extends Component{
                   <span  className={`radioLabel ${traffic==='heavy'?'active':''}`}>Heavy</span>
                 </span>
               </div>
-              <div class="inputField">
+              <div className="inputField">
                 <label>Weather</label>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, weather:'all'}})}>
                   <span className={`radioLabel ${weather==='all'?'active':''}`}>All Weather Conditions</span>
@@ -217,12 +212,12 @@ export default class selectBoard extends Component{
                   <span className={`radioLabel ${weather==='sunny'?'active':''}`}>Sunny</span>
                 </span>
               </div>
-              <div class="inputField">
+              <div className="inputField">
                 <label>Scenario</label>
                 {
                   scenario.map((item, index)=>{
                     return (
-                      <div>
+                      <div key={_.uniqueId()}>
                         <span className="formField">
                           <select onChange={this.setOptionValue.bind(this,index, 'scenario')} value={scenario[index]}>
                             {scenariosList.map((opItems, opIndex)=>{
@@ -239,8 +234,8 @@ export default class selectBoard extends Component{
                   })
                 }
               </div>
-              <div class="inputField">
-                <label>Time</label>
+              <div className="inputField">
+                <label>Time Of Display</label>
                 <span className="inputContainer radio" onClick={this.selectTime.bind(this, 0,'6:00AM', '12:00PM')}>
                   <span className={`radioLabel ${timing[0]==='6:00AM - 12:00PM'?'active':''}`}>6AM - 12PM</span>
                 </span>
@@ -277,31 +272,85 @@ export default class selectBoard extends Component{
                         )
                     })
                 }
-
               </div>
             </Row>
-            <Row id="Budget" className="formSections">
+            <Row id="budget" className="formSections">
               <Heading size="sm" title="Budget" />
-              <div class="inputField">
-                <label>Total Spend</label>
+              <div className="inputField">
+                <label>Total Spend
+                    <ToolTipMarker id={_.uniqueId()} tooltip="Total amount you are willing to spend.">
+                        <span><Icon icon="question-circle" /></span>
+                    </ToolTipMarker>
+                </label>
                 <span className="inputContainer selectInput">
-                  <input type="text" name="campaign_totalSpend" placeholder="Enter Amount"  />
+                  <input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={(e)=>this.setState({data:{...this.state.data, totalSpendAmount:e.target.valus}})} value={totalSpendAmount}  />
                   <span className="inlineSelect">
-                  <select>
-                    <option value="Monthly">Daily</option>
-                    <option value="Yearly">Lifetime</option>
-                  </select>
+                      <select onChange={(e)=> this.setState({data:{...this.state.data, totalSpendType:e.target.valus}})} value={totalSpendType}>
+                        <option value="Daily">Daily</option>
+                        <option value="Lifetime">Lifetime</option>
+                      </select>
                   </span>
                 </span>
+                <span className="minimumValues">Minimum Amount is &#8358;12,000</span>
+
+
               </div>
-              <div class="inputField">
-                <label>MCPV</label>
+              <div className="inputField">
+                <label>Desired Period</label>
+                  {
+                      totalSpendType==='Daily'?
+                          <span className="SelectDate">
+                              <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, totalSpendType:'Daily'}})}>
+                                <span className={`radioLabel ${(totalSpendType==='Daily' && dateFrom=='')?'active':''}`}>Start Immediately</span>
+                              </span>
+                              <span className="inputContainer rangeInput">
+                                <span className="subLabel">From</span>
+                                <DayPickerInput
+                                  placeholder="MM/DD/YYYY"
+                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
+                                  dayPickerProps={dayPickerPropsFrom}
+                                />
+                              </span>
+                          </span>
+                          :
+                          <span className="SelectDate">
+                              <span className="inputContainer rangeInput">
+                                <span className="subLabel">From</span>
+                                <DayPickerInput
+                                  placeholder="MM/DD/YYYY"
+                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
+                                  dayPickerProps={dayPickerPropsFrom}
+                                />
+                              </span>
+                              <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
+                              <span className="inputContainer rangeInput">
+                                <span className="subLabel">To</span>
+                                <DayPickerInput
+                                  placeholder="MM/DD/YYYY"
+                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateTo:date} })}}
+                                  dayPickerProps={dayPickerPropsTo}
+                                />
+                              </span>
+                          </span>
+                  }
+              </div>
+              <div className="inputField">
+                <label>MCPV
+                    <ToolTipMarker id={_.uniqueId()} tooltip="Minimum Cost Per View.">
+                        <span><Icon icon="question-circle" /></span>
+                    </ToolTipMarker>
+                </label>
                 <span className="inputContainer">
-                  <input type="text" name="campaign_name" placeholder="Values 100-300" />
+                  <input type="text" name="mcpv" placeholder="" />
                 </span>
+                <span className="minimumValues">Minimum Amount is &#8358;100</span>
               </div>
-              <div class="inputField">
-                <label>Fast Display</label>
+              <div className="inputField">
+                <label>Fast Display
+                    <ToolTipMarker id={_.uniqueId()} tooltip="Percentage increase you are willing to pay to secure your spot.">
+                        <span><Icon icon="question-circle" /></span>
+                    </ToolTipMarker>
+                </label>
                 <span className="formField">
                   <select onChange={this.setOptionValue.bind(this, 'fastDisplay')} value={fastDisplay}>
                     <option value="Auto Select">Auto Select</option>
@@ -312,7 +361,7 @@ export default class selectBoard extends Component{
               </div>
             </Row>
           </Col>
-            <button className="primaryButton" onClick={console.log(this.state)}>Next</button>
+            <button className="primaryButton" onClick={this.confirmInput.bind(this)}>Next</button>
             <button className="cancelButton">Cancel</button>
         </Col>
       </Row>

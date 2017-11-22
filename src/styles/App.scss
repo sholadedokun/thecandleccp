@@ -33,9 +33,11 @@ body{
   position: relative;
   background: #fff;
   z-index: 10;
+
   .header{
+    padding: 0.45em 0;
     text-align: center;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid #38C4B1;
   }
   li{
     font-size: 1em;
@@ -123,11 +125,12 @@ input, select, textarea, button{
   }
   .active::after{
     position: absolute;
-    top:45%;
+    top:35%;
     left:45%;
     text-align: center;
-    padding: 40% auto;
-    content:'\f053';
+    margin: 10% auto;
+    font-family: 'FontAwesome';
+    content:"\f00c";
     color:#fff;
   }
 }
@@ -188,7 +191,8 @@ input, select, textarea, button{
     a:focus{
       background: #eee;
       border-radius: 5px;
-      box-shadow: 0 1 1px #ccc;
+      box-shadow: 0 0 1px 1px #ccc;
+      color: #555;
     }
    }
 }
@@ -209,7 +213,13 @@ input, select, textarea, button{
 }
 .inputField{
   position: relative;
-  margin: 1em 0;
+  margin: 1em 0 2.5em;
+  .md{
+      input{
+           width:100% !important;
+      }
+
+  }
   .DayPickerInput{
     display:inline !important;
     border-radius: inherit;
@@ -220,12 +230,23 @@ input, select, textarea, button{
       z-index: 20;
     }
   }
-
+  .minimumValues{
+    margin: 0 2em;
+    font-size: 0.87em;
+    color: #555;
+  }
   label{
     display: block;
     font-size: 0.85em;
     color: #777;
-    margin: 1em 0;
+    margin: 1em 0 0.5em;
+    .tooltips{
+        font-style: italic;
+        font-weight: bold;
+        display: inline-block;
+        margin-left: 1em;
+
+    }
   }
   .inputContainer{
     display: inline-block;
@@ -381,6 +402,7 @@ input[type=file]{
 .multipleFileItem{
   display: inline-block;
   margin-right: 20px;
+  overflow: hidden;
   .indexNum{
     display: inline-block;
     font-size: 3em;

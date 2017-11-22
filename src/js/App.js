@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      currentStep:1,
+      currentStep:0,
       currentBoardLocations:''
     }
 
@@ -17,15 +17,18 @@ class App extends Component {
     const {currentStep} = this.state
     switch(currentStep){
       case 0: return <SelectBoard selectedBoard={this.selectedBoard.bind(this)} />
-      case 1: return <CampaignDescription />
+      case 1: return <CampaignDescription setCampaignDetails={this.setCampaignDetails.bind(this)} />
       case 2: return <UploadCreative />
     }
   }
   selectedBoard(Board){
-    console.log(Board)
+    // console.log(Board)
       if(Board){
         this.setState({currentStep: 1})
       }
+  }
+  setCampaignDetails(details){
+      this.setState({currentStep: 2})
   }
   render() {
     const {currentStep} = this.state

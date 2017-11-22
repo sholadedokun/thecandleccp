@@ -4,21 +4,17 @@ import Icon from './icon'
 import SinglePost from './uploadSinglePost'
 import MultiplePost from './uploadMultiplePost'
 import {Col, Row} from 'react-bootstrap'
+import _ from 'lodash';
 
 export default class uploadAdCreative extends Component{
   constructor(props){
     super(props)
     this.state={
-      postType:'multiple',
+      postType:'single',
       creative:[
         {
           type:'',
           dimension:{x:'0|1', y:'0|2'},
-          data:''
-        },
-        {
-          type:'',
-          dimension:{x:'1|1', y:'0|2'},
           data:''
         }
       ]
@@ -35,12 +31,12 @@ export default class uploadAdCreative extends Component{
   }
   setCreativeCollage(creativeDimensions){
     let currentCollage=this.state.creative;
-    let newCreativeCollages= creativeDimensions.map((item, index)=>{
+    let newCreativeCollages= _.map(creativeDimensions, (item, index)=>{
         let newCreative={}
         newCreative.dimension=item;
         if(currentCollage[index]){
           newCreative.type=currentCollage[index].type || '';
-          newCreative.data=currentCollage[index].type || '';
+          newCreative.data=currentCollage[index].data || '';
           return newCreative;
         }
         newCreative.type='';
@@ -83,7 +79,7 @@ export default class uploadAdCreative extends Component{
       width:actualWidth,
       height:actualHeight,
       border: '2px solid #595',
-      top: '17%',
+      top: '16.5%',
       left: '5.8%',
     }
     const totalCreative=creative.length;
@@ -93,7 +89,7 @@ export default class uploadAdCreative extends Component{
       <div className="boardGuide" style={style}>
         {
 
-           creative.map((item,index)=>{
+           _.map(creative, (item,index)=>{
             const creativeStyle={
               display:'inline-block',
               width: unitWidth*(parseFloat(item.dimension.x.split('|')[1])),
@@ -106,7 +102,6 @@ export default class uploadAdCreative extends Component{
             creativeStyle.border=(item.data ==='')?'1px solid #555':'';
             return(
               <div style={creativeStyle}>
-
                    {
                      function(){
                        console.log(item.type)
@@ -145,8 +140,8 @@ export default class uploadAdCreative extends Component{
           <Col xs={12}>
             <Row>
               {
-                (postType==='single')?<SinglePost />:
-                <MultiplePost boardWidth="2000" boardHeight="1000" changeCollage={this.setCreativeCollage.bind(this)} renderPreview={this.renderPreview.bind(this)} />
+                (postType==='single')?<SinglePost  boardWidth="2000" boardHeight="1000" changeCollage={this.setCreativeCollage.bind(this)} renderPreview={this.renderPreview.bind(this)}  />:
+                <MultiplePost boardWidth="2000" boardHeight="1000" changeCollage={this.setCreativeCollage.bind(this)} renderPreview={this.renderPreview.bind(this)}  />
               }
               <Col xs={12} className="creativeContainer imagePreview">
                 <Heading size="sm" title="Image Preview" />

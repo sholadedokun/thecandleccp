@@ -51,7 +51,7 @@ class navigation extends Component {
     const {steps}=this.state
     const {currentStep}=this.props
     return (
-      <Col xs={12} className="navigator">
+      <Row xs={12} className="navigator">
         <Col xs={3} className="header">
           <Heading size="md" title="TheCandle"></Heading>
         </Col>
@@ -69,7 +69,7 @@ class navigation extends Component {
         <Col>
 
         </Col>
-      </Col>
+      </Row>
     );
   }
 }

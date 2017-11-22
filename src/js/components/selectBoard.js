@@ -68,7 +68,7 @@ export default class selectBoard extends Component{
           </Row>
 
             <button className="primaryButton" onClick={this.confirmInput.bind(this)}>Next</button>
-            <button className="cancelButton">Cancel</button>
+            <button className="cancelButton" onClick={()=>this.setState({selectedBoardIndex:''})}>Cancel</button>
         </Col>
       </Row>
     )

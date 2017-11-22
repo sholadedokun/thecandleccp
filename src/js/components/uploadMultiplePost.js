@@ -9,7 +9,7 @@ export default class multiplePost extends(Component){
     this.state={
       postNo:2,
       selectedIndex:0,
-      mediaTypes:['image', 'image'],
+      mediaTypes:['image', 'video', 'url'],
       collages:{
         2:[
             [
@@ -38,7 +38,7 @@ export default class multiplePost extends(Component){
             ],
             [
               {x:'0|3', y:'0|1'},
-              {x:'0|1.5', y:'1|1'},
+              {x:'0|1.5',y:'1|1'},
               {x:'1.5|1.5', y:'1|1'}
             ],
             [
@@ -59,6 +59,10 @@ export default class multiplePost extends(Component){
         ]
       }
     }
+  }
+  componentDidMount(){
+      const {collages, postNo, selectedIndex}=this.state
+      this.props.changeCollage(collages[postNo][selectedIndex])
   }
   displayCollages(){
     const {postNo, collages, selectedIndex} =this.state
