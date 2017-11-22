@@ -38,7 +38,6 @@ export default class selectBoard extends Component{
     for (let i=20; i<=100; i+=5){
       this.ageOption.push(i)
     }
-
   }
   componentWillMount(){
   }
