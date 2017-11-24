@@ -6,9 +6,9 @@ import {Grid, Row} from 'react-bootstrap'
 
 
 import Home from './components/home'
-import Profile from './components/profile'
+import Dashboard from './components/dashboard'
 import Howitworks from './components/howitworks'
-import Login from './components/login'
+// import Login from './components/login'
 import Help from './components/help'
 import requireAuth from './components/auth/require_auth';
 class App extends Component {
@@ -20,8 +20,8 @@ class App extends Component {
                 <Header className="App-header"></Header>
                 <Route  exact path="/"  component={Home} />
                 <Route  exact path="/Howitworks"  component={Howitworks} />
-                <Route  exact path="/login"  component={Login} />
                 <Route  exact path="/help"  component={Help} />
+                <Route  exact path="/dashboard"   component={requireAuth(Dashboard)}  />
             </Grid>
         </Router>
 
