@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Map from './googleMapWrapper/map'
-import Heading from './heading'
-import Icon from './icon'
+import Map from '../googleMapWrapper/map'
+import Heading from '../heading'
+import Icon from '../icon'
 import {Col, Row, Grid} from 'react-bootstrap'
 export default class selectBoard extends Component{
   constructor(props){

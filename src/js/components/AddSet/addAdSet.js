@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Nav from './components/navigation';
-import SelectBoard from './components/selectBoard';
-import CampaignDescription from './components/campaignDescription';
-import UploadCreative from './components/uploadAdCreative';
+import Nav from './navigation';
+import SelectBoard from './selectBoard';
+import CampaignDescription from './campaignDescription';
+import UploadCreative from './uploadAdCreative';
 import {Col, Row, Grid} from 'react-bootstrap';
 class App extends Component {
   constructor(props){

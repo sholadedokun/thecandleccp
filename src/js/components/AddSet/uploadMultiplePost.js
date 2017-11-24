@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Icon from './icon'
+import Icon from '../icon'
 import {Col, Row} from 'react-bootstrap'
-import Heading from './heading'
+import Heading from '../heading'
 import _ from 'lodash'
 export default class multiplePost extends(Component){
   constructor(props){

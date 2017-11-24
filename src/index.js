@@ -15,9 +15,11 @@ const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
 const token = localStorage.getItem('TheCandleToken');
+console.log(token);
 // If we have a token, consider the user to be signed in
 if (token) {
   // we need to update application state
+  console.log('here', token)
   store.dispatch({ type: AUTH_USER });
 }
 ReactDOM.render(

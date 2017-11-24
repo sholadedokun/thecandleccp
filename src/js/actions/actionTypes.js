@@ -18,3 +18,8 @@ export const AUTH_USER = 'auth_user';
 export const UNAUTH_USER = 'unauth_user';
 export const AUTH_ERROR = 'auth_error';
 export const FETCH_OFFERS = 'fetch_offers';
+
+//CAMPAIGN ACTIONS
+export const CAMPAIGN_CREATE= 'CAMPAIGN_CREATE';
+export const CAMPAIGN_ERROR='CAMPAIGN_ERROR';
+export const FETCH_CAMPAIGN='FETCH_CAMPAIGN'

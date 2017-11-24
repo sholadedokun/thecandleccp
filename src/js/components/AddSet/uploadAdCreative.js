@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Heading from './heading'
-import Icon from './icon'
+import Heading from '../heading'
+import Icon from '../icon'
 import SinglePost from './uploadSinglePost'
 import MultiplePost from './uploadMultiplePost'
 import {Col, Row} from 'react-bootstrap'

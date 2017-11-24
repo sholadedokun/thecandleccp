@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Heading from './heading'
-import Icon from './icon'
+import Heading from '../heading'
+import Icon from '../icon'
 import {Col, Row} from 'react-bootstrap'
 import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import AdvanceTiming from './timingForm';
-import ToolTipMarker from './tooltip.js';
+import AdvanceTiming from '../timingForm';
+import ToolTipMarker from '../tooltip.js';
 import 'react-day-picker/lib/style.css';
 import _ from 'lodash'
 

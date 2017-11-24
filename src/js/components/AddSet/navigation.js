@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Heading from './heading'
+import Heading from '../heading'
 import {Col, Row, Grid} from 'react-bootstrap'
 class navigation extends Component {
   constructor(props){
