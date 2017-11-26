@@ -23,3 +23,13 @@ export const FETCH_OFFERS = 'fetch_offers';
 export const CAMPAIGN_CREATE= 'CAMPAIGN_CREATE';
 export const CAMPAIGN_ERROR='CAMPAIGN_ERROR';
 export const FETCH_CAMPAIGN='FETCH_CAMPAIGN'
+
+//BOARD ACTIONS
+export const BOARD_SELECT='BOARD_SELECT';
+export const BOARD_ERROR='BOARD_ERROR';
+export const FETCH_BOARD='FETCH_BOARD';
+
+//ADSET ACTIONS
+export const ADSET_CREATE='ADSET_CREATE';
+export const ADSET_ERROR='ADSET_ERROR';
+export const FETCH_ADSET='FETCH_ADSET';

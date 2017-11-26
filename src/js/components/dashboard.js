@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import ReactModal from 'react-modal';
 import CreateCampaign from './createCampaign';
 import AddAdSet from './AddSet/addAdSet';
-import {Row, Grid} from 'react-bootstrap';
+import {fetchCampaign} from '../actions/campaignActions';
+import {connect} from 'react-redux';
+import {Row, Grid, Col} from 'react-bootstrap';
+import _ from 'lodash';
 
 class Dashboard extends Component {
     constructor(props){
@@ -12,6 +15,9 @@ class Dashboard extends Component {
             modalLoad:'create Campaign'
         }
     }
+    componentWillMount(){
+        this.props.fetchCampaign()
+    }
     createCampaign(){
         this.setState({modalOpen: true, modalLoad:'createCampaign'})
     }
@@ -19,16 +25,32 @@ class Dashboard extends Component {
         this.setState({modalOpen: true, modalLoad:'addAdSet'})
     }
     handleCloseModal (route) {
-        // if(route) this.props.history.push(route)
+        if(route) this.setState({modalLoad:route})
         // this.setState({ modalOpen: false });
     }
     render(){
         const {modalOpen, modalLoad}=this.state;
+        const {allCampaigns} = this.props;
         return(
             <Row>
                 <h2>Dashoard</h2>
-                <a href="#" onClick={this.createCampaign.bind(this)}>Create Campaign</a><br/>
-                <a href="#" onClick={this.addAdSet.bind(this)}>Add AdSet</a>
+                <Col md={3}>
+                    <a href="#" onClick={this.createCampaign.bind(this)}>Create Campaign</a><br/>
+                    <a href="#" onClick={this.addAdSet.bind(this)}>Add AdSet</a>
+                </Col>
+                <Col md={9}>
+                    <ul>
+                    {
+                        _.map(allCampaigns, (item, index)=>{
+                            return(
+                                <li key={index}>{item.name}</li>
+                            )
+
+                        })
+                    }
+                    </ul>
+                </Col>
+
                 <ReactModal
                     isOpen={modalOpen} shouldCloseOnOverlayClick={true}
                     onRequestClose={this.handleCloseModal.bind(this)}
@@ -43,4 +65,11 @@ class Dashboard extends Component {
         )
     }
 }
-export default Dashboard
+
+function mapStateToProps(state){
+    return(
+        {allCampaigns:state.campaigns.allCampaigns}
+    )
+}
+const mapDispatchToProps = {fetchCampaign}
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -3,31 +3,33 @@ import Heading from '../heading'
 import Icon from '../icon'
 import {Col, Row} from 'react-bootstrap'
 import moment from 'moment';
+
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import AdvanceTiming from '../timingForm';
 import ToolTipMarker from '../tooltip.js';
 import 'react-day-picker/lib/style.css';
 import _ from 'lodash'
 
-export default class selectBoard extends Component{
+class AdSetDescription extends Component{
   constructor(props){
     super(props);
     this.state={
       data:{
-        campaignName:'',
+        campaign_id:(()=>(props.campaign)?props.campaign.id:'')(),
+        name:'',
         brandColor:'',
-        dateFrom: '',
-        dateTo:'12/12/2017',
-        ageFrom:20,
-        ageTo:25,
+        // dateFrom: '',
+        // dateTo:'12/12/2017',
+        min_age:20,
+        max_age:25,
         traffic:'all',
         weather:'all',
         gender:'all',
         scenario:[''],
         timing:[''],
         advanceTiming:[],
-        totalSpendAmount:12000,
-        totalSpendType:'Daily',
+        // totalSpendAmount:12000,
+        // totalSpendType:'Daily',
         mcpv:100,
         fastDisplay:''
 
@@ -101,9 +103,10 @@ export default class selectBoard extends Component{
   }
   confirmInput(){
       console.log(this.state.data)
-      this.props.setCampaignDetails()
+      this.props.setCampaignDetails(this.state.data)
   }
   render(){
+      console.log(this.props)
     const dayPickerPropsFrom = {
         disabledDays: {
           after: new Date (this.state.data.dateTo),
@@ -115,14 +118,14 @@ export default class selectBoard extends Component{
             before: new Date (this.state.data.dateFrom),
           }
         };
-    const {scenariosList, data:{campaignName, brandColor, scenario, ageTo, ageFrom, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
+    const {scenariosList, data:{campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
     return(
       <Row className="campaignContainer">
         <Col xs={3}>
           <Row className="descriptMenu">
             <Col componentClass="ul" xs={6} xsOffset={3} className="detailsMenu">
               <li>
-                <a href="#campaign_details" role="presentation">Campaign Details</a>
+                <a href="#campaign_details" role="presentation">Brand Details</a>
               </li>
               <li><a href="#audience" role="presentation">Audience</a></li>
               <li><a href="#situation" role="presentation">Situation</a></li>
@@ -135,13 +138,25 @@ export default class selectBoard extends Component{
           <Heading size="md" title="Describe Campaign and target Audience" />
           <Col xs={12}>
             <Row id="campaign_details" className="formSections">
-              <Heading size="sm" title="Campaign Details" />
+              <Heading size="sm" title="Brand Details" />
+              <div className="inputField">
+                <label>Select Campaign</label>
+                <span className="formField rangeSelect">
+                <select onChange={(e)=>this.setState({data:{...this.state.data, campaign_id:e.target.value}})} value={campaign_id}>
+                    <option>Please Select A Campaign</option>
+                    {this.props.allCampaigns.map((item, index)=>
+                        (<option key={item.id} value={item.id}>{item.name}</option>)
+                    )}
+                </select>
+                </span>
+              </div>
               <div className="inputField">
                 <label>Name</label>
                 <span className="inputContainer lg">
-                  <input type="text" value={campaignName} onChange={(e)=>this.setState({data:{...this.state.data, campaignName:e.target.value}})} name="campaign_name" placeholder="Enter Campaign Name" />
+                  <input type="text" value={name} onChange={(e)=>this.setState({data:{...this.state.data, name:e.target.value}})} name="campaign_name" placeholder="Enter Campaign Name" />
                 </span>
               </div>
+
               <div className="inputField">
                 <label>Brand Major Color</label>
                 <span className="inputContainer md">
@@ -154,7 +169,7 @@ export default class selectBoard extends Component{
               <div className="inputField">
                 <label>Age</label>
                 <span className="formField rangeSelect">
-                  <select onChange={(e)=>this.setState({data:{...this.state.data, ageFrom:e.target.value}})} value={ageFrom}>
+                  <select onChange={(e)=>this.setState({data:{...this.state.data, min_age:e.target.value}})} value={min_age}>
                   {this.ageOption.map((item, index)=>
                       (<option key={index} value={item}>{item}</option>)
                   )}
@@ -162,7 +177,7 @@ export default class selectBoard extends Component{
                 </span>
                 <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
                 <span className="formField rangeSelect">
-                  <select onChange={(e)=>this.setState({data:{...this.state.data, ageTo:e.target.value}})} value={ageTo}>
+                  <select onChange={(e)=>this.setState({data:{...this.state.data, max_age:e.target.value}})} value={max_age}>
                     {this.ageOption.map((item, index)=>
                         (<option key={index} value={item}>{item}</option>)
                     )}
@@ -274,65 +289,66 @@ export default class selectBoard extends Component{
               </div>
             </Row>
             <Row id="budget" className="formSections">
-              <Heading size="sm" title="Budget" />
-              <div className="inputField">
-                <label>Total Spend
-                    <ToolTipMarker id={_.uniqueId()} tooltip="Total amount you are willing to spend.">
-                        <span><Icon icon="question-circle" /></span>
-                    </ToolTipMarker>
-                </label>
-                <span className="inputContainer selectInput">
-                  <input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={(e)=>this.setState({data:{...this.state.data, totalSpendAmount:e.target.valus}})} value={totalSpendAmount}  />
-                  <span className="inlineSelect">
-                      <select onChange={(e)=> this.setState({data:{...this.state.data, totalSpendType:e.target.valus}})} value={totalSpendType}>
-                        <option value="Daily">Daily</option>
-                        <option value="Lifetime">Lifetime</option>
-                      </select>
-                  </span>
-                </span>
-                <span className="minimumValues">Minimum Amount is &#8358;12,000</span>
+               <Heading size="sm" title="Budget" />
+            {//   <div className="inputField">
+            //     <label>Total Spend
+            //         <ToolTipMarker id={_.uniqueId()} tooltip="Total amount you are willing to spend.">
+            //             <span><Icon icon="question-circle" /></span>
+            //         </ToolTipMarker>
+            //     </label>
+            //     <span className="inputContainer selectInput">
+            //       <input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={(e)=>this.setState({data:{...this.state.data, totalSpendAmount:e.target.valus}})} value={totalSpendAmount}  />
+            //       <span className="inlineSelect">
+            //           <select onChange={(e)=> this.setState({data:{...this.state.data, totalSpendType:e.target.valus}})} value={totalSpendType}>
+            //             <option value="Daily">Daily</option>
+            //             <option value="Lifetime">Lifetime</option>
+            //           </select>
+            //       </span>
+            //     </span>
+            //     <span className="minimumValues">Minimum Amount is &#8358;12,000</span>
+            //
+            //
+            //   </div>
+            //   <div className="inputField">
+            //     <label>Desired Period</label>
 
+                    //   totalSpendType==='Daily'?
+                    //       <span className="SelectDate">
+                    //           <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, totalSpendType:'Daily'}})}>
+                    //             <span className={`radioLabel ${(totalSpendType==='Daily' && dateFrom=='')?'active':''}`}>Start Immediately</span>
+                    //           </span>
+                    //           <span className="inputContainer rangeInput">
+                    //             <span className="subLabel">From</span>
+                    //             <DayPickerInput
+                    //               placeholder="MM/DD/YYYY"
+                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
+                    //               dayPickerProps={dayPickerPropsFrom}
+                    //             />
+                    //           </span>
+                    //       </span>
+                    //       :
+                    //       <span className="SelectDate">
+                    //           <span className="inputContainer rangeInput">
+                    //             <span className="subLabel">From</span>
+                    //             <DayPickerInput
+                    //               placeholder="MM/DD/YYYY"
+                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
+                    //               dayPickerProps={dayPickerPropsFrom}
+                    //             />
+                    //           </span>
+                    //           <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
+                    //           <span className="inputContainer rangeInput">
+                    //             <span className="subLabel">To</span>
+                    //             <DayPickerInput
+                    //               placeholder="MM/DD/YYYY"
+                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateTo:date} })}}
+                    //               dayPickerProps={dayPickerPropsTo}
+                    //             />
+                    //           </span>
+                    //       </span>
 
-              </div>
-              <div className="inputField">
-                <label>Desired Period</label>
-                  {
-                      totalSpendType==='Daily'?
-                          <span className="SelectDate">
-                              <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, totalSpendType:'Daily'}})}>
-                                <span className={`radioLabel ${(totalSpendType==='Daily' && dateFrom=='')?'active':''}`}>Start Immediately</span>
-                              </span>
-                              <span className="inputContainer rangeInput">
-                                <span className="subLabel">From</span>
-                                <DayPickerInput
-                                  placeholder="MM/DD/YYYY"
-                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
-                                  dayPickerProps={dayPickerPropsFrom}
-                                />
-                              </span>
-                          </span>
-                          :
-                          <span className="SelectDate">
-                              <span className="inputContainer rangeInput">
-                                <span className="subLabel">From</span>
-                                <DayPickerInput
-                                  placeholder="MM/DD/YYYY"
-                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
-                                  dayPickerProps={dayPickerPropsFrom}
-                                />
-                              </span>
-                              <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
-                              <span className="inputContainer rangeInput">
-                                <span className="subLabel">To</span>
-                                <DayPickerInput
-                                  placeholder="MM/DD/YYYY"
-                                  onDayChange={(date)=>{this.setState({data:{...this.state.data, dateTo:date} })}}
-                                  dayPickerProps={dayPickerPropsTo}
-                                />
-                              </span>
-                          </span>
-                  }
-              </div>
+            //   </div>
+          }
               <div className="inputField">
                 <label>MCPV
                     <ToolTipMarker id={_.uniqueId()} tooltip="Minimum Cost Per View.">
@@ -367,3 +383,5 @@ export default class selectBoard extends Component{
     )
   }
 }
+
+export default AdSetDescription

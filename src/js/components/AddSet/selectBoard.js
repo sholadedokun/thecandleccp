@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+
 import Map from '../googleMapWrapper/map'
 import Heading from '../heading'
 import Icon from '../icon'
 import {Col, Row, Grid} from 'react-bootstrap'
-export default class selectBoard extends Component{
+export default class SelectBoard extends Component{
   constructor(props){
     super()
     this.state={

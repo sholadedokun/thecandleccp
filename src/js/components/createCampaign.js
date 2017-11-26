@@ -20,14 +20,18 @@ class RegisterUser extends Component {
             dateTo:'',
             budget:12000,
             budget_type:'Daily',
+            createSuccess:false,
         }
     }
     createCampaign(){
         let params= _.omit(this.state, ['dateFrom', 'dateTo']);
-        // params.budget_type = 0;
+        params.budget_type = 0;
         // params.dateFrom= moment(this.state.dateFrom).format('YYYY-MM-DD');
         // params.dateTo= moment(this.state.dateTo).format('YYYY-MM-DD')  ;
         this.props.createCampaign(params).then((data)=>{
+            this.setState({
+                createSuccess:true
+            })
             //console.log(data)
         })
     }
@@ -43,8 +47,7 @@ class RegisterUser extends Component {
                 before: new Date (this.state.dateFrom),
               }
             };
-        const {name, budget, budget_type, dateFrom,dateTo, password} = this.state;
-        console.log(dateFrom)
+        const {name, budget, budget_type, dateFrom,dateTo, password, createSuccess} = this.state;
         return(
             <Col xs={12}>
                 <Heading size="lg">Create Campaign</Heading>
@@ -110,7 +113,13 @@ class RegisterUser extends Component {
                 </Row>
                 <button onClick={this.createCampaign.bind(this)}>Create campaign</button>
                 {
-                    this.props.error? 'Wrong email or Password, Please try again.':''
+                    createSuccess?
+                    <div className="inputField">
+                        <label>Campaign Successfully Created</label>
+                        <button onClick={(e)=>this.props.close('addAdSet')}>Add AdSets</button>
+                    </div>
+                    :
+                    ''
                 }
             </Col>
         )
