@@ -23,11 +23,11 @@ class Header extends Component {
             [
 
                 <li role="presentation" key="1a"><Link to="/dashboard">dashboard</Link></li>,
-                <li role="presentation" key="1b" onClick={this.signoutUser.bind(this)}><a href="#">logout</a></li>,
+                <li role="presentation" key="1b" onClick={this.signoutUser.bind(this)}><a className="buttonLink"  href="#">logout</a></li>,
             ]:
             [
-                <li role="presentation" key="2a"  onClick={()=>this.setState({modalLoad:'login', modalOpen:true})}><a href="#">login</a></li>,
-                <li role="presentation" key="2b"  onClick={()=>this.setState({modalLoad:'register', modalOpen:true})}><a href="#">register</a></li>
+                <li role="presentation" key="2a"  onClick={()=>this.setState({modalLoad:'login', modalOpen:true})}><a className="buttonLink"  href="#">login</a></li>,
+                <li role="presentation" key="2b"  onClick={()=>this.setState({modalLoad:'register', modalOpen:true})}><a className="buttonLink"  href="#">register</a></li>
             ]
             return resolvedLinks
     }
@@ -48,9 +48,9 @@ class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <li role="presentation" className="active"><Link to="/">Home</Link></li>
+                            <li role="presentation" className="active"><Link to="/">Feature</Link></li>
                             <li role="presentation"><Link to="/howitworks">How it works</Link></li>
-                            <li role="presentation"><Link to="/help">Help</Link></li>
+                            <li role="presentation"><Link to="/help">Spaces</Link></li>
                             {
                                 this.authenticated()
                             }

@@ -4,7 +4,8 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  FETCH_OFFERS
+  FETCH_OFFERS,
+  SWITCH_MODAL_STATE
 } from './actionTypes';
 
 const ROOT_URL = 'http://thecandleapi.herokuapp.com/api';
@@ -60,7 +61,14 @@ export function signoutUser() {
   localStorage.removeItem('TheCandleToken');
   return { type: UNAUTH_USER };
 }
-
+export function modalStatus(state, page){
+    return function(dispatch){
+        dispatch({
+            type: SWITCH_MODAL_STATE,
+            payload:{isOpen:state, page}
+        });
+    }
+}
 export function fetchProduct() {
     return function(dispatch) {
         axios.get(`${ROOT_URL}/inventory`, {

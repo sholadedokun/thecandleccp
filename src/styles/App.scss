@@ -8,6 +8,115 @@ body{
     font-family: 'Lato','Raleway';
     background: #F8FBFD;
 }
+a{
+    text-decoration: none;
+}
+
+//landing page
+.banner{
+    background: url("./backgroundPictures/banner_md.jpg") no-repeat top fixed;
+    height: 650px;
+    h1,h2, h3, h4{
+        letter-spacing: 1px
+    }
+    .register{
+        text-align: center;
+        margin-top: 4em;
+        color: #fff;
+        padding:3em 2.5em 1em;
+
+        p{
+            margin-top:1em;
+            text-align: center;
+            font-size: 0.85em
+        }
+
+    }
+    .banner_metric{
+        color: #fff;
+
+        p{
+            font-size: 0.85em !important;
+            font-weight: 100;
+            color: #ddd;
+
+        }
+        div{
+            height: 100px;
+            padding: 0 0.7em;
+        }
+        div.firstMet{
+            text-align: right;
+        }
+        div.secondMet{
+            border-right: 1px solid #fff;
+            border-left: 1px solid #fff;
+            text-align: left !important;
+        }
+    }
+}
+.bigInput{
+    margin: 4em auto 12em;
+    display: block;
+
+    input{
+        border-radius: 10px;
+        width: 30%;
+        height: 60px;
+        padding:1em 2em;
+        background: #fff;
+        color: #000;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    button{
+        width: 12%;
+        height: 60px;
+        border-radius: 10px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        display: inline;
+    }
+}
+.headings{
+    p{
+        font-size: 1em !important;
+    }
+}
+
+.header{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    .navbar{
+        background: none;
+        border: none;
+    }
+    li a{
+        background: none;
+        min-height: 1px;
+    }
+    li.active a{
+        background: none !important;
+    }
+    .buttonLink{
+        line-height: 0;
+        background: #fff;
+        border-radius: 3px;
+        text-align: center;
+        text-transform: capitalize;
+        margin:0.8em 2em;
+    }
+    .navbar-nav{
+        float: right
+    }
+}
+.section{
+    padding: 4em 0;
+}
+
+
+
 .linearBackground{
   background: linear-gradient(#38C4B1, #1A9179) !important;
 }
@@ -107,7 +216,7 @@ ul{
   padding:2em 4em;
 }
 input, select, textarea, button{
-  background: none !important;
+  background: none ;
   border: 0 !important;
   outline: none;
 }
@@ -423,4 +532,56 @@ input[type=file]{
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@media screen and (max-width: 450px){
+    .register{
+        background: #232323;
+        margin-top: 30vh !important;
+        padding: 1em 2em;
+    }
+    .banner_metric{
+        background: #232323;
+        h2{
+            font-size: 1.5em !important;
+        }
+
+    }
+    .headings{
+
+    }
+    .bigInput{
+        margin: 2.5em auto;
+
+        input{
+            border-radius: 10px;
+            width: 100%;
+        }
+        button{
+            margin-top: 1em;
+            width: 100%;
+            height: 60px;
+            border-radius: 10px;
+        }
+    }
+    .banner{
+        background: url("./backgroundPictures/banner.jpg") no-repeat top fixed;
+        height:30vh;
+    }
+    .mealPlan{
+        .details{
+            li{
+                width:32%;
+                margin:1em 1% 0 0;
+                font-size: 1em;
+            }
+            p{
+                width: 100%;
+            }
+        }
+    }
+
+    .footer{
+        text-align: centre;
+    }
 }
