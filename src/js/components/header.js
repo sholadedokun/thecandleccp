@@ -60,6 +60,14 @@ class Header extends Component {
                 <ReactModal
                     isOpen={modalOpen} shouldCloseOnOverlayClick={true}
                     onRequestClose={this.handleCloseModal.bind(this)}
+                    parentSelector={(getParent)=>document.querySelector('#root')}
+                    className={
+                        {
+                            base: 'modalClass',
+                            afterOpen: 'modalClass_after-open',
+                            beforeClose: 'modalClass_before-close'
+                        }
+                    }
                 >
                     {
                         (modalLoad==='login')?

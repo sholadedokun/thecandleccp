@@ -5,7 +5,7 @@ import Howitworks from './howitworks';
 import Heading from './heading'
 // import WhyTheCandle from './whythecandle';
 // import Ourchef from './ourchef';
-// import WhatPeopleAreSaying from './whatpeoplearesaying'
+import WhatPeopleAreSaying from './whatpeoplearesaying'
 
 const home =()=>
 <Row>
@@ -26,9 +26,9 @@ const home =()=>
         </Col>
     </Col>
   <Howitworks />
-{  /*    <WhyTheCandle />
-    <Ourchef />
-    <WhatPeopleAreSaying />
+  <WhatPeopleAreSaying />
+{  /*     <Ourchef />
+
     */
 }
 </Row>;

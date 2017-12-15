@@ -36,7 +36,7 @@ class RegisterUser extends Component {
         const {email, firstName, lastName, phone,password_confirmation, password} = this.state;
         return(
             <Row>
-                <Heading size="lg">register User</Heading>
+                <Heading size="lg" title="Register User"></Heading>
                 <input type="text" value={email} onChange={(e)=>this.setState({email:e.target.value})} placeholder="Email" />
                 <input type="text" value={firstName} onChange={(e)=>this.setState({firstName:e.target.value})} placeholder="Firstname" />
                 <input type="text" value={lastName} onChange={(e)=>this.setState({lastName:e.target.value})} placeholder="Lastname" />

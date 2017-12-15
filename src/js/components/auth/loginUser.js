@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {signinUser} from '../../actions/userActions';
 import {connect} from 'react-redux';
-import {Row} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import Heading from '../heading';
 
 class LoginUser extends Component {
@@ -22,13 +22,29 @@ class LoginUser extends Component {
         const {username, password} = this.state;
         return(
             <Row>
-                <Heading size="lg">Login User</Heading>
-                <input type="text" value={username} onChange={(e)=>this.setState({username:e.target.value})} placeholder="email" />
-                <input type ="password" value={password} onChange={(e)=>this.setState({password:e.target.value})}  placeholder="Passowrd"/>
-                <button onClick={this.loginUser.bind(this)}>Login</button>
-                {
-                    this.props.error? 'Wrong Username or Password, Please try again.':''
-                }
+                <Col xs={12}>
+                    <Heading size="md" title="Sign in to account" />
+                        <span className="inputContainer">
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e)=>this.setState({username:e.target.value})}
+                            placeholder="Email"
+                        />
+                        </span>
+                        <span className="inputContainer">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e)=>this.setState({password:e.target.value})}
+                                placeholder="Passowrd"
+                            />
+                        </span>
+                        <button onClick={this.loginUser.bind(this)}>Login</button>
+                        {
+                            this.props.error? 'Wrong Username or Password, Please try again.':''
+                        }
+                </Col>
             </Row>
         )
     }

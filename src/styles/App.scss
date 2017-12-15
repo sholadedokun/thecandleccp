@@ -56,15 +56,16 @@ a{
     }
 }
 .bigInput{
+
     margin: 4em auto 12em;
     display: block;
 
     input{
+        background: #f9f9f9;
         border-radius: 10px;
         width: 30%;
         height: 60px;
         padding:1em 2em;
-        background: #fff;
         color: #000;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -91,6 +92,8 @@ a{
     .navbar{
         background: none;
         border: none;
+        z-index: 2;
+
     }
     li a{
         background: none;
@@ -112,9 +115,87 @@ a{
     }
 }
 .section{
-    padding: 4em 0;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    text-align: center;
+}
+.categoryContainer, .commentContainer{
+    padding: 2em 0;
+    width:80%;
+    margin: 0 10%;
+
+}
+.hrule{
+    clear: both;
+    width: 100%;
+    display:block;
+    margin: 2em auto 1.5em;
+    background: #eee;
+    height: 2px;
+    // box-sizing: content-box;
+
+}
+.commentList{
+    background: #fff;
+    border-radius: 5px;
+    padding: 3em;
+    box-shadow: 0 0 20px #ddd;
+    p{clear:both;
+        display: block
+    }
+}
+.category{
+    padding: 3em;
+    margin-bottom: 2em;
+    h3{
+        font-weight: bold;
+    }
 }
 
+.circularBackground{
+    display: inline-block;
+    border: 2px #555 solid;
+    border-radius: 50%;
+    width:3.5em;
+    height: 3.5em;
+}
+
+.icon_number{
+    @extend .circularBackground;
+    padding:1em;
+}
+.profile_details{
+    text-transform: capitalize;
+    min-height:50px;
+    .name{
+        font-weight: bold;
+    }
+}
+.profile_img{
+    text-align: right;
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+    width: 40%;
+    img{
+        @extend .circularBackground;
+    }
+    img::after{
+        content: "\f087";
+    }
+
+}
+.profile_desc{
+    margin-left: 1em;
+    padding-top: 0.25em;
+    width: 50%;
+    float:left;
+    text-align: left;
+}
+
+.howitworks{
+    background: #fafafa;
+}
 
 
 .linearBackground{
@@ -529,12 +610,50 @@ input[type=file]{
   position: relative;
   height: auto;
 }
+.footer{
+    background: #fff;
+    text-align: center;
+    .bigInput{
+        margin-bottom: 2em;
+    }
+    .copy{
+        text-align: left;
+    }
+    .social{
+        text-align: right;
+        a:first-child {
+            margin-left: 0;
+            color: #000;
+        }
+        a{
+            color: #555;
+            margin-left: 1.5em;
+        }
+    }
+}
+
+//modal class
+.modalClass{
+    width:550px;
+    margin:10% auto;
+    text-align: center;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 8px 2px #888;
+    padding: 1em 2em;
+    border-radius: 5px;
+
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
 @media screen and (max-width: 450px){
+    .navbar-collapse{
+        background: #fefefe;
+    }
     .register{
         background: #232323;
         margin-top: 30vh !important;
@@ -547,8 +666,17 @@ input[type=file]{
         }
 
     }
-    .headings{
-
+    .category{
+        padding: 1.5em;
+    }
+    .categoryContainer, .commentContainer {
+        width: 100%;
+        margin:0;
+    }
+    .profile_img, .profile_desc{
+        width: 100%;
+        text-align: center;
+        margin: 0;
     }
     .bigInput{
         margin: 2.5em auto;
@@ -582,6 +710,10 @@ input[type=file]{
     }
 
     .footer{
-        text-align: centre;
+        .social, .copy{
+            margin-bottom: 2em;
+            text-align: center !important;
+        }
+
     }
 }
