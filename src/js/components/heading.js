@@ -8,7 +8,7 @@ export default (props)=>{
             marginBottom: props.marginBottom
         },
         sm:{
-            fontSize: "1.2em",
+            fontSize: "1.3em",
             marginBottom: props.marginBottom
         },
         md:{
@@ -22,15 +22,19 @@ export default (props)=>{
 
     }
     return(
-        <div className="headings">
+        <span className="headings">
             {props.size==='lg'?<h1 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h1>:
                 props.size==='md'?<h2 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h2>:
                     props.size==='sm'?<h3 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h3>:
                       props.size==='xs'?<h4 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h4>:
                         <h1 style={style[props.size]}>props.title</h1>
             }
-            <p>{props.children}</p>
-        </div>
+            {
+                props.children?<p>{props.children}</p>:''
+
+            }
+
+        </span>
     )
 
 }

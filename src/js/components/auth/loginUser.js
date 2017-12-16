@@ -3,6 +3,7 @@ import {signinUser} from '../../actions/userActions';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import Heading from '../heading';
+import Icon from '../icon'
 
 class LoginUser extends Component {
     constructor(props){
@@ -21,10 +22,19 @@ class LoginUser extends Component {
     render(){
         const {username, password} = this.state;
         return(
-            <Row>
-                <Col xs={12}>
+            <Col xs={10} xsOffset="1" sm={4} smOffset="6" md={4} mdOffset="4"  className="login">
+                <Row >
                     <Heading size="md" title="Sign in to account" />
-                        <span className="inputContainer">
+                    <span className="facebookSignin"> Sign in using Facebook <Icon icon="facebook" /></span>
+                    <Col xs="5">
+                        <div  className="hrule"></div>
+                    </Col>
+                    <Col xs="2" className="or">or</Col>
+                    <Col xs="5">
+                        <div  className="hrule"></div>
+                    </Col>
+                    <Col xs="12"  className="inputField">
+                        <span className="inputContainer lg">
                         <input
                             type="text"
                             value={username}
@@ -32,7 +42,9 @@ class LoginUser extends Component {
                             placeholder="Email"
                         />
                         </span>
-                        <span className="inputContainer">
+                    </Col>
+                    <Col xs="12"className="inputField">
+                        <span className="inputContainer lg">
                             <input
                                 type="password"
                                 value={password}
@@ -40,12 +52,17 @@ class LoginUser extends Component {
                                 placeholder="Passowrd"
                             />
                         </span>
-                        <button onClick={this.loginUser.bind(this)}>Login</button>
+                        <button  className="primaryButton" onClick={this.loginUser.bind(this)}>Login</button>
+                    </Col>
+
+
                         {
                             this.props.error? 'Wrong Username or Password, Please try again.':''
                         }
-                </Col>
-            </Row>
+                        <span> Forgot Password </span>
+                        <span className="alternate"> {`Don't have an account`}? <a href="#">Sign Up</a> </span>
+                </Row>
+            </Col>
         )
     }
 }

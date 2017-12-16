@@ -2,6 +2,24 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,300italic,500,500italic');
 
+//variables
+$primary-color: #1A9179;
+
+//very common
+.actionButton{
+    padding:15px 20px;
+    background: $primary-color;
+    box-shadow: 0 0 2px #aaa;
+    min-width: 160px;
+    text-align: center;
+    margin-right: 20px;
+    color: #fff;
+    border-radius: 4px;
+    margin-top:1em;
+    cursor: pointer;
+}
+
+
 body{
     margin: 0;
     padding: 0;
@@ -15,13 +33,13 @@ a{
 //landing page
 .banner{
     background: url("./backgroundPictures/banner_md.jpg") no-repeat top fixed;
-    height: 650px;
+    height: 750px;
     h1,h2, h3, h4{
         letter-spacing: 1px
     }
     .register{
         text-align: center;
-        margin-top: 4em;
+        margin-top: 12em;
         color: #fff;
         padding:3em 2.5em 1em;
 
@@ -34,7 +52,6 @@ a{
     }
     .banner_metric{
         color: #fff;
-
         p{
             font-size: 0.85em !important;
             font-weight: 100;
@@ -84,31 +101,70 @@ a{
         font-size: 1em !important;
     }
 }
-
+.nav_dashboard{
+    background: #fff;
+    color: #444 !important;
+    top:0 !important;
+}
 .header{
     position: absolute;
     width: 100%;
-    top: 0;
+    top: 2em;
+    .profile_display{
+        margin-top: 1em;
+        padding: 4px 20px;
+    }
+    .hrule{
+        margin: 0;
+    }
     .navbar{
         background: none;
         border: none;
         z-index: 2;
 
     }
+    .post_campaign_ads{
+        margin-right: 0 !important;
+        margin-left: 2em;
+        padding:0.8em 0.5em;
+        text-transform: capitalize;
+    }
+    .post_campaign_ads:hover{
+        font-weight: bold;
+        background: $primary-color !important;
+        color: #fff;
+
+    }
+    .navbar-collapse{
+        padding:0 !important;
+    }
+
     li a{
-        background: none;
+        color:#eee !important;
+        text-shadow: none !important;
         min-height: 1px;
     }
     li.active a{
         background: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
     .buttonLink{
+        box-shadow: 0 0 3px #999;
+        color:#53ae98 !important;
         line-height: 0;
         background: #fff;
         border-radius: 3px;
         text-align: center;
         text-transform: capitalize;
         margin:0.8em 2em;
+        outline: none;
+    }
+    .buttonLink:hover{
+        border: 1px solid #fff;
+    }
+    .buttonLink:last-child{
+        margin-right: 0;
     }
     .navbar-nav{
         float: right
@@ -182,6 +238,7 @@ a{
     }
     img::after{
         content: "\f087";
+        font-family: FontAwesome
     }
 
 }
@@ -207,6 +264,238 @@ a{
   font-weight: bold;
   font-size: 0.9em
 }
+.searchInput{
+    background: #eee;
+    border-radius: 5px;
+    width:200px;
+    padding:0.5em;
+    display: inline-block;
+    input{
+        width: 90%
+    }
+    input::after{
+        content:'\f002';
+        font-family: FontAwesome;
+        color:#aaa;
+    }
+}
+//dashboard
+.dashboard{
+    margin-top:120px;
+    .headings{
+        display:inline-block;
+        h2,h3,h4{
+            display: inline-block;
+        }
+    }
+    .campaignTable{
+        background: #fff;
+        padding: 2em 0em;
+        min-height: 50px;
+        border: 2px #eee solid;
+        // box-shadow: 0 0 3px #bbb;
+        .hrule{
+            margin: 0;
+        }
+        .campaign_menu{
+            padding:0 0 0 1.5em !important;
+            li{
+                padding: 0 2em 1em;
+                width:auto !important;
+
+            }
+            li.active{
+                color: #555;
+                font-weight: bold;
+                border-bottom: 5px solid $primary-color;
+                margin-bottom: -1px;
+                z-index:2;
+                position: relative;
+            }
+
+        }
+        ul{
+            width:100%;
+            li{
+                font-size: 1.1em;
+                float:left;
+                color: #999;
+
+            }
+
+        }
+    }
+    .campaign_actionables{
+        text-align: left;
+        padding-bottom: 1em;
+        border-bottom: 2px #eee solid;
+        h3{
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 2em;
+        }
+        .actionButton, .disabledButton{
+            font-size: 0.85em;
+            margin: 0em 0.5em;
+            padding:0.65em 1.5em;
+        }
+        .filter{
+            padding-top:1.2em;
+        }
+    }
+    li{
+        padding: 0 ;
+        text-align: left;
+        width:9%;
+        display: inline-block;
+    }
+
+    li:nth-child(3){
+        width: 25%;
+    }
+    li:nth-child(4){
+        width: 15%;
+    }
+    li:nth-child(5){
+        width: 11%;
+    }
+    li:nth-child(1), li:nth-child(2){
+        width:3% !important;
+    }
+    li:last-child{
+        margin-right: 0;
+        width:13%;
+    }
+    .list_header{
+        padding:1.5em 0;
+        background: #aaa;
+        color: #333;
+        font-size: 0.85em;
+        font-weight: bold;
+
+    }
+
+    .each_campaign{
+        display: block;
+        font-size: 0.85em;
+        float:left;
+        padding-left: 0em !important;
+        padding-top:1em !important;
+        text-transform: capitalize;;
+        .toggler{
+            display:block;
+            height: 8px;
+            margin: 1px;
+            width: 8px;
+            border-radius: 4px;
+            background: #fff;
+        }
+        .activityIndicator{
+            display:inline-block;
+            height: 12px;
+            width: 12px;
+            margin-right: 1em;
+            border-radius: 6px;
+            background: #080;
+        }
+        .statusToggle{
+            width:20px;
+            height:10px;
+            border-radius: 5px;
+            background: #ddd;
+            display: inline-block;
+            margin-right:1.5em;
+            box-shadow: inset 0 0 3px 0px #aaa;
+
+
+        }
+        .statusToggle.active{
+            background: $primary-color;
+            box-shadow: inset 0 0 3px 0px #333;
+            .toggler{
+                float:right;
+            }
+        }
+
+        li{
+            text-align: left;
+            color:#000 !important;
+            margin: 0 !important;
+            float:left;
+            font-size: 0.8em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        li:first-child{
+            border-bottom: none;
+        }
+
+    }
+    .campaign_value{
+        margin-top: 0.4em;
+        display: block;
+        line-height: 0.3;
+    }
+    .value_description{
+        font-size: 0.8em;
+        color:#bbb;
+        line-height: 0;
+    }
+    .value{
+        padding-bottom:0.4em !important;
+    }
+    .total_result{
+        padding:2em 0 0;
+        text-align: left;
+        font-weight: bold;
+        .headings{
+            color: $primary-color;
+            width:40%;
+            margin-left: 6%;
+        }
+        .total_view, .total_spent, .total_budget{
+            display: inline-block;
+            width:18%;
+        }
+        .total_view{
+            width: 20%
+        }
+        .total_budget{
+            width:16%
+        }
+
+
+    }
+
+}
+.display_pic{
+    padding: 0.5em;
+    border-radius: 5px;
+    background: #999;
+    margin-left: -0.8em;
+    width: 2.4em;
+    text-align: center;
+    display: inline-block;
+}
+.dashboard_menu{
+    padding:1.5em 1em;
+    ul{
+        position: relative;
+        width: 33%;
+        margin: 0 auto;
+        height: 1.2em;
+    }
+    li{
+        font-size: 1.25em;
+        float: left;
+        margin-right: 5em;
+        text-align: center;
+
+    }
+    li:last-child{
+        margin-right: 0;
+    }
+}
 .lg{
   width:100%
 }
@@ -214,7 +503,7 @@ a{
   width:66%
 }
 .sm{
-  width: 45%
+  width: 48%
 }
 .xs{
   width: 33%
@@ -267,7 +556,7 @@ a{
 }
 ul{
   list-style: none;
-  padding: 0px !important;
+  padding: 0px ;
   margin: 0px;
 }
 .descriptMenu{
@@ -279,13 +568,13 @@ ul{
   height: 130vh;
   background: #F3F5F6;
 }
-.formField, .subLabel, .inlineSelect{
+.formField, .subLabel, .inlineSelect, .list_header{
   background: linear-gradient(#fafafa, #eee) !important;
 }
 .formField{
   display: inline-block;
   width: auto;
-  padding: 10px 15px;
+  padding: 5px 15px;
   border-radius: 4px;
   // border: 1px solid #ccc;
   box-shadow: 0 0 1px 0px #999;
@@ -347,17 +636,19 @@ input, select, textarea, button{
       margin-right:12px;
     }
   }
-
 }
+
 .primaryButton{
-  @extend .linearBackground;
-  padding:10px 20px;
-  min-width: 160px;
-  text-align: center;
-  margin-right: 20px;
-  color: #fff;
+    @extend .actionButton;
+    @extend .linearBackground;
+}
+.disabledButton{
+    @extend .actionButton;
+    background: #eee;
+    color: #aaa;
 
 }
+
 .cancelButton{
   padding:10px 20px;
   min-width: 160px;
@@ -409,6 +700,15 @@ input, select, textarea, button{
            width:100% !important;
       }
 
+  }
+  .sm{
+      float:right;
+      input{
+           width:100% !important;
+      }
+  }
+  .sm:first-child{
+      float:left;
   }
   .DayPickerInput{
     display:inline !important;
@@ -504,6 +804,7 @@ input, select, textarea, button{
     }
     .active::after{
       content: '\f058';
+      font-family: FontAwesome;
     }
   }
   input{
@@ -631,18 +932,47 @@ input[type=file]{
         }
     }
 }
-
+.facebookSignin{
+    background: #eee;
+    color:#000;
+    width:65%;
+    display: block;
+    margin:2em auto;
+    padding: 1em;
+    border-radius: 5px;
+    .fa{
+        color:#009;
+        text-align: right;
+    }
+}
 //modal class
 .modalClass{
-    width:550px;
-    margin:10% auto;
-    text-align: center;
+    margin:0;
     outline: none;
-    background: #fff;
-    box-shadow: 0 0 8px 2px #888;
-    padding: 1em 2em;
-    border-radius: 5px;
 
+    .alternate{
+        font-size: 1.2em;
+        margin-top: 2em;
+        display: block;
+    }
+    .or{
+        margin-top:1.2em;
+    }
+    .register, .login{
+        background: #fff;
+        text-align: center;
+        padding:2em;
+        box-shadow: 0 0 10px #666;
+        // width:550px;
+        margin-top:10%;
+        border-radius: 5px;
+    }
+    .inputField{
+        margin:0.5em 0
+    }
+    .primaryButton{
+        width: 100%;
+    }
 }
 
 @keyframes App-logo-spin {
@@ -652,6 +982,8 @@ input[type=file]{
 
 @media screen and (max-width: 450px){
     .navbar-collapse{
+
+
         background: #fefefe;
     }
     .register{
