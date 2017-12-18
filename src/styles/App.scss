@@ -110,6 +110,7 @@ a{
     position: absolute;
     width: 100%;
     top: 2em;
+    z-index: 0;
     .profile_display{
         margin-top: 1em;
         padding: 4px 20px;
@@ -396,7 +397,7 @@ a{
             width: 12px;
             margin-right: 1em;
             border-radius: 6px;
-            background: #080;
+            background: #fc0;
         }
         .statusToggle{
             width:20px;
@@ -514,6 +515,9 @@ a{
   z-index: 10;
 
   .header{
+    position: relative !important;
+    width: 25%;
+    top:0;
     padding: 0.45em 0;
     text-align: center;
     border-right: 1px solid #38C4B1;
@@ -560,13 +564,10 @@ ul{
   margin: 0px;
 }
 .descriptMenu{
-  padding-top: 20vh;
-  height: 130vh;
-  top:-20vh;
   position: fixed;
   width: inherit;
-  height: 130vh;
-  background: #F3F5F6;
+  height: 100vh;
+
 }
 .formField, .subLabel, .inlineSelect, .list_header{
   background: linear-gradient(#fafafa, #eee) !important;
@@ -946,10 +947,21 @@ input[type=file]{
     }
 }
 //modal class
+.ReactModalPortal{
+    position: relative;
+    z-index: 1000;
+    overflow: hidden;
+
+}
+.ReactModal__Overlay {
+    overflow: scroll;
+}
 .modalClass{
     margin:0;
     outline: none;
-
+    background: #fff;
+    position: relative;
+    overflow: scroll;
     .alternate{
         font-size: 1.2em;
         margin-top: 2em;
@@ -964,16 +976,25 @@ input[type=file]{
         padding:2em;
         box-shadow: 0 0 10px #666;
         // width:550px;
-        margin-top:10%;
+        margin-top:5%;
         border-radius: 5px;
+        .primaryButton{
+            width: 100%;
+        }
+    }
+    .createAdset{
+        overflow: scroll;
+        margin-top:2%;
+        box-shadow: 0 0 4px #666;
     }
     .inputField{
         margin:0.5em 0
     }
-    .primaryButton{
-        width: 100%;
-    }
+
 }
+
+//Add_Adset
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

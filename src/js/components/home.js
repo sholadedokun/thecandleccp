@@ -4,7 +4,7 @@ import QuickRegister from './quickRegister';
 import Howitworks from './howitworks';
 import Heading from './heading'
 // import WhyTheCandle from './whythecandle';
-// import Ourchef from './ourchef';
+import Hopin from './hopin';
 import WhatPeopleAreSaying from './whatpeoplearesaying'
 
 const home =()=>
@@ -27,9 +27,7 @@ const home =()=>
     </Col>
   <Howitworks />
   <WhatPeopleAreSaying />
-{  /*     <Ourchef />
+  <Hopin />
 
-    */
-}
 </Row>;
 export default home

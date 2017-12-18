@@ -52,18 +52,15 @@ class AddAdSet extends Component {
   render() {
     const {currentStep} = this.state
     return (
-      <Grid fluid className="App">
-        <Row>
+      <Col xs={10} xsOffset={1}  className="createAdset">
           <Nav currentStep={currentStep} />
           {
             this.displaySteps()
           }
-        </Row>
-      </Grid>
+      </Col>
     );
   }
 }
-
 function mapStateToProps(state){
     return(
         {

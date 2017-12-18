@@ -121,7 +121,7 @@ class AdSetDescription extends Component{
     const {scenariosList, data:{campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
     return(
       <Row className="campaignContainer">
-        <Col xs={3}>
+        <Col xs={3} xsHidden={true}>
           <Row className="descriptMenu">
             <Col componentClass="ul" xs={6} xsOffset={3} className="detailsMenu">
               <li>
@@ -134,7 +134,7 @@ class AdSetDescription extends Component{
             </Col>
           </Row>
         </Col>
-        <Col xs={6}  className="boardSelection">
+        <Col xs={12} sm={6} className="boardSelection">
           <Heading size="md" title="Describe Campaign and target Audience" />
           <Col xs={12}>
             <Row id="campaign_details" className="formSections">

@@ -20,7 +20,7 @@ export function signinUser( email, password ) {
                 // - Update state to indicate user is authenticated
                 dispatch({ type: AUTH_USER });
                 // - Save the JWT token
-                localStorage.setItem('TheCandleToken', response.data.data.token);
+                localStorage.setItem('TheCandleToken', response.data.token);
                 resolve(response)
             })
             .catch(() => {

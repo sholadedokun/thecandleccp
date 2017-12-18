@@ -38,7 +38,9 @@ export default class SelectBoard extends Component{
     return(
       <Row className="campaignContainer">
         <Col xs={5}>
-          <Map spaces={{her:0}} size="addCampaign" />
+            <Row>
+                <Map spaces={{her:0}} size="addCampaign" />
+            </Row>
         </Col>
         <Col xs={6} className="boardSelection">
           <Heading size="sm" title="Choose a Space to get Started" />

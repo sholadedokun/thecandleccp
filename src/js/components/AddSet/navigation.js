@@ -45,26 +45,29 @@ class navigation extends Component {
         }
       ]
     }
-
   }
   render() {
     const {steps}=this.state
     const {currentStep}=this.props
     return (
-      <Row xs={12} className="navigator">
+      <Row className="navigator">
         <Col xs={3} className="header">
-          <Heading size="md" title="TheCandle"></Heading>
+          <Heading size="md" title="Create Adset"></Heading>
         </Col>
-        <Col xs={9} componentClass="ul">
-          {steps.map( (item, index)=>{
-            return <li key={index} className={(currentStep===index)?'active':(currentStep>index)?'past':''}>
-              <span>{`${index+1}. ${item.title}`}</span>
-              <div className={(currentStep===index)?'liner activeLiner':(currentStep>index)?'liner':''}></div>
-            </li>
-          }
+        <Col xs={9}>
+            <Row>
+                <ul>
+                  {steps.map( (item, index)=>{
+                    return <li key={index} className={(currentStep===index)?'active':(currentStep>index)?'past':''}>
+                      <span>{`${index+1}. ${item.title}`}</span>
+                      <div className={(currentStep===index)?'liner activeLiner':(currentStep>index)?'liner':''}></div>
+                    </li>
+                  }
 
 
-          )}
+                  )}
+                </ul>
+            </Row>
         </Col>
         <Col>
 

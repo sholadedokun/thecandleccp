@@ -28,7 +28,7 @@ class Dashboard extends Component {
     }
     handleCloseModal (route) {
         if(route) this.setState({modalLoad:route})
-        // this.setState({ modalOpen: false });
+        this.setState({ modalOpen: false });
     }
     render(){
         const {modalOpen, modalLoad}=this.state;
@@ -41,6 +41,7 @@ class Dashboard extends Component {
                         <li>Adsets</li>
                     </ul>
                     <Col className="hrule" xs="12"></Col>
+                    <Col className="analytics" xs="12"></Col>
                     <Col xs="12" className="campaign_actionables">
                         <Col xs="6">
                             <Heading size="sm" title="10 Campaigns"/>
@@ -143,8 +144,15 @@ class Dashboard extends Component {
                 </Col>
 
                 <ReactModal
-                    isOpen={modalOpen} shouldCloseOnOverlayClick={true}
+                    isOpen={modalOpen}  shouldCloseOnOverlayClick={true}
                     onRequestClose={this.handleCloseModal.bind(this)}
+                    className={
+                        {
+                            base: 'modalClass',
+                            afterOpen: 'modalClass_after-open',
+                            beforeClose: 'modalClass_before-close'
+                        }
+                    }
                 >
                     {
                         (modalLoad==='createCampaign')?
