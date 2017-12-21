@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import { Row, Col, Navbar, Nav, NavItem} from 'react-bootstrap'
 import Login from './auth/loginUser';
 import Register from './auth/register';
+import AddAdSet from './AddSet/addAdSet';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signoutUser} from '../actions/userActions';
+import { signoutUser, fetchUser} from '../actions/userActions';
 import ReactModal from 'react-modal';
 import Icon from './icon'
 class Header extends Component {
@@ -19,8 +20,14 @@ class Header extends Component {
         this.props.signoutUser()
 
     }
-    authenticated(){
-        let resolvedLinks = (this.props.user)?
+    userLogin(e){
+        (e.target.value=='signOut')?
+            this.signoutUser():
+            ''
+    }
+    authenticated(user){
+
+        let resolvedLinks = (user.authenticated)?
             [
 
                 <li role="presentation" key="1a">
@@ -28,13 +35,17 @@ class Header extends Component {
                         <span className="display_pic">
                             <Icon icon="user" />
                         </span>
-                        <select>
-                            <option className="">Hello</option>
+                        <select onChange={this.userLogin.bind(this)} >
+                            <option className="">
+                            {
+                                (()=>(user.data)?user.data.name:'')()
+                            }</option>
+                            <option value="signOut">Sign out</option>
                         </select>
                     </div>
 
                 </li>,
-                <li role="presentation" key="1b" onClick={this.signoutUser.bind(this)}><a className="actionButton post_campaign_ads"  href="#">logout</a></li>,
+                <li role="presentation" key="1b"onClick={()=>this.setState({modalLoad:'addAdset', modalOpen:true})}><a className="actionButton post_campaign_ads"  href="#">Post Ads</a></li>,
             ]:
             [
                 <li role="presentation" className="active"><Link to="/">Feature</Link></li>,
@@ -52,12 +63,13 @@ class Header extends Component {
     render(){
         const {modalOpen, modalLoad}=this.state;
         const {user}=this.props;
+        console.log(user)
         return(
-            <Row  className={user?'nav_dashboard header':'header'} >
+            <Row  className={user.authenticated?'nav_dashboard header':'header'} >
                 <Navbar inverse collapseOnSelect >
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="#">TheCandle</a>
+                            <a href="/">TheCandle</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
@@ -65,13 +77,13 @@ class Header extends Component {
                         <Nav>
 
                             {
-                                this.authenticated()
+                                this.authenticated(user)
                             }
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
                 {
-                    user?
+                    user.authenticated?
                     <Row>
                         <Col xs="12">
                             <div className="hrule"></div>
@@ -101,7 +113,9 @@ class Header extends Component {
                     {
                         (modalLoad==='login')?
                         <Login close={this.handleCloseModal.bind(this)} />:
-                        <Register close={this.handleCloseModal.bind(this)} />
+                            (modalLoad=='register')?
+                            <Register close={this.handleCloseModal.bind(this)} />:
+                            <AddAdSet close={this.handleCloseModal.bind(this)} />
                     }
                 </ReactModal>
             </Row>
@@ -109,7 +123,9 @@ class Header extends Component {
     }
 }
 function mapStateToProps(state) {
-  return { user: state.user.authenticated };
+  return {
+       user: state.user
+   };
 }
 const mapDispatchToProps= {signoutUser}
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

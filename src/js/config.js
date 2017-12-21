@@ -15,6 +15,11 @@ export const ADSET_DICTIONARY={
         heavy:1,
         light:2,
     }
-
+}
+export const CAMPAIGN_DICTIONARY={
+    budget_type:{
+        Daily:0,
+        Lifetime:1
+    },
 
 }

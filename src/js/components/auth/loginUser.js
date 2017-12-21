@@ -66,7 +66,7 @@ class LoginUser extends Component {
 
 
                         {
-                            this.props.error ? <div className="errorNotification">{ this.props.error}</div>:''
+                            this.props.error ? <div className="errorNotification animate shake">{ this.props.error}</div>:''
                         }
                         <div> Forgot Password </div>
                         <span className="alternate"> {`Don't have an account`}? <a href="#">Sign Up</a> </span>

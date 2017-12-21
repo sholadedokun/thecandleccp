@@ -27,13 +27,21 @@ class AddAdSet extends Component {
     }
   }
   uploadCreatives(data){
-        let formData = new FormData();
-        formData.append('file', data.creative[0].formEntity);
-        formData.append('token', localStorage.getItem('TheCandleToken'));
-        formData.append('type', data.creative[0].type);
-        formData.append('position', data.creative[0].dimension.x.split('|')[0]);
-        formData.append('adset_id', this.state.adSet_id);
-        this.props.uploadCreative(formData)
+      for (var i =0; i<data.creative.length; i++){
+          let formData = new FormData();
+          if(data.creative[i].type=='image' || data.creative[i].type=='video'){
+              formData.append('file', data.creative[i].formEntity);
+          }
+          else{
+              formData.append('url', data.creative[i].url);
+          }
+          formData.append('token', localStorage.getItem('TheCandleToken'));
+          formData.append('type', data.creative[i].type);
+          formData.append('position', data.creative[i].dimension.x.split('|')[0]);
+          formData.append('adset_id', this.state.adSet_id);
+          this.props.uploadCreative(formData)
+      }
+
 
   }
   selectedBoard(Board){

@@ -2,7 +2,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  FETCH_OFFERS
+  FETCH_USER
 } from '../actions/actionTypes';
 
 export default function(state = {}, action) {
@@ -13,6 +13,8 @@ export default function(state = {}, action) {
       return { ...state, error: 'you are not authorized to view this page.', authenticated: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
+     case FETCH_USER:
+        return {...state, data:action.payload}
   }
   return state;
 }

@@ -34,6 +34,7 @@ class Dashboard extends Component {
     render(){
         const {modalOpen, modalLoad}=this.state;
         const {allCampaigns} = this.props;
+        let totalCampaigns = (allCampaigns)? allCampaigns.length: 0
         return(
             <Grid className="dashboard section">
                 <Col xs="12" className="campaignTable">
@@ -45,7 +46,7 @@ class Dashboard extends Component {
                     <Col className="analytics" xs="12"></Col>
                     <Col xs="12" className="campaign_actionables">
                         <Col xs="6">
-                            <Heading size="sm" title="10 Campaigns"/>
+                            <Heading size="sm" title={` ${totalCampaigns}  Campaigns`}/>
                             <span className="actionButton" onClick={this.createCampaign.bind(this)}><Icon icon="plus"/> Create Campaign</span>
                             <span className="disabledButton">Edit</span>
                             <span className="disabledButton">Delete</span>

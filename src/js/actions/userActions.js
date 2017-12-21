@@ -4,7 +4,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
-  FETCH_OFFERS,
+  FETCH_USER,
   SWITCH_MODAL_STATE
 } from './actionTypes';
 
@@ -21,6 +21,7 @@ export function signinUser( email, password ) {
                 dispatch({ type: AUTH_USER });
                 // - Save the JWT token
                 localStorage.setItem('TheCandleToken', response.data.token);
+                dispatch(fetchUser())
                 resolve(response)
             })
             .catch(() => {
@@ -71,14 +72,12 @@ export function modalStatus(state, page){
         });
     }
 }
-export function fetchProduct() {
+export function fetchUser() {
     return function(dispatch) {
-        axios.get(`${ROOT_URL}/inventory`, {
-            headers: { authorization: localStorage.getItem('TheCandleToken') }
-        })
+        axios.get(`${ROOT_URL}/user?token=${localStorage.getItem('TheCandleToken')}`, )
         .then(response => {
             dispatch({
-                type: FETCH_OFFERS,
+                type: FETCH_USER,
                 payload: response.data
             });
         });

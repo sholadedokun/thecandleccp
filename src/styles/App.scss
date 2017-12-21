@@ -369,6 +369,7 @@ a{
 
         }
     }
+
     .campaign_actionables{
         text-align: left;
         padding-bottom: 1em;
@@ -1026,6 +1027,17 @@ input[type=file]{
     .or{
 
         margin-top:1.2em;
+    }
+    .create_campaign_modal{
+        @extend .register;
+        .formSections{
+            text-align: left;
+            .minimumValues{
+                margin: 0;
+                display: block;
+            }
+        }
+
     }
     .register, .login{
         background: #fff;

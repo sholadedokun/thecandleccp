@@ -9,7 +9,6 @@ import {
 
 const ROOT_URL = 'http://thecandleapi.herokuapp.com/api';
 export function createCampaign( payload ) {
-    // console.log(window.localStorage.getItem('TheCandleToken'))
     payload.token = localStorage.getItem('TheCandleToken')
   return function(dispatch) {
     return new Promise( (resolve)=>{
