@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Heading from '../heading'
 import {Col, Row, Grid} from 'react-bootstrap'
+import Icon from '../icon'
 class navigation extends Component {
   constructor(props){
     super(props)
@@ -33,15 +34,6 @@ class navigation extends Component {
               postion:''
             }
           ]
-        },
-        {
-          title:'Payment',
-          listOfSpaces:[
-            {
-              location:'Lagos Island',
-              postion:''
-            }
-          ]
         }
       ]
     }
@@ -66,6 +58,7 @@ class navigation extends Component {
 
 
                   )}
+                  <li onClick={(e)=>this.props.closeModal()}> <Icon icon="times-circle-o" />Close</li>
                 </ul>
             </Row>
         </Col>

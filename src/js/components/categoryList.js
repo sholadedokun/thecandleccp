@@ -10,7 +10,7 @@ class Category extends(React.Component){
                 {
                     this.props.icon?<Icon icon={this.props.icon} />:
                         this.props.image?<img src={this.props.image} width="100%" />:
-                            this.props.number? <span className="icon_number">{this.props.number}</span>:''
+                            this.props.number? <span className={`icon_number`}>{this.props.number}</span>:''
                 }
                 <Heading title={this.props.title} size="sm" />
                 {this.props.children}

@@ -12,7 +12,7 @@ const ROOT_URL = 'http://thecandleapi.herokuapp.com/api';
 
 export function signinUser( email, password ) {
   return function(dispatch) {
-    return new Promise( (resolve)=>{
+    return new Promise( (resolve, reject)=>{
         // Submit email/password to the server
         axios.post(`${ROOT_URL}/auth/login`, { email, password })
             .then(response => {
@@ -24,6 +24,7 @@ export function signinUser( email, password ) {
                 resolve(response)
             })
             .catch(() => {
+                reject();
                 // If request is bad...
                 // - Show an error to the user
                 dispatch(authError('Wrong Login credentials, Please try again.'));
@@ -34,7 +35,7 @@ export function signinUser( email, password ) {
 
 export function signUpUser(values) {
     return function(dispatch) {
-        return new Promise( (resolve)=>{
+        return new Promise( (resolve, reject)=>{
             axios.post(`${ROOT_URL}/auth/register`, values)
             .then(response => {
 
@@ -43,6 +44,7 @@ export function signUpUser(values) {
                 resolve (response)
             })
             .catch(error => {
+                reject();
                 let errorData= error.response.data.error
                 dispatch(authError(errorData));
             });

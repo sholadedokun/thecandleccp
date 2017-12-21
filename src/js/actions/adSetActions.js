@@ -19,8 +19,8 @@ export function createAdset( payload ) {
                 // If request is good...
                 // - Update state to indicate user is authenticated
                 dispatch({ type: ADSET_CREATE, payload: response});
-                dispatch(fetchAdset())
-                resolve(response)
+                // dispatch(fetchAdset())
+                resolve(response.data)
 
 
             })
@@ -33,12 +33,32 @@ export function createAdset( payload ) {
   }
 }
 
-export function fetchAdset() {
+export function uploadCreative(creative) {
+    return function(dispatch) {
+        return new Promise( (resolve)=>{
+            axios.post(`${ROOT_URL}/creatives`, creative, {
+                headers: {
+                    'Content-Type':  `multipart/form-data`
+                }
+            })
+            .then(response => {
+                dispatch({ type: FETCH_ADSET, payload:response.data });
+                resolve(response)
+            })
+            .catch(error => {
+                let errorData= error.response.data.error
+                dispatch(adsetError(errorData));
+            });
+        })
+    }
+}
+
+export function fetchAdset(campaign_id) {
     console.log(localStorage.getItem('TheCandleToken'))
 
     return function(dispatch) {
         return new Promise( (resolve)=>{
-            axios.get(`${ROOT_URL}/adsets?token=${localStorage.getItem('TheCandleToken')}` )
+            axios.get(`${ROOT_URL}/adsets?token=${localStorage.getItem('TheCandleToken')}&campaign_id=${campaign_id}` )
             .then(response => {
                 dispatch({ type: FETCH_ADSET, payload:response.data.data  });
                 resolve(response)
@@ -50,7 +70,6 @@ export function fetchAdset() {
         })
     }
 }
-
 export function adsetError(error) {
   return {
     type: ADSET_ERROR,

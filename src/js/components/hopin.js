@@ -3,7 +3,7 @@ import Heading from './heading';
 import {Row, Col} from 'react-bootstrap';
 import Icon from './icon'
 export default ()=>
-    <Row>
+
         <Col xs={12} className="section footer" >
             <Heading size="lg" title="Excited! start Using the Candle">
                 sign up today and get 50% discount
@@ -13,4 +13,3 @@ export default ()=>
                 <button className="primaryButton">GET STARTED</button>
             </div>
         </Col>
-    </Row>

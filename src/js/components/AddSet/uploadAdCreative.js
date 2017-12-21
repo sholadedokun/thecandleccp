@@ -15,7 +15,8 @@ export default class uploadAdCreative extends Component{
         {
           type:'',
           dimension:{x:'0|1', y:'0|2'},
-          data:''
+          data:'',
+          formEntity:''
         }
       ]
     }
@@ -47,10 +48,13 @@ export default class uploadAdCreative extends Component{
     console.log(newCreativeCollages)
   }
   renderPreview(index, mediaType, e){
+     // console.log(e.target.value)
     let reader =new FileReader();
     let allCreatives = this.state.creative
+
     if(mediaType != 'url'){
       let that =this
+      allCreatives[index].formEntity=e.target.files[0]
       reader.onload=function (){
         allCreatives[index].data=reader.result,
         allCreatives[index].type=mediaType
@@ -104,7 +108,6 @@ export default class uploadAdCreative extends Component{
               <div style={creativeStyle}>
                    {
                      function(){
-                       console.log(item.type)
                        switch(item.type){
                        case 'image': return <img src={item.data} width="100%" />;
                        case 'video': return <video width="100%" autoPlay loop><source src={item.data} /></video>;
@@ -161,7 +164,7 @@ export default class uploadAdCreative extends Component{
               </p>
             </Row>
           </Col>
-            <button className="primaryButton">Next</button>
+            <button className="primaryButton" onClick={(e)=> this.props.setCreatives(this.state)}>Next</button>
             <button className="cancelButton">Cancel</button>
         </Col>
       </Row>

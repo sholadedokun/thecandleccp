@@ -29,6 +29,12 @@ body{
 a{
     text-decoration: none;
 }
+.loading{
+    margin: 1em 0;
+    text-align: center;
+    font-size: 2.2em;
+
+}
 
 //landing page
 .banner{
@@ -60,7 +66,7 @@ a{
         }
         div{
             height: 100px;
-            padding: 0 0.7em;
+            padding:0 6%;
         }
         div.firstMet{
             text-align: right;
@@ -69,6 +75,7 @@ a{
             border-right: 1px solid #fff;
             border-left: 1px solid #fff;
             text-align: left !important;
+
         }
     }
 }
@@ -152,9 +159,10 @@ a{
     }
     .buttonLink{
         box-shadow: 0 0 3px #999;
-        color:#53ae98 !important;
+        color:$primary-color !important;
         line-height: 0;
-        background: #fff;
+        background: #eee;
+        border: 1px solid #eee;
         border-radius: 3px;
         text-align: center;
         text-transform: capitalize;
@@ -163,6 +171,16 @@ a{
     }
     .buttonLink:hover{
         border: 1px solid #fff;
+        background: #fff !important;
+    }
+    .buttonLink:focus{
+        @extend .buttonLink:hover;
+        transform: scale(0.89);
+    }
+    .buttonLink:active{
+        @extend .buttonLink:hover;
+        transform: scale(1);
+
     }
     .buttonLink:last-child{
         margin-right: 0;
@@ -221,6 +239,28 @@ a{
     @extend .circularBackground;
     padding:1em;
 }
+.category:first-child .icon_number::after, .category:nth-child(2) .icon_number::after, {
+    border:2px solid #555;
+    width: calc((50% - 1.75em));
+    height:2px;
+    position: absolute;
+    bottom:calc(100% - 4.75em);
+    right:0;
+    content:' ';
+    // font-size: 2em;
+
+}
+.category:nth-child(2) .icon_number::before, .category:last-child .icon_number::before{
+    border:2px solid #555;
+    width: calc((50% - 1.75em));
+    height:2px;
+    position: absolute;
+    bottom:calc(100% - 4.75em);
+    left:0;
+    content:' ';
+    // font-size: 2em;
+
+}
 .profile_details{
     text-transform: capitalize;
     min-height:50px;
@@ -258,6 +298,9 @@ a{
 
 .linearBackground{
   background: linear-gradient(#38C4B1, #1A9179) !important;
+}
+.linearBackgroundHover{
+  background: linear-gradient(#27b3a0, #098068) !important;
 }
 .errorNotification{
   margin: 2em 0 0;
@@ -529,6 +572,17 @@ a{
     flex: auto;
 
   }
+  li:last-child{
+      color: #c44;
+      text-align: right;
+      padding: 0 2em;
+      font-weight: bold;
+      cursor: pointer;
+      span{
+          display: inline-block;
+          margin-right: 0.5em;
+      }
+  }
   li:first-child span{
 
     padding-left:1em;
@@ -642,6 +696,10 @@ input, select, textarea, button{
 .primaryButton{
     @extend .actionButton;
     @extend .linearBackground;
+}
+.primaryButton:hover{
+    font-weight: bold;
+    @extend .linearBackgroundHover;
 }
 .disabledButton{
     @extend .actionButton;
@@ -959,15 +1017,14 @@ input[type=file]{
 .modalClass{
     margin:0;
     outline: none;
-    background: #fff;
     position: relative;
-    overflow: scroll;
     .alternate{
         font-size: 1.2em;
         margin-top: 2em;
         display: block;
     }
     .or{
+
         margin-top:1.2em;
     }
     .register, .login{
@@ -1014,6 +1071,9 @@ input[type=file]{
     }
     .banner_metric{
         background: #232323;
+        div{
+            padding:0 1em !important;
+        }
         h2{
             font-size: 1.5em !important;
         }
@@ -1021,6 +1081,14 @@ input[type=file]{
     }
     .category{
         padding: 1.5em;
+    }
+    .category:first-child .icon_number::after, .category:nth-child(2) .icon_number::after {
+        content:none;
+        width:0;
+    }
+    .category:nth-child(2) .icon_number::before, .category:last-child .icon_number::before{
+        content:none;
+        width:0
     }
     .categoryContainer, .commentContainer {
         width: 100%;
@@ -1070,3 +1138,5 @@ input[type=file]{
 
     }
 }
+
+//animation keyframes

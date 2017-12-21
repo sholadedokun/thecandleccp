@@ -10,17 +10,23 @@ class LoginUser extends Component {
         super(props)
         this.state={
             username:"",
-            password:""
+            password:"",
+            loading:false
         }
     }
     loginUser(){
+        this.setState({loading: true})
         this.props.signinUser(this.state.username, this.state.password).then((data)=>{
+            this.setState({loading:false})
             this.props.close('/dashboard')
+        })
+        .catch((e)=>{
+            this.setState({loading:false})
         })
 
     }
     render(){
-        const {username, password} = this.state;
+        const {username, password, loading} = this.state;
         return(
             <Col xs={10} xsOffset="1" sm={4} smOffset="6" md={4} mdOffset="4"  className="login">
                 <Row >
@@ -52,14 +58,17 @@ class LoginUser extends Component {
                                 placeholder="Passowrd"
                             />
                         </span>
-                        <button  className="primaryButton" onClick={this.loginUser.bind(this)}>Login</button>
+                        {
+                            loading?<Icon icon="circle-o-notch fa-spin loading"  />:
+                            <button  className="primaryButton" onClick={this.loginUser.bind(this)}>Login</button>
+                        }
                     </Col>
 
 
                         {
-                            this.props.error? 'Wrong Username or Password, Please try again.':''
+                            this.props.error ? <div className="errorNotification">{ this.props.error}</div>:''
                         }
-                        <span> Forgot Password </span>
+                        <div> Forgot Password </div>
                         <span className="alternate"> {`Don't have an account`}? <a href="#">Sign Up</a> </span>
                 </Row>
             </Col>
@@ -68,7 +77,10 @@ class LoginUser extends Component {
 }
 function mapStateToProps(state){
     return(
-        {authenticated:state.user.authenticated}
+        {
+            authenticated:state.user.authenticated,
+            error:state.user.error
+        }
     )
 }
 const mapDispatchToProps = {signinUser}

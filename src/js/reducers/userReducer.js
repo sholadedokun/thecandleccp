@@ -10,7 +10,7 @@ export default function(state = {}, action) {
     case AUTH_USER:
       return { ...state, error: '', authenticated: true };
     case UNAUTH_USER:
-      return { ...state, authenticated: false };
+      return { ...state, error: 'you are not authorized to view this page.', authenticated: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload };
   }

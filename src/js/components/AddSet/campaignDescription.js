@@ -102,8 +102,10 @@ class AdSetDescription extends Component{
       console.log(this.state.data.advanceTiming)
   }
   confirmInput(){
-      console.log(this.state.data)
+      //send the adSet description to the addAdSet parent container through the setCampaignDetails props
       this.props.setCampaignDetails(this.state.data)
+      // this.props.setCampaignDetails()
+
   }
   render(){
       console.log(this.props)
