@@ -17,21 +17,35 @@ class RegisterUser extends Component {
             password_confirmation:"",
             password:"",
             role:0,
+            loading:false,
         }
     }
     registerUser(){
+        this.setState({loading:true})
         let params= _.omit(this.state, ['firstName', 'lastName'])
         params.name=`${this.state.firstName} ${this.state.lastName}`;
         this.props.signUpUser(params).then((data)=>{
-            if(data.id){
-                this.props.signinUser(data.email, this.state.password).then((data)=>{
+            console.log(data)
+            if(data.data.id){
+                this.setState({loading:false})
+                this.props.signinUser(data.data.email, this.state.password).then((data)=>{
                     this.props.close('/dashboard')
                 })
             }
         })
+        .catch((e)=> this.setState({loading:false}))
+    }
+    parseError(errorObject){
+        console.log(errorObject);
+        return(
+            _.map(errorObject, (item, index)=>
+                _.map(item, (subItem, subIndex)=>  <Col xs="12" key={`${index}.${subIndex}`}>{subItem}</Col>
+                )
+            )
+        )
     }
     render(){
-        const {email, firstName, lastName, phone,password_confirmation, password} = this.state;
+        const {email, firstName, lastName, phone,password_confirmation, password, loading} = this.state;
         return(
             <Col xs={10} xsOffset="1" sm={8} smOffset="2" md={4} mdOffset="4"  className="login">
                 <Row >
@@ -68,11 +82,16 @@ class RegisterUser extends Component {
                         <input type ="password" value={password_confirmation} onChange={(e)=>this.setState({password_confirmation:e.target.value})} placeholder="Confirm Password"  />
                     </span>
                 </Col>
+
                 <Col xs="12"  className="inputField">
-                    <button  className="primaryButton" onClick={this.registerUser.bind(this)}>Register</button>
+                    {
+                        loading?<Icon icon="circle-o-notch fa-spin loading"  />:
+                        <button  className="primaryButton" onClick={this.registerUser.bind(this)}>Register</button>
+                    }
+
                 </Col>
                 {
-                    this.props.error? 'Wrong email or Password, Please try again.':''
+                    this.props.error? <div className="errorNotification animate shake"> {this.parseError.bind(this, this.props.error)()}</div>:''
                 }
                 <span className="alternate"> {`Already have an account`}? <a href="#">Sign In</a> </span>
                 </Row>
@@ -82,7 +101,10 @@ class RegisterUser extends Component {
 }
 function mapStateToProps(state){
     return(
-        {authenticated:state.user.authenticated}
+        {
+            authenticated:state.user.authenticated,
+            error:state.user.error
+        }
     )
 }
 const mapDispatchToProps = {signUpUser, signinUser}

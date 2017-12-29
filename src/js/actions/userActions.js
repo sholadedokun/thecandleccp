@@ -41,13 +41,12 @@ export function signUpUser(values) {
             .then(response => {
 
                 dispatch({ type: AUTH_USER });
-                localStorage.setItem('TheCandleToken', response.data.token);
-                resolve (response)
+                // localStorage.setIte('TheCandleToken', response.data.token);
+                resolve (response.data)
             })
             .catch(error => {
-                reject();
-                let errorData= error.response.data.error
-                dispatch(authError(errorData));
+                reject(error.response.data.message);
+                dispatch(authError(error.response.data.message));
             });
         })
     }

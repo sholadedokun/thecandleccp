@@ -155,7 +155,7 @@ class AdSetDescription extends Component{
               <div className="inputField">
                 <label>Name</label>
                 <span className="inputContainer lg">
-                  <input type="text" value={name} onChange={(e)=>this.setState({data:{...this.state.data, name:e.target.value}})} name="campaign_name" placeholder="Enter Campaign Name" />
+                  <input type="text" value={name} onChange={(e)=>this.setState({data:{...this.state.data, name:e.target.value}})} name="campaign_name" placeholder="Enter Adset Name" />
                 </span>
               </div>
 

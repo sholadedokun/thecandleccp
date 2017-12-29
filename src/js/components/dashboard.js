@@ -5,6 +5,7 @@ import AddAdSet from './AddSet/addAdSet';
 import {fetchCampaign} from '../actions/campaignActions';
 import {connect} from 'react-redux';
 import {Row, Grid, Col} from 'react-bootstrap';
+import Analytics from './analytics'
 import Heading from './heading'
 import Icon from './icon'
 import _ from 'lodash';
@@ -15,11 +16,113 @@ class Dashboard extends Component {
         this.state={
             modalOpen:false,
             dashBoardView:'Campaign',
-            modalLoad:'create Campaign'
+            modalLoad:'create Campaign',
+            barChartExample:{
+                data:{
+                    labels: ["Honda", "Toyota", "Mercedes", "KIA", "Mazda", "Hyundai"],
+                    datasets: [{
+                        label: 'Brand of Vehicles',
+                        data: [10, 11, 6, 5, 4,6],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options:{}
+
+            },
+            doughnutChartExample:{
+                data:{
+                    datasets: [{
+                        data: [52, 48],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ]
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        'Male',
+                        'Female'
+                    ]
+                },
+                options:{}
+            },
+            polarArearExample:{
+                data:{
+                    datasets: [{
+                        data: [15, 13, 12],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 159, 64, 1)'
+                        ]
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        'Class A Citizens',
+                        'Class B Citizens',
+                        'Class c Citizens'
+                    ]
+                },
+                options:{}
+            },
+            lineChartExample:{
+                data:{
+                    datasets: [{
+                        label: 'View Impression',
+                        data: [13, 36, 23, 32, 22, 11, 15, 30],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor:[
+                            'rgba(255, 159, 64, 1)',
+                        ]
+                    }],
+
+                    // These labels appear in the legend and in the tooltips when hovering different arcs
+                    labels: [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August'
+                    ],
+
+                },
+            options:{
+                xAxes: [{
+                           gridLines: false
+                       }],
+                yAxes: [{
+                   gridLines: false,
+                    }]
+            }
         }
     }
+}
     componentWillMount(){
         this.props.fetchCampaign()
+
     }
     createCampaign(){
         this.setState({modalOpen: true, modalLoad:'createCampaign'})
@@ -43,7 +146,7 @@ class Dashboard extends Component {
                         <li>Adsets</li>
                     </ul>
                     <Col className="hrule" xs="12"></Col>
-                    <Col className="analytics" xs="12"></Col>
+
                     <Col xs="12" className="campaign_actionables">
                         <Col xs="6">
                             <Heading size="sm" title={` ${totalCampaigns}  Campaigns`}/>
@@ -59,6 +162,10 @@ class Dashboard extends Component {
                             <span className="disabledButton">Sort</span>
                         </Col>
                     </Col>
+                    <Analytics xs="12" sm="6" md="3" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
+                    <Analytics xs="12" sm="6" md="3" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
+                    <Analytics xs="12" sm="6" md="3" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
+                    <Analytics xs="12" sm="6" md="3" name="lineChartExample" dataSet={this.state.lineChartExample.data} options={this.state.lineChartExample.options} type="line"/>
 
                     <Col xs="12" className="list_header">
                         <ul className="campaign_header">
