@@ -21,7 +21,7 @@ export function signinUser( email, password ) {
                 dispatch({ type: AUTH_USER });
                 // - Save the JWT token
                 localStorage.setItem('TheCandleToken', response.data.token);
-                dispatch(fetchUser())
+                // dispatch(fetchUser())
                 resolve(response)
             })
             .catch(() => {

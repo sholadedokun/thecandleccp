@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="32px" viewBox="0 0 14 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-0.3%" y="-0.1%" width="100.4%" height="100.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.874758482   0 0 0 0 0.91678103   0 0 0 0 0.937792304  0 0 0 1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Manage-Ads---Campaigns-|-demographics" transform="translate(-1172.000000, -457.000000)" fill-rule="nonzero" fill="#B2B2BA">
+            <g id="Manage-Ads" filter="url(#filter-1)" transform="translate(130.000000, 240.000000)">
+                <g id="Campaigns">
+                    <g id="Analytics">
+                        <g id="3" transform="translate(497.000000, 110.000000)">
+                            <path d="M551.817926,116.02173 C549.602943,116.02173 547.80745,114.22615 547.807277,112.010908 C547.807277,109.796011 549.602857,108 551.817926,108 C554.03334,108 555.828748,109.795925 555.828748,112.010908 C555.828748,114.22615 554.03334,116.02173 551.817926,116.02173 Z M556.267222,116.438544 C556.648482,116.438544 557.012482,116.597675 557.271114,116.877363 C557.53035,117.157138 557.660831,117.532271 557.631663,117.912495 L557.000228,126.120194 C556.97339,126.470215 556.812964,126.79659 556.552261,127.031662 L555.112052,128.331121 L555.112052,136.631072 C555.112052,137.386947 554.499085,138 553.743124,138 L553.143878,138 C552.505626,138 551.969291,137.563079 551.817753,136.971945 C551.666389,137.563079 551.130053,138 550.491629,138 L549.892556,138 C549.136595,138 548.523714,137.387119 548.523714,136.631072 L548.523714,128.330949 L547.083418,127.031662 C546.822715,126.796503 546.662462,126.470301 546.635537,126.120194 L546.004017,117.912495 C545.974848,117.532271 546.105502,117.157138 546.364651,116.877363 C546.623629,116.597675 546.987801,116.438544 547.368975,116.438544 L556.267222,116.438544 Z" id="Combined-Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

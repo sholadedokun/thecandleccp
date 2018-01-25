@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import CreateCampaign from './createCampaign';
 import AddAdSet from './AddSet/addAdSet';
 import {fetchCampaign} from '../actions/campaignActions';
+import {fetchUser} from '../actions/userActions'
 import {connect} from 'react-redux';
 import {Row, Grid, Col} from 'react-bootstrap';
 import Analytics from './analytics'
@@ -17,6 +18,7 @@ class Dashboard extends Component {
             modalOpen:false,
             dashBoardView:'Campaign',
             modalLoad:'create Campaign',
+            analyticsType:'bigLineGraph',
             barChartExample:{
                 data:{
                     labels: ["Honda", "Toyota", "Mercedes", "KIA", "Mazda", "Hyundai"],
@@ -107,7 +109,6 @@ class Dashboard extends Component {
                         'July',
                         'August'
                     ],
-
                 },
             options:{
                 xAxes: [{
@@ -121,8 +122,8 @@ class Dashboard extends Component {
     }
 }
     componentWillMount(){
+        this.props.fetchUser()
         this.props.fetchCampaign()
-
     }
     createCampaign(){
         this.setState({modalOpen: true, modalLoad:'createCampaign'})
@@ -132,14 +133,48 @@ class Dashboard extends Component {
     }
     handleCloseModal (route) {
         if(route) this.setState({modalLoad:route})
-        this.setState({ modalOpen: false });
+        else{
+            this.setState({ modalOpen: false });
+        }
     }
     render(){
-        const {modalOpen, modalLoad}=this.state;
+        const {modalOpen, modalLoad, analyticsType}=this.state;
         const {allCampaigns} = this.props;
         let totalCampaigns = (allCampaigns)? allCampaigns.length: 0
         return(
             <Grid className="dashboard section">
+
+                <Col xs="12" className="analyticsBoard">
+                    <Row>
+                        <ul className="analyticsMenu">
+                            <li onClick={(e)=>this.setState({analyticsType:'bigLineGraph'})} className={analyticsType=='bigLineGraph'?'active':''}><span></span></li>
+                            <li onClick={(e)=>this.setState({analyticsType:'demoGraph'})} className={analyticsType=='demoGraph'?'active':''}><span></span></li>
+                        </ul>
+                        <div className="viewBoard">
+                            <Col xs="12" className="inputField timeline">
+                                <span className="formField">
+                                    <select>
+                                        <option>Weekly</option>
+                                        <option>Monthly</option>
+                                        <option>Yearly</option>
+                                    </select>
+                                </span>
+                            </Col>
+                            {
+                                analyticsType=='bigLineGraph'?
+                                        <Analytics xs="12" name="lineChartExample" dataSet={this.state.lineChartExample.data} options={this.state.lineChartExample.options} type="line"/>
+                                        :
+                                        <Col xs="12">
+                                            <Analytics xs="12" sm="6" md="4" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
+                                            <Analytics xs="12" sm="6" md="4" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
+                                            <Analytics xs="12" sm="6" md="4" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
+                                        </Col>
+                            }
+
+                        </div>
+                    </Row>
+                </Col>
+
                 <Col xs="12" className="campaignTable">
                     <ul className="campaign_menu">
                         <li className="active">Campaigns</li>
@@ -162,10 +197,7 @@ class Dashboard extends Component {
                             <span className="disabledButton">Sort</span>
                         </Col>
                     </Col>
-                    <Analytics xs="12" sm="6" md="3" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
-                    <Analytics xs="12" sm="6" md="3" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
-                    <Analytics xs="12" sm="6" md="3" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
-                    <Analytics xs="12" sm="6" md="3" name="lineChartExample" dataSet={this.state.lineChartExample.data} options={this.state.lineChartExample.options} type="line"/>
+
 
                     <Col xs="12" className="list_header">
                         <ul className="campaign_header">
@@ -279,5 +311,5 @@ function mapStateToProps(state){
         {allCampaigns:state.campaigns.allCampaigns}
     )
 }
-const mapDispatchToProps = {fetchCampaign}
+const mapDispatchToProps = {fetchCampaign, fetchUser}
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

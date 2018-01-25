@@ -39,7 +39,7 @@ class RegisterUser extends Component {
             this.setState({
                 createSuccess:true
             })
-            //console.log(data)
+            this.props.close('addAdSet')
         })
     }
     render(){
@@ -131,7 +131,7 @@ class RegisterUser extends Component {
                     createSuccess?
                     <div className="inputField">
                         <label>Campaign Successfully Created</label>
-                        <button className="primaryButton" onClick={(e)=>this.props.close('addAdSet')}>Add AdSets</button>
+                        
                     </div>
                     :
                     ''
