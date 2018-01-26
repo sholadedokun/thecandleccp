@@ -19,6 +19,11 @@ class Dashboard extends Component {
             dashBoardView:'Campaign',
             modalLoad:'create Campaign',
             analyticsType:'bigLineGraph',
+            activeBigline:'impression',
+            totalImpression: [13, 36, 23, 32, 22, 11, 15, 30],
+            totalView:[7, 15, 13, 25, 22, 35, 30, 37],
+            totalReach:[36, 60, 45, 89, 76, 104, 82, 120],
+            totalSpent:[1.5, 2.9, 2.0, 4.6, 3.3, 5.3, 4.2, 2.3],
             barChartExample:{
                 data:{
                     labels: ["Honda", "Toyota", "Mercedes", "KIA", "Mazda", "Hyundai"],
@@ -85,38 +90,65 @@ class Dashboard extends Component {
                 },
                 options:{}
             },
-            lineChartExample:{
+            lineChart:{
                 data:{
                     datasets: [{
                         label: 'View Impression',
                         data: [13, 36, 23, 32, 22, 11, 15, 30],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)'
+                            'rgba(0, 183, 255, 0.1)'
                         ],
+                        borderWidth: 2,
                         borderColor:[
-                            'rgba(255, 159, 64, 1)',
-                        ]
+                            'rgba(0, 183, 255, 100)',
+                        ],
+                        spanGaps:false,
+                        pointRadius: 0,
+                        pointHitRadius:15,
+                        pointHoverBackgroundColor:'rgba(0, 183, 255, 100)',
+                        pointHoverRadius:5,
+                        pointHoverBorderColor:'rgba(0, 183, 255, 100)',
                     }],
 
                     // These labels appear in the legend and in the tooltips when hovering different arcs
                     labels: [
-                        'January',
-                        'February',
-                        'March',
-                        'April',
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
                         'May',
-                        'June',
-                        'July',
-                        'August'
+                        'Jun',
+                        'Jul',
+                        'Aug'
                     ],
                 },
             options:{
-                xAxes: [{
-                           gridLines: false
-                       }],
-                yAxes: [{
-                   gridLines: false,
-                    }]
+                scales:{
+                    xAxes: [{
+                               gridLines: {
+                                   display:false,
+                                   tickMarkLength: 25,
+                               },
+
+                               ticks: {
+
+                                }
+                           }],
+                    yAxes: [{
+                       gridLines:
+                       {
+                           drawBorder: false,
+                           tickMarkLength: 40,
+                       },
+                       ticks: {
+                       },
+                       position:'bottom'
+                        }]
+                },
+                legend: {
+                    display: false
+                }
+
             }
         }
     }
@@ -137,8 +169,15 @@ class Dashboard extends Component {
             this.setState({ modalOpen: false });
         }
     }
+    setBigline(value, type){
+        let lineChart=this.state.lineChart;
+        //update the data of the dataset of the example;
+        lineChart.data.datasets[0].data=value;
+        this.setState({lineChart, activeBigline:type})
+
+    }
     render(){
-        const {modalOpen, modalLoad, analyticsType}=this.state;
+        const {modalOpen, modalLoad, analyticsType, totalView, totalReach, totalSpent, totalImpression, activeBigline}=this.state;
         const {allCampaigns} = this.props;
         let totalCampaigns = (allCampaigns)? allCampaigns.length: 0
         return(
@@ -151,6 +190,28 @@ class Dashboard extends Component {
                             <li onClick={(e)=>this.setState({analyticsType:'demoGraph'})} className={analyticsType=='demoGraph'?'active':''}><span></span></li>
                         </ul>
                         <div className="viewBoard">
+                            {
+                                analyticsType=='bigLineGraph'?
+                                    <Col  xs="12" className="bigLineMenu" componentClass="ul">
+                                        <li className={activeBigline=='impression'?'active':''} onClick={this.setBigline.bind(this, totalImpression, 'impression')}>
+                                            <label>Impressions</label>
+                                            <span className="value">12,235,323</span>
+                                        </li>
+                                        <li  className={activeBigline=='views'?'active':''} onClick={this.setBigline.bind(this, totalView, 'views')}>
+                                            <label>Views</label>
+                                            <span className="value">1,405,863</span>
+                                        </li>
+                                        <li  className={activeBigline=='reach'?'active':''} onClick={this.setBigline.bind(this, totalReach, 'reach')}>
+                                            <label>Reach</label>
+                                            <span className="value">4,778,203</span>
+                                        </li>
+                                        <li  className={activeBigline=='spent'?'active':''} onClick={this.setBigline.bind(this, totalSpent, 'spent')}>
+                                        <label>Total Spent</label>
+                                        <span className="value">N31,456,110</span>
+                                        </li>
+                                    </Col>
+                                    :''
+                            }
                             <Col xs="12" className="inputField timeline">
                                 <span className="formField">
                                     <select>
@@ -162,12 +223,12 @@ class Dashboard extends Component {
                             </Col>
                             {
                                 analyticsType=='bigLineGraph'?
-                                        <Analytics xs="12" name="lineChartExample" dataSet={this.state.lineChartExample.data} options={this.state.lineChartExample.options} type="line"/>
+                                        <Analytics xs="12" name="lineChart" dataSet={this.state.lineChart.data} options={this.state.lineChart.options} height={20} type="line"/>
                                         :
                                         <Col xs="12">
-                                            <Analytics xs="12" sm="6" md="4" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
-                                            <Analytics xs="12" sm="6" md="4" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
-                                            <Analytics xs="12" sm="6" md="4" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
+                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
+                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
+                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
                                         </Col>
                             }
 

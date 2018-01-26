@@ -388,36 +388,36 @@ a{
             padding-top:1.2em;
         }
     }
-    li{
-        padding: 0 ;
-        text-align: left;
-        width:9%;
-        display: inline-block;
-    }
 
-    li:nth-child(3){
-        width: 25%;
-    }
-    li:nth-child(4){
-        width: 15%;
-    }
-    li:nth-child(5){
-        width: 11%;
-    }
-    li:nth-child(1), li:nth-child(2){
-        width:3% !important;
-    }
-    li:last-child{
-        margin-right: 0;
-        width:13%;
-    }
     .list_header{
         padding:1.5em 0;
         background: #aaa;
         color: #333;
         font-size: 0.85em;
         font-weight: bold;
+        li{
+            padding: 0 ;
+            text-align: left;
+            width:9%;
+            display: inline-block;
+        }
 
+        li:nth-child(3){
+            width: 25%;
+        }
+        li:nth-child(4){
+            width: 15%;
+        }
+        li:nth-child(5){
+            width: 11%;
+        }
+        li:nth-child(1), li:nth-child(2){
+            width:3% !important;
+        }
+        li:last-child{
+            margin-right: 0;
+            width:13%;
+        }
     }
 
     .each_campaign{
@@ -470,6 +470,9 @@ a{
             font-size: 0.8em;
             padding-bottom: 1em;
             border-bottom: 1px solid #eee;
+            .value{
+                padding-bottom:0.4em !important;
+            }
         }
         li:first-child{
             border-bottom: none;
@@ -486,9 +489,7 @@ a{
         color:#bbb;
         line-height: 0;
     }
-    .value{
-        padding-bottom:0.4em !important;
-    }
+
     .total_result{
         padding:2em 0 0;
         text-align: left;
@@ -1113,7 +1114,6 @@ input[type=file]{
     }
     .bigInput{
         margin: 2.5em auto;
-
         input{
             border-radius: 10px;
             width: 100%;
@@ -1173,14 +1173,49 @@ input[type=file]{
             }
         }
         li.active span{
-            border-left: 4px #22f solid
+            border-left: 4px #00B7FF solid
         }
     }
     .viewBoard{
         width:93%;
-        padding:2em 1.5em;
+        padding:0em 0 2em;
         float:left;
         border-left: 2px #F4F5FA solid;
+        .bigLineMenu{
+            background:#fff;
+            padding:0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            li{
+                cursor: pointer;
+                text-align:center;
+                flex-grow:1;
+                padding:1.5em 4em;
+                border-right: 1px #E3E3E3 solid;
+                background: linear-gradient(#FCFDFF, #F6F6F6) !important;
+                label{
+                    color:#D8D8D8;
+                    font-weight: normal;
+
+                }
+                .value{
+                    display: block;
+                    line-height: 1.2;
+                    font-weight: bold;
+                    font-size:1.8em;
+                    padding-bottom: 0 ;
+
+                }
+            }
+            li:last-child{
+                border:none;
+            }
+            li.active{
+
+                background:none !important;
+            }
+        }
         .timeline{
             text-align: right;
         }
@@ -1188,6 +1223,7 @@ input[type=file]{
             padding:0.5em;
             box-sizing: border-box;
         }
+
         .analytics canvas{
             border-radius: 10px;
             background: #F5F9FB;
