@@ -22,11 +22,12 @@ class Analytics extends(React.Component){
 
     }
     componentWillReceiveProps(nextProps){
-        this.myChart.data.labels=nextProps.dataSet.labels;
-        this.myChart.data.datasets.forEach((dataset) => {
-            dataset.data.push(nextProps.dataSet.datasets);
-        });
-        this.myChart.update();
+        console.log(nextProps, this.props.dataSet)
+            this.myChart.data.labels=nextProps.dataSet.labels;
+            this.myChart.data.datasets.forEach((dataset) => {
+                dataset.data.push(nextProps.dataSet.datasets);
+            });
+            this.myChart.update();
     }
     render(){
         return(

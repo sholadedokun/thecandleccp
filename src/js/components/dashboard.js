@@ -14,13 +14,14 @@ import _ from 'lodash';
 class Dashboard extends Component {
     constructor(props){
         super(props);
+        this.activeData=[19, 36, 23, 32, 22, 45, 36, 30]
         this.state={
             modalOpen:false,
             dashBoardView:'Campaign',
             modalLoad:'create Campaign',
             analyticsType:'bigLineGraph',
             activeBigline:'impression',
-            totalImpression: [13, 36, 23, 32, 22, 11, 15, 30],
+            totalImpression: [19, 36, 23, 32, 22, 45, 36, 30],
             totalView:[7, 15, 13, 25, 22, 35, 30, 37],
             totalReach:[36, 60, 45, 89, 76, 104, 82, 120],
             totalSpent:[1.5, 2.9, 2.0, 4.6, 3.3, 5.3, 4.2, 2.3],
@@ -94,7 +95,7 @@ class Dashboard extends Component {
                 data:{
                     datasets: [{
                         label: 'View Impression',
-                        data: [13, 36, 23, 32, 22, 11, 15, 30],
+                        data: [19, 36, 23, 32, 22, 45, 36, 30],
                         backgroundColor: [
                             'rgba(0, 183, 255, 0.1)'
                         ],
@@ -125,28 +126,33 @@ class Dashboard extends Component {
             options:{
                 scales:{
                     xAxes: [{
-                               gridLines: {
-                                   display:false,
-                                   tickMarkLength: 25,
-                               },
-
-                               ticks: {
-
-                                }
+                               gridLines:{display:false,tickMarkLength: 25},
+                               ticks:{}
                            }],
                     yAxes: [{
-                       gridLines:
-                       {
-                           drawBorder: false,
-                           tickMarkLength: 40,
-                       },
-                       ticks: {
-                       },
-                       position:'bottom'
-                        }]
+                       gridLines:{drawBorder:false,tickMarkLength:40},
+                       ticks: {}, position:'bottom'}]
                 },
-                legend: {
-                    display: false
+                legend:{ display:false },
+                tooltips:{
+                    backgroundColor:'rgba(0, 183, 255, 100)',
+                    xPadding:15,
+                    yPadding:10,
+                    // callbacks: {
+                    //     title:function(){
+                    //         return ['impression']
+                    //     },
+                    //     labelColor: function(tooltipItem, chart) {
+                    //         return {
+                    //             borderColor: 'rgb(255, 0, 0)',
+                    //             backgroundColor: 'rgb(255, 0, 0)'
+                    //         }
+                    //     },
+                    //     labelTextColor:function(tooltipItem, chart){
+                    //         return '#543453';
+                    //     }
+                    // }
+
                 }
 
             }
