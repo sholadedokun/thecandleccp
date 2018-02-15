@@ -43,8 +43,8 @@ export function fetchCampaign() {
                 resolve(response)
             })
             .catch(error => {
-                let errorData= error.response.data.error
-                dispatch(campaignError(errorData));
+                // let errorData= error.response.data.error
+                dispatch(campaignError(error));
             });
         })
     }

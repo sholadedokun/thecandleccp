@@ -26,7 +26,9 @@ class Dashboard extends Component {
             totalReach:[36, 60, 45, 89, 76, 104, 82, 120],
             totalSpent:[1.5, 2.9, 2.0, 4.6, 3.3, 5.3, 4.2, 2.3],
             barChartExample:{
+
                 data:{
+                    title:"Social Class",
                     labels: ["Honda", "Toyota", "Mercedes", "KIA", "Mazda", "Hyundai"],
                     datasets: [{
                         label: 'Brand of Vehicles',
@@ -50,11 +52,25 @@ class Dashboard extends Component {
                         borderWidth: 1
                     }]
                 },
-                options:{}
+                options:{
+                    scales:{
+                        xAxes: [{
+                                   gridLines:{display:false,tickMarkLength: 25},
+
+                               }],
+                        yAxes: [{
+                           gridLines:{drawBorder:false,tickMarkLength:40},
+                           }]
+                    },
+                    legend:{display: false}
+
+                }
 
             },
             doughnutChartExample:{
+
                 data:{
+                    title:"Car Count",
                     datasets: [{
                         data: [52, 48],
                         backgroundColor: [
@@ -72,7 +88,9 @@ class Dashboard extends Component {
                 options:{}
             },
             polarArearExample:{
+
                 data:{
+                    title:"Audience",
                     datasets: [{
                         data: [15, 13, 12],
                         backgroundColor: [
@@ -218,25 +236,27 @@ class Dashboard extends Component {
                                     </Col>
                                     :''
                             }
-                            <Col xs="12" className="inputField timeline">
-                                <span className="formField">
-                                    <select>
-                                        <option>Weekly</option>
-                                        <option>Monthly</option>
-                                        <option>Yearly</option>
-                                    </select>
-                                </span>
-                            </Col>
-                            {
-                                analyticsType=='bigLineGraph'?
-                                        <Analytics xs="12" name="lineChart" dataSet={this.state.lineChart.data} options={this.state.lineChart.options} height={20} type="line"/>
-                                        :
-                                        <Col xs="12">
-                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="barExample" dataSet={this.state.barChartExample.data} options={this.state.barChartExample.options} type="bar"/>
-                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="doughExample" dataSet={this.state.doughnutChartExample.data} options={this.state.doughnutChartExample.options} type="doughnut"/>
-                                            <Analytics xs="12" sm="6" md="4" classN="analytics" name="polarExample" dataSet={this.state.polarArearExample.data} options={this.state.polarArearExample.options} type="polarArea"/>
-                                        </Col>
-                            }
+                                <Col xs="12">
+                                    <span className="inputField timeline">
+                                        <span className="formField">
+                                            <select>
+                                                <option>Weekly</option>
+                                                <option>Monthly</option>
+                                                <option>Yearly</option>
+                                            </select>
+                                        </span>
+                                    </span>
+                                    {
+                                        analyticsType=='bigLineGraph'?
+                                                <Analytics xs="12" name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line"/>
+                                                :
+                                                <span className="analyticsContainer">
+                                                    <Analytics xs="12" sm="6" md="4" classN="analytics" name="barExample" dataSet={[this.state.barChartExample.data, []]} options={this.state.barChartExample.options} height={90}  type="bar"/>
+                                                    <Analytics xs="12" sm="6" md="4" classN="analytics" name="doughExample" dataSet={[this.state.doughnutChartExample.data, []]} options={this.state.doughnutChartExample.options} height={90}  type="doughnut"/>
+                                                    <Analytics xs="12" sm="6" md="4" classN="analytics" name="polarExample" dataSet={[this.state.polarArearExample.data, []]} options={this.state.polarArearExample.options} height={90}  type="polarArea"/>
+                                                </span>
+                                    }
+                                </Col>
 
                         </div>
                     </Row>
@@ -264,8 +284,6 @@ class Dashboard extends Component {
                             <span className="disabledButton">Sort</span>
                         </Col>
                     </Col>
-
-
                     <Col xs="12" className="list_header">
                         <ul className="campaign_header">
                             <li>&nbsp;</li>
@@ -279,7 +297,6 @@ class Dashboard extends Component {
                             <li>Total Spent</li>
                         </ul>
                     </Col>
-
                     {
                         _.map(allCampaigns, (item, index)=>{
                             return(
@@ -319,10 +336,7 @@ class Dashboard extends Component {
                                         <span className="value_description">$25,000.00 Budget</span>
                                     </li>
                                 </Col>
-
                             )
-
-
                         })
                     }
                     {(allCampaigns)?
@@ -343,14 +357,11 @@ class Dashboard extends Component {
                         </Col>:''
                 }
                 </Col>
-
                 <Col md={3}>
                     <a href="#" onClick={this.addAdSet.bind(this)}>Add AdSet</a>
                 </Col>
                 <Col md={9}>
-
                 </Col>
-
                 <ReactModal
                     isOpen={modalOpen}  shouldCloseOnOverlayClick={true}
                     onRequestClose={this.handleCloseModal.bind(this)}
