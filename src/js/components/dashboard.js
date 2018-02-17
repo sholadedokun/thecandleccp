@@ -10,7 +10,6 @@ import Analytics from './analytics'
 import Heading from './heading'
 import Icon from './icon'
 import _ from 'lodash';
-
 class Dashboard extends Component {
     constructor(props){
         super(props);
@@ -68,14 +67,13 @@ class Dashboard extends Component {
 
             },
             doughnutChartExample:{
-
                 data:{
-                    title:"Car Count",
+                    title:"Audience",
                     datasets: [{
                         data: [52, 48],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
                         ]
                     }],
 
@@ -85,7 +83,15 @@ class Dashboard extends Component {
                         'Female'
                     ]
                 },
-                options:{}
+                options:{
+                    legend:{ display:false },
+                    elements: {
+                      arc: {
+                        borderColor: '#000',
+                        borderWidth: 0
+                      }
+                    }
+                }
             },
             polarArearExample:{
 
@@ -128,7 +134,6 @@ class Dashboard extends Component {
                         pointHoverRadius:5,
                         pointHoverBorderColor:'rgba(0, 183, 255, 100)',
                     }],
-
                     // These labels appear in the legend and in the tooltips when hovering different arcs
                     labels: [
                         'Jan',
@@ -141,42 +146,52 @@ class Dashboard extends Component {
                         'Aug'
                     ],
                 },
-            options:{
-                scales:{
-                    xAxes: [{
-                               gridLines:{display:false,tickMarkLength: 25},
-                               ticks:{}
-                           }],
-                    yAxes: [{
-                       gridLines:{drawBorder:false,tickMarkLength:40},
-                       ticks: {}, position:'bottom'}]
-                },
-                legend:{ display:false },
-                tooltips:{
-                    backgroundColor:'rgba(0, 183, 255, 100)',
-                    xPadding:15,
-                    yPadding:10,
-                    // callbacks: {
-                    //     title:function(){
-                    //         return ['impression']
-                    //     },
-                    //     labelColor: function(tooltipItem, chart) {
-                    //         return {
-                    //             borderColor: 'rgb(255, 0, 0)',
-                    //             backgroundColor: 'rgb(255, 0, 0)'
-                    //         }
-                    //     },
-                    //     labelTextColor:function(tooltipItem, chart){
-                    //         return '#543453';
-                    //     }
-                    // }
+                options:{
+                    scales:{
+                        xAxes: [{
+                                   gridLines:{display:false,tickMarkLength: 25},
+                                   ticks:{}
+                               }],
+                        yAxes: [{
+                           gridLines:{drawBorder:false,tickMarkLength:40},
+                           ticks: {}, position:'bottom'}]
+                    },
+                    legend:{ display:false },
+                    tooltips:{
+                        backgroundColor:'rgba(0, 183, 255, 100)',
+                        xPadding:15,
+                        yPadding:10,
+                        // callbacks: {
+                        //     title:function(){
+                        //         return ['impression']
+                        //     },
+                        //     labelColor: function(tooltipItem, chart) {
+                        //         return {
+                        //             borderColor: 'rgb(255, 0, 0)',
+                        //             backgroundColor: 'rgb(255, 0, 0)'
+                        //         }
+                        //     },
+                        //     labelTextColor:function(tooltipItem, chart){
+                        //         return '#543453';
+                        //     }
+                        // }
+
+                    }
 
                 }
-
+            },
+            numberStat:{
+                data:{
+                    title:'Car Count',
+                    datasets:[{
+                        title:'Car Count',
+                        data:[2344543, 1364345, 450323, 343245]
+                    }],
+                    label:['Vehicles', 'Cars', 'trucks', 'motocycles']
+                }
             }
         }
     }
-}
     componentWillMount(){
         this.props.fetchUser()
         this.props.fetchCampaign()
@@ -236,7 +251,7 @@ class Dashboard extends Component {
                                     </Col>
                                     :''
                             }
-                                <Col xs="12">
+                                <Col xs="12" className="viewContainer">
                                     <span className="inputField timeline">
                                         <span className="formField">
                                             <select>
@@ -252,8 +267,8 @@ class Dashboard extends Component {
                                                 :
                                                 <span className="analyticsContainer">
                                                     <Analytics xs="12" sm="6" md="4" classN="analytics" name="barExample" dataSet={[this.state.barChartExample.data, []]} options={this.state.barChartExample.options} height={90}  type="bar"/>
+                                                    <Analytics xs="12" sm="6" md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90}  type="numberStat"/>
                                                     <Analytics xs="12" sm="6" md="4" classN="analytics" name="doughExample" dataSet={[this.state.doughnutChartExample.data, []]} options={this.state.doughnutChartExample.options} height={90}  type="doughnut"/>
-                                                    <Analytics xs="12" sm="6" md="4" classN="analytics" name="polarExample" dataSet={[this.state.polarArearExample.data, []]} options={this.state.polarArearExample.options} height={90}  type="polarArea"/>
                                                 </span>
                                     }
                                 </Col>

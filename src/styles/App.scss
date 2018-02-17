@@ -1181,7 +1181,7 @@ input[type=file]{
     }
     .viewBoard{
         width:93%;
-        padding:0em 1.75em 2em;
+        padding:0em 0em 2em;
         float:left;
         border-left: 2px #F4F5FA solid;
         .bigLineMenu{
@@ -1218,6 +1218,9 @@ input[type=file]{
 
                 background:none !important;
             }
+        }
+        .viewContainer{
+            padding:0 1.75em;
         }
         .timeline{
             padding-top: 1em;
@@ -1278,7 +1281,7 @@ input[type=file]{
 .barContainer{
     padding:0 2em;
 }
-.barChart, .barHandle{
+.barChart, .barContainer, .barHandle{
     width:12px;
     border-radius: 1em;
 
@@ -1289,12 +1292,17 @@ input[type=file]{
     height: 150px;
     background: #ccc;
     margin: 0 1.5em;
-    .barHandle{
-        background: #349684;
-        height: 40px;
-        position: absolute;
-        bottom: 0;
+    .barContainer{
+        background: transparent;
+        padding: 0;
+        .barHandle{
+            background: #349684;
+            position: absolute;
+            bottom: 0;
+            animation: barEnter 900ms ease-in 0ms forwards
+        }
     }
+
 
 }
 .barLegends{
@@ -1333,8 +1341,31 @@ input[type=file]{
             font-size:1.2em;
             display:block;
             font-weight: bold;
+
         }
     }
 
+
+}
+
+.doughnutContainer{
+    width:60%;
+    float:left;
+}
+.genderMap{
+    float:left;
+    width:40%;
+    padding:2em 0 1em;
+    font-weight: bold;
+    font-size: 0.9em;
+    span{
+        display:block;
+        padding: 1em 0;
+    }
+}
+//animation keyframes
+@keyframes barEnter{
+    from{height:0}
+    to{height:inherit;}
 
 }

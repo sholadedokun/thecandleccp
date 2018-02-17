@@ -4,6 +4,7 @@ import Heading from './heading';
 import CategoryList from  './categoryList'
 import Charts from 'chart.js'
 import BarShaders from './barShader'
+import NumberEffect from './numberEffect'
 class Analytics extends(React.Component){
     constructor(){
         super();
@@ -14,14 +15,13 @@ class Analytics extends(React.Component){
     }
     componentDidMount(){
         const {name}= this.props
-        if(name=='polarExample' || name== 'lineChart'){
+        if(name=='doughExample' || name== 'lineChart'){
             this.createCanvas(this.props)
         }
 
     }
     createCanvas(props){
         const{name,type, dataSet,options} =props
-        console.log(options)
         let ctx= document.getElementById(name).getContext("2d");
         this.myChart = new Charts(ctx, {
             type,
@@ -32,8 +32,8 @@ class Analytics extends(React.Component){
     componentWillReceiveProps(nextProps){
         const {name}=this.props;
         console.log(this.props, this.myChart, nextProps)
-        if((name=='polarExample' || name== 'lineChart') && this.myChart.data ){
-            if(nextProps.name=='polarExample' || nextProps.name== 'lineChart'){
+        if((name=='doughExample' || name== 'lineChart') && this.myChart.data ){
+            if(nextProps.name=='doughExample' || nextProps.name== 'lineChart'){
                 this.myChart.data.labels=nextProps.dataSet[0].labels;
                 this.myChart.data.datasets.forEach((dataset) => {
                     dataset.data.push(nextProps.dataSet[0].datasets);
@@ -41,11 +41,16 @@ class Analytics extends(React.Component){
                 this.myChart.update();
             }
         }
-        else if(nextProps.name=='polarExample' || nextProps.name== 'lineChart'){
+        else if(nextProps.name=='doughExample' || nextProps.name== 'lineChart'){
             this.createCanvas(nextProps)
         }
 
 
+    }
+    renderKey(data){
+        return data.map( item=>
+            <span className={item.class}>{item.title}</span>
+        )
     }
     render(){
         const {name, xs, sm, md, classN, dataSet, height}= this.props
@@ -62,35 +67,60 @@ class Analytics extends(React.Component){
                     }
                     </div>
                     {
-                        name=='polarExample' || name== 'lineChart'?
+                        name== 'lineChart'?
                             <canvas id={name} width="100" height={height}></canvas>:
-                            name=="barExample"?
-                                <div>
-                                    <BarShaders size="sm" height={45} />
-                                    <BarShaders size="md" height={89} />
-                                    <BarShaders size="sm" height={65} />
-                                    <BarShaders size="md" height={111} />
-                                    <BarShaders size="sm" height={124} />
-                                    <div className="barLegends">
-                                        <span className="elite">Elite</span>
-                                        <span className="midUpper">Upper Mid.</span>
-                                        <span className="midLower">Lower Mid.</span>
-                                    </div>
-                                </div>
-                                :
-                                <Row>
-                                    <div className="numberStat">
-                                        <div className="numberDisplay">
-                                            <h1>2,534,345</h1>
-                                            <span>Vehicles</span>
+                                name=="barExample"?
+                                    <div>
+                                        <BarShaders size="sm" height={45} />
+                                        <BarShaders size="md" height={89} />
+                                        <BarShaders size="sm" height={65} />
+                                        <BarShaders size="md" height={111} />
+                                        <BarShaders size="sm" height={124} />
+                                        <div className="barLegends">
+                                            {
+                                                this.renderKey([
+                                                    {class:'elite', title:'Elite'},
+                                                    {class:'midUpper', title:'midUpper Mid.'},
+                                                    {class:'midLower', title:'Lower Mid.'}
+                                                ])
+                                            }
                                         </div>
-                                    </div>
-                                    <Col xs="12">
-                                        <Col xs="4" className="vehicleTypes">765,923</Col>
-                                        <Col xs="4" className="vehicleTypes">344,345</Col>
-                                        <Col xs="4" className="vehicleTypes">123,456</Col>
-                                    </Col>
-                                </Row>
+                                    </div>:
+                                    name=="doughExample"?
+                                    <Row>
+                                        <Col xs="12">
+                                            <div className="doughnutContainer">
+                                                <canvas id={name} width="100" height={height}></canvas>
+                                            </div>
+                                            <div className="genderMap">
+                                                <span>65%</span>
+                                                <span>35%</span>
+                                            </div>
+                                            <div className="barLegends">
+                                            {
+                                                this.renderKey([
+                                                    {class:'elite', title:'A1'},
+                                                    {class:'midUpper', title:'A2'},
+                                                    {class:'midLower', title:'A3'},
+                                                    {class:'midLower', title:'A4'}
+                                                ])
+                                            }
+                                            </div>
+                                        </Col>
+                                    </Row>:
+                                    <Row>
+                                        <div className="numberStat">
+                                            <div className="numberDisplay">
+                                                <h1><NumberEffect maxNumber={2534345} interval={1}  /></h1>
+                                                <span>Vehicles</span>
+                                            </div>
+                                        </div>
+                                        <Col xs="12">
+                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={765923} interval={1}  /></Col>
+                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={344345} interval={1}  /></Col>
+                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={123456} interval={1}  /></Col>
+                                        </Col>
+                                    </Row>
                     }
 
                 </span>
