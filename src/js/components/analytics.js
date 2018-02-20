@@ -71,17 +71,17 @@ class Analytics extends(React.Component){
                             <canvas id={name} width="100" height={height}></canvas>:
                                 name=="barExample"?
                                     <div>
-                                        <BarShaders size="sm" height={45} />
-                                        <BarShaders size="md" height={89} />
-                                        <BarShaders size="sm" height={65} />
-                                        <BarShaders size="md" height={111} />
-                                        <BarShaders size="sm" height={124} />
+                                        <BarShaders size="sm" height={45} color="eliteClass" />
+                                        <BarShaders size="md" height={89} color="upperMidClass" />
+                                        <BarShaders size="sm" height={65} color="lowerMidClass"  />
+                                        <BarShaders size="md" height={111} color="lowerClass"  />
+                                        <BarShaders size="sm" height={124} color="lowestClass"  />
                                         <div className="barLegends">
                                             {
                                                 this.renderKey([
                                                     {class:'elite', title:'Elite'},
-                                                    {class:'midUpper', title:'midUpper Mid.'},
-                                                    {class:'midLower', title:'Lower Mid.'}
+                                                    {class:'upperMid', title:'Upper Mid.'},
+                                                    {class:'lowerMid', title:'Lower Mid.'}
                                                 ])
                                             }
                                         </div>
@@ -93,16 +93,16 @@ class Analytics extends(React.Component){
                                                 <canvas id={name} width="100" height={height}></canvas>
                                             </div>
                                             <div className="genderMap">
-                                                <span>65%</span>
-                                                <span>35%</span>
+                                                <span><i className="icon-male"></i>65%</span>
+                                                <span><i className="icon-female"></i>35%</span>
                                             </div>
                                             <div className="barLegends">
                                             {
                                                 this.renderKey([
                                                     {class:'elite', title:'A1'},
-                                                    {class:'midUpper', title:'A2'},
-                                                    {class:'midLower', title:'A3'},
-                                                    {class:'midLower', title:'A4'}
+                                                    {class:'upperMid', title:'A2'},
+                                                    {class:'lowerMid', title:'A3'},
+                                                    {class:'lower', title:'A4'}
                                                 ])
                                             }
                                             </div>
@@ -116,9 +116,9 @@ class Analytics extends(React.Component){
                                             </div>
                                         </div>
                                         <Col xs="12">
-                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={765923} interval={1}  /></Col>
-                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={344345} interval={1}  /></Col>
-                                            <Col xs="4" className="vehicleTypes"><NumberEffect maxNumber={123456} interval={1}  /></Col>
+                                            <Col xs="4" className="vehicleTypes"><span className="icon-car"></span><NumberEffect maxNumber={765923} interval={1}  /></Col>
+                                            <Col xs="4" className="vehicleTypes"><span className="icon-bus"></span><NumberEffect maxNumber={344345} interval={1}  /></Col>
+                                            <Col xs="4" className="vehicleTypes"><span className="icon-bike"></span><NumberEffect maxNumber={123456} interval={1}  /></Col>
                                         </Col>
                                     </Row>
                     }

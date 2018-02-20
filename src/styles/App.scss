@@ -1,4 +1,5 @@
 @import 'font-awesome.min.css';
+
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,300italic,500,500italic');
 
@@ -1163,6 +1164,7 @@ input[type=file]{
         float:left;
         display:block;
         li{
+
             height:5em;
             cursor: pointer;
             border-bottom: 2px #F4F5FA solid;
@@ -1175,8 +1177,18 @@ input[type=file]{
                 height:100%;
             }
         }
-        li.active span{
+        li span{
+            font-size:24px;
+            margin:1em 0;
+        }
+        li span::before{
+            color:#B2B2BA;
+        }
+        li.active{
             border-left: 4px #00B7FF solid
+        }
+        li.active span::before{
+            color:#00b7ff;
         }
     }
     .viewBoard{
@@ -1266,7 +1278,7 @@ input[type=file]{
                     font-size: 0.9em;
                     float:left;
                     font-weight: bold;
-                    padding: 0 1em 1em 1em;
+                    padding: 0.5em 1em 1em 1em;
                     text-align: center;
                 }
             }
@@ -1290,7 +1302,7 @@ input[type=file]{
     float:left;
     position: relative;
     height: 150px;
-    background: #ccc;
+    background: #DFEAEF;
     margin: 0 1.5em;
     .barContainer{
         background: transparent;
@@ -1311,7 +1323,7 @@ input[type=file]{
     width: 100%;
     padding:1.5em 0;
     position: relative;
-    .elite::before, .midUpper::before, .midLower::before{
+    .elite::before, .upperMid::before, .lowerMid::before, .lower::before, .lowest::before{
         content:' ';
         width:12px;
         height:12px;
@@ -1320,17 +1332,27 @@ input[type=file]{
         background: #555;
         display: inline-block;
     }
-    .elite, .midUpper, .midLower{
+    .elite, .upperMid, .lowerMid{
         width:auto;
         padding:1em;
         text-align: left;
         font-size: 0.9em;
     }
 }
-
+.vehicleTypes span:before{
+    display: block;
+    font-size: 1.4em;
+    margin-bottom: 0.3em;
+}
+.icon-car:before{
+    margin-top: 0.5em;
+    margin-bottom: 0.3em !important;
+    font-size: 1em !important;
+}
 .numberStat{
     text-align: left;
-    padding:0.5em 1.5em 4em;
+    padding:0em 1.5em 2.5em;
+
     .numberDisplay{
         h1{
             font-weight: bold;
@@ -1357,12 +1379,25 @@ input[type=file]{
     width:40%;
     padding:2em 0 1em;
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 0.9em ;
     span{
+        position: relative;
         display:block;
-        padding: 1em 0;
+        padding: 1em 0 2em;
+        i:before{
+            position: absolute;
+            top:5px;
+            left:23px;
+            font-size: 3em;
+        }
+
     }
 }
+.elite::before, .eliteClass{ background: #00B7FF !important}
+.upperMid::before, .upperMidClass {background:#0087FF !important}
+.lowerMid::before, .lowerMidClass {background:#2F00FF !important}
+.lower::before, .lowerClass {background:#AD00FF !important}
+.lowest::before, .lowestClass {background:#DD00FF !important}
 //animation keyframes
 @keyframes barEnter{
     from{height:0}

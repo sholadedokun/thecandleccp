@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/App.min.css';
+import './styles/icomoon/style.css';
 import App from './js/App';
 
 import { Provider } from 'react-redux';
