@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {createCampaign} from '../actions/campaignActions';
+import {saveCampaign} from '../actions/campaignActions';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import Icon from './icon';
@@ -20,7 +20,7 @@ class RegisterUser extends Component {
             dateFrom: moment().format('L'),
             dateTo:'',
             budget:12000,
-            budget_type:'Lifetime',
+            budget_type:'Daily',
             createSuccess:false,
         }
     }
@@ -29,13 +29,16 @@ class RegisterUser extends Component {
         params.budget_type = CAMPAIGN_DICTIONARY.budget_type[this.state.budget_type];
         if(this.state.budget_type == 'Daily'){
             params.date_from= moment(this.state.dateFrom).format('YYYY-MM-DD');
-            params.date_to= moment(this.state.dateTo).format('YYYY-MM-DD')  ;
+            params.date_to= moment(this.state.dateTo).format('YYYY-MM-DD');
             params.days= moment(this.state.dateTo).diff(moment(this.state.dateFrom), 'days')
         }
         else
           params.date_from= moment(this.state.dateFrom).format('YYYY-MM-DD');
+        params.type='pseudo';
+        params.id=(this.props.allCampaigns.length>0)?
+            parseInt(this.props.allCampaigns[this.props.allCampaigns.length-1].id)+1:0;
 
-        this.props.createCampaign(params).then((data)=>{
+        this.props.saveCampaign(params).then((data)=>{
             this.setState({
                 createSuccess:true
             })
@@ -43,17 +46,19 @@ class RegisterUser extends Component {
         })
     }
     render(){
-        const dayPickerPropsFrom = {
+        let dayPickerPropsFrom = {
             disabledDays: {
-              after: new Date (this.state.dateTo),
               before: new Date()
             }
           };
-          const dayPickerPropsTo = {
+          let dayPickerPropsTo = {
               disabledDays: {
                 before: new Date (this.state.dateFrom),
               }
             };
+            if(this.state.dateTo){
+                dayPickerPropsFrom.disabledDays.after=new Date (this.state.dateTo)
+            }
         const {name, budget, budget_type, dateFrom,dateTo, password, createSuccess} = this.state;
         return(
             <Col  xs={10} xsOffset={1} sm={6} smOffset={3} md={4} mdOffset={4} className="create_campaign_modal">
@@ -79,8 +84,9 @@ class RegisterUser extends Component {
                       <input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={(e)=>this.setState({budget:e.target.value})} value={budget}  />
                       <span className="inlineSelect">
                           <select onChange={(e)=> this.setState({ budget_type:e.target.value})} value={budget_type}>
-                            <option value="Lifetime">Lifetime</option>
                             <option value="Daily">Daily</option>
+                            <option value="Lifetime">Lifetime</option>
+
                           </select>
                       </span>
                     </span>
@@ -89,10 +95,10 @@ class RegisterUser extends Component {
                   <div className="inputField">
                     <label>Desired Period</label>
                       {
-                          budget_type==='Lifetime'?
+                          budget_type==='Daily'?
                               <span className="SelectDate">
-                                  <span className="inputContainer radio" onClick={()=>this.setState({ budget_type:'Lifetime'})}>
-                                    <span className={`radioLabel ${(budget_type==='Lifetime' && dateFrom== moment().format('L'))?'active':''}`}>Start Immediately</span>
+                                  <span className="inputContainer radio" onClick={()=>this.setState({ budget_type:'Daily'})}>
+                                    <span className={`radioLabel ${(budget_type==='Daily' && dateFrom== moment().format('L'))?'active':''}`}>Start Immediately</span>
                                   </span>
                                   <span className="inputContainer rangeInput">
                                     <span className="subLabel">From</span>
@@ -131,7 +137,7 @@ class RegisterUser extends Component {
                     createSuccess?
                     <div className="inputField">
                         <label>Campaign Successfully Created</label>
-                        
+
                     </div>
                     :
                     ''
@@ -142,8 +148,11 @@ class RegisterUser extends Component {
 }
 function mapStateToProps(state){
     return(
-        {authenticated:state.user.authenticated}
+        {
+            authenticated:state.user.authenticated,
+            allCampaigns:state.campaigns.allCampaigns
+        }
     )
 }
-const mapDispatchToProps = {createCampaign}
+const mapDispatchToProps = {saveCampaign}
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterUser)

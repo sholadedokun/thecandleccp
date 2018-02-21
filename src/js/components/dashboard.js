@@ -197,7 +197,7 @@ class Dashboard extends Component {
         this.setState({modalOpen: true, modalLoad:'addAdSet'})
     }
     handleCloseModal (route) {
-        if(route) this.setState({modalLoad:route})
+        if( route && !route.target) this.setState({modalLoad:route})
         else{
             this.setState({ modalOpen: false });
         }
@@ -215,7 +215,6 @@ class Dashboard extends Component {
         let totalCampaigns = (allCampaigns)? allCampaigns.length: 0
         return(
             <Grid className="dashboard section">
-
                 <Col xs="12" className="analyticsBoard">
                     <Row>
                         <ul className="analyticsMenu">
@@ -240,7 +239,7 @@ class Dashboard extends Component {
                                         </li>
                                         <li  className={activeBigline=='spent'?'active':''} onClick={this.setBigline.bind(this, totalSpent, 'spent')}>
                                         <label>Total Spent</label>
-                                        <span className="value">N31,456,110</span>
+                                        <span className="value">&#8358;31,456,110</span>
                                         </li>
                                     </Col>
                                     :''

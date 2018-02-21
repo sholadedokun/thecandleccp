@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { signoutUser, fetchUser} from '../actions/userActions';
 import ReactModal from 'react-modal';
 import Icon from './icon'
+import CreateCampaign from './createCampaign';
 class Header extends Component {
     constructor(props){
         super(props);
@@ -26,7 +27,9 @@ class Header extends Component {
             ''
     }
     authenticated(user){
-
+        // console.log(this.props.allCampaigns)
+        let modalRoute=this.props.allCampaigns.length>0?'addAdset':'createCampaign'
+        console.log(modalRoute)
         let resolvedLinks = (user.authenticated)?
             [
 
@@ -45,7 +48,11 @@ class Header extends Component {
                     </div>
 
                 </li>,
-                <li role="presentation" key="1b"onClick={()=>this.setState({modalLoad:'addAdset', modalOpen:true})}><a className="actionButton post_campaign_ads"  href="#">Post Ads</a></li>,
+                <li role="presentation" key="1b" onClick={()=>this.setState({
+                    modalLoad:modalRoute,
+                    modalOpen:true})}>
+                        <a className="actionButton post_campaign_ads"  href="#">Post Ads</a>
+                    </li>,
             ]:
             [
                 <li role="presentation" className="active"><Link to="/">Feature</Link></li>,
@@ -57,8 +64,16 @@ class Header extends Component {
             return resolvedLinks
     }
     handleCloseModal (route) {
-        if(route) this.props.history.push(route)
-        this.setState({ modalOpen: false });
+        console.log(route)
+        if(route=='addAdSet'){
+            this.setState({ modalLoad: route });
+            return;
+        }
+            this.props.history.push(route)
+            this.setState({ modalOpen: false });
+
+
+
     }
     render(){
         const {modalOpen, modalLoad}=this.state;
@@ -115,7 +130,9 @@ class Header extends Component {
                         <Login close={this.handleCloseModal.bind(this)} />:
                             (modalLoad=='register')?
                             <Register close={this.handleCloseModal.bind(this)} />:
-                            <AddAdSet close={this.handleCloseModal.bind(this)} />
+                                (modalLoad=='createCampaign')?
+                                    <CreateCampaign close={this.handleCloseModal.bind(this)} />:
+                                    <AddAdSet close={this.handleCloseModal.bind(this)} />
                     }
                 </ReactModal>
             </Row>
@@ -124,7 +141,8 @@ class Header extends Component {
 }
 function mapStateToProps(state) {
   return {
-       user: state.user
+       user: state.user,
+       allCampaigns:state.campaigns.allCampaigns
    };
 }
 const mapDispatchToProps= {signoutUser}

@@ -624,9 +624,10 @@ ul{
   margin: 0px;
 }
 .descriptMenu{
-  position: fixed;
-  width: inherit;
-  height: 100vh;
+    overflow: hidden;
+    position: relative;
+    height: 3000px;
+    background: #F3F5F6;
 
 }
 .formField, .subLabel, .inlineSelect, .list_header{
@@ -641,7 +642,7 @@ ul{
   box-shadow: 0 0 1px 0px #999;
 }
 .campaignContainer{
-  background: #fafafa
+  background: #F8FBFD;
 }
 .boardSelection{
   padding:2em 4em;
@@ -724,6 +725,9 @@ input, select, textarea, button{
 
 .detailsMenu{
   margin-top: 8em;
+  margin-left: 100px;
+  position: fixed;
+  float:right;
   li{
     display: block;
     margin: 1em 0;
@@ -760,6 +764,11 @@ input, select, textarea, button{
 .inputField{
   position: relative;
   margin: 1em 0 2.5em;
+  .icon::before{
+      color: inherit;
+      margin-right: 0.5em
+  }
+
   .md{
       input{
            width:100% !important;
@@ -891,6 +900,9 @@ input, select, textarea, button{
     width: 40px;
     display: inline-block;
     text-align: center;
+  }
+  .fa-question-circle{
+      margin-left: 5px;
   }
 
 }

@@ -82,8 +82,8 @@ export default class uploadAdCreative extends Component{
       position:'absolute',
       width:actualWidth,
       height:actualHeight,
-      border: '2px solid #595',
-      top: '16.5%',
+      border: '1px solid #595',
+      top: '18.7%',
       left: '5.8%',
     }
     const totalCreative=creative.length;
@@ -119,8 +119,6 @@ export default class uploadAdCreative extends Component{
                    }
               </div>
             )
-
-
           })
         }
       </div>

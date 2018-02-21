@@ -125,18 +125,20 @@ class AdSetDescription extends Component{
       <Row className="campaignContainer">
         <Col xs={3} xsHidden={true}>
           <Row className="descriptMenu">
-            <Col componentClass="ul" xs={6} xsOffset={3} className="detailsMenu">
-              <li>
-                <a href="#campaign_details" role="presentation">Brand Details</a>
-              </li>
-              <li><a href="#audience" role="presentation">Audience</a></li>
-              <li><a href="#situation" role="presentation">Situation</a></li>
-              <li><a href="#budget" role="presentation">Budget</a></li>
-              <li><a href="#pricing" role="presentation">Pricing</a></li>
+            <Col xs="12">
+                <Col componentClass="ul" xs={12} className="detailsMenu">
+                  <li>
+                    <a href="#campaign_details" role="presentation">Brand Details</a>
+                  </li>
+                  <li><a href="#audience" role="presentation">Audience</a></li>
+                  <li><a href="#situation" role="presentation">Situation</a></li>
+                  <li><a href="#budget" role="presentation">Budget</a></li>
+                  <li><a href="#pricing" role="presentation">Pricing</a></li>
+                </Col>
             </Col>
           </Row>
         </Col>
-        <Col xs={12} sm={6} className="boardSelection">
+        <Col xs={12} sm={8} className="boardSelection">
           <Heading size="md" title="Describe Campaign and target Audience" />
           <Col xs={12}>
             <Row id="campaign_details" className="formSections">
@@ -192,10 +194,10 @@ class AdSetDescription extends Component{
                   <span className={`radioLabel ${gender==='all'?'active':''}`} >All</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'male'}})}>
-                  <span className={`radioLabel ${gender==='male'?'active':''}`}   >Male</span>
+                  <span className={`radioLabel ${gender==='male'?'active':''}`}><span className="icon icon-male"></span>Male</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'female'}})}>
-                  <span className={`radioLabel ${gender==='female'?'active':''}`} >Female</span>
+                  <span className={`radioLabel ${gender==='female'?'active':''}`} ><span className="icon icon-female"></span>Female</span>
                 </span>
               </div>
             </Row>
@@ -207,10 +209,10 @@ class AdSetDescription extends Component{
                   <span className={`radioLabel ${traffic==='all'?'active':''}`}>All Traffic Situations</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, traffic:'light'}})}>
-                  <span  className={`radioLabel ${traffic==='light'?'active':''}`}>Light</span>
+                  <span  className={`radioLabel ${traffic==='light'?'active':''}`}><span className="icon icon-streetlight"></span>Light</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, traffic:'heavy'}})}>
-                  <span  className={`radioLabel ${traffic==='heavy'?'active':''}`}>Heavy</span>
+                  <span  className={`radioLabel ${traffic==='heavy'?'active':''}`}><span className="icon icon-stop"></span>Heavy</span>
                 </span>
               </div>
               <div className="inputField">
@@ -219,13 +221,13 @@ class AdSetDescription extends Component{
                   <span className={`radioLabel ${weather==='all'?'active':''}`}>All Weather Conditions</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, weather:'rainy'}})}>
-                  <span  className={`radioLabel ${weather==='rainy'?'active':''}`}>Rainy</span>
+                  <span  className={`radioLabel ${weather==='rainy'?'active':''}`}><span className="icon icon-rain"></span>Rainy</span>
                 </span>
                 <span  className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, weather:'cloudy'}})}>
-                  <span  className={`radioLabel ${weather==='cloudy'?'active':''}`}>Cloudy</span>
+                  <span  className={`radioLabel ${weather==='cloudy'?'active':''}`}><span className="icon icon-cloudy"></span>Cloudy</span>
                 </span>
                 <span  className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, weather:'sunny'}})}>
-                  <span className={`radioLabel ${weather==='sunny'?'active':''}`}>Sunny</span>
+                  <span className={`radioLabel ${weather==='sunny'?'active':''}`}><span className="icon icon-sun"></span>Sunny</span>
                 </span>
               </div>
               <div className="inputField">

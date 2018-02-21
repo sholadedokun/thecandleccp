@@ -2,6 +2,7 @@ import axios from 'axios';
 import { BrowserRouter as Router } from 'react-router-dom';
 import {
   CAMPAIGN_CREATE,
+  CAMPAIGN_SAVE,
   UNAUTH_USER,
   CAMPAIGN_ERROR,
   FETCH_CAMPAIGN
@@ -29,6 +30,15 @@ export function createCampaign( payload ) {
                 dispatch(campaignError('Error Adding Campaign, Please try again.'));
             });
     })
+  }
+}
+
+export function saveCampaign( payload ) {
+  return function(dispatch) {
+      return new Promise( (resolve)=>{
+          dispatch({ type: CAMPAIGN_SAVE, payload});
+          resolve()
+      })
   }
 }
 

@@ -3,6 +3,7 @@ import Nav from './navigation';
 import {connect} from 'react-redux';
 import {selectBoard} from '../../actions/boardActions';
 import {createAdset, uploadCreative} from '../../actions/adSetActions';
+import {createCampaign} from '../../actions/campaignActions';
 import SelectBoard from './selectBoard';
 import CampaignDescription from './campaignDescription';
 import UploadCreative from './uploadAdCreative';
@@ -19,28 +20,56 @@ class AddAdSet extends Component {
   }
   displaySteps(){
     const {currentStep} = this.state
-    const {allCampaigns, campaign} =this.props
+    const {allCampaigns, newCampaign} =this.props
+    //pushing the saved Campaigns into the already existing campaings...
+    if(newCampaign)
+        allCampaigns.push(newCampaign)
     switch(currentStep){
       case 0: return <SelectBoard selectedBoard={this.selectedBoard.bind(this)} />
-      case 1: return <CampaignDescription setCampaignDetails={this.setCampaignDetails.bind(this)} allCampaigns={allCampaigns} campaign={campaign} />
+      case 1: return <CampaignDescription setCampaignDetails={this.setCampaignDetails.bind(this)} allCampaigns={allCampaigns} campaign={newCampaign} />
       case 2: return <UploadCreative setCreatives={this.uploadCreatives.bind(this)} />
     }
   }
   uploadCreatives(data){
-      for (var i =0; i<data.creative.length; i++){
-          let formData = new FormData();
-          if(data.creative[i].type=='image' || data.creative[i].type=='video'){
-              formData.append('file', data.creative[i].formEntity);
-          }
-          else{
-              formData.append('url', data.creative[i].url);
-          }
-          formData.append('token', localStorage.getItem('TheCandleToken'));
-          formData.append('type', data.creative[i].type);
-          formData.append('position', data.creative[i].dimension.x.split('|')[0]);
-          formData.append('adset_id', this.state.adSet_id);
-          this.props.uploadCreative(formData)
+      let that =this;
+      console.log(this.state)
+      let campaignDetails=this.state.campaignDetails
+      if(!this.state.adSet_id){
+          this.props.createCampaign(this.props.newCampaign).then(campaigndata=>{
+              console.log(campaigndata, campaignDetails)
+              campaignDetails.campaign_id=campaigndata.data.id
+              that.props.createAdset(campaignDetails).then(addSet=>{
+                  that.setState({adSet_id:addSet.id})
+                  that.uploadCreatives.bind(that, data)();
+              })
+
+          })
       }
+      else{
+          for (var i =0; i<data.creative.length; i++){
+              let formData = new FormData();
+              if(data.creative[i].type=='image' || data.creative[i].type=='video'){
+                  formData.append('file', data.creative[i].formEntity);
+              }
+              else{
+                  formData.append('url', data.creative[i].url);
+              }
+              formData.append('token', localStorage.getItem('TheCandleToken'));
+              formData.append('type', data.creative[i].type);
+              formData.append('position', data.creative[i].dimension.x.split('|')[0]);
+              formData.append('adset_id', this.state.adSet_id);
+              this.props.uploadCreative(formData).then((creativeData)=>{
+                   console.log(data.creative.length, i)
+                  if(i==data.creative.length){
+
+                      console.log('here')
+                      that.props.close();
+                  }
+              })
+
+          }
+      }
+
 
 
   }
@@ -64,10 +93,17 @@ class AddAdSet extends Component {
               traffic:ADSET_DICTIONARY.traffic[traffic],
           }
           //send the details to the API, wait for response and continue to add creatives.
-          this.props.createAdset(details).then((data)=>{
-              console.log(data)
-              this.setState({currentStep: 2, adSet_id:data.id})
-          })
+
+          //if it's a new campaign is selected to be added...
+          if(this.props.newCampaign && this.props.newCampaign.id== details.campaign_id){
+              this.setState({currentStep: 2, campaignDetails:details})
+          }
+          else{
+              this.props.createAdset(details).then((data)=>{
+                  this.setState({currentStep: 2, adSet_id:data.id})
+              })
+          }
+
       }
       else{
           this.setState({currentStep: 2})
@@ -90,10 +126,11 @@ function mapStateToProps(state){
         {
             allBoards:state.boards.allBoards,
             allCampaigns:state.campaigns.allCampaigns,
-            campaign:state.campaigns.campaignData
+            newCampaign:state.campaigns.newCampaignData,
+            // campaign:state.campaigns.campaignData
 
         }
     )
 }
-const mapDispatchToProps={selectBoard, createAdset, uploadCreative}
+const mapDispatchToProps={selectBoard, createAdset, uploadCreative, createCampaign}
 export default connect(mapStateToProps, mapDispatchToProps)(AddAdSet)

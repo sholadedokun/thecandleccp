@@ -91,7 +91,7 @@ class RegisterUser extends Component {
 
                 </Col>
                 {
-                    this.props.error? <div className="errorNotification animate shake"> {this.parseError.bind(this, this.props.error)()}</div>:''
+                    this.props.error? <div className="errorNotification animate shake"> {this.props.error}</div>:''
                 }
                 <span className="alternate"> {`Already have an account`}? <a href="#">Sign In</a> </span>
                 </Row>
