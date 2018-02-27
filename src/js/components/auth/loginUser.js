@@ -4,29 +4,45 @@ import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 import Heading from '../heading';
 import Icon from '../icon'
-
+import {empyFieldChecker} from '../errorChecker'
+import _ from 'lodash'
+import ErrorMessage from '../errorMessages'
+import {errorHandler} from '../errorHandler'
 class LoginUser extends Component {
     constructor(props){
         super(props)
         this.state={
             username:"",
             password:"",
-            loading:false
+            loading:false,
+            errors:{},
+            errorMessages:[]
         }
     }
+    componentWillReceiveProps(nextProps){
+        errorHandler.bind(this, nextProps)()
+    }
     loginUser(){
-        this.setState({loading: true})
-        this.props.signinUser(this.state.username, this.state.password).then((data)=>{
-            this.setState({loading:false})
-            this.props.close('/dashboard')
-        })
-        .catch((e)=>{
-            this.setState({loading:false})
-        })
+        this.setState({loading: true, errorMessages:[]})
+        let errors=empyFieldChecker.bind(this, {}, _.omit( {...this.state}, ['loading', 'errors', 'errorMessages']))();
+        if(_.isEmpty(errors)){
+
+            this.props.signinUser(this.state.username, this.state.password).then((data)=>{
+                this.setState({loading:false})
+                this.props.close('/dashboard')
+            })
+            .catch((e)=>{
+                this.setState({loading:false})
+            })
+        }
+        // else{
+        //     this.setState({errors, loading:false, errorMessages:[...this.state.errorMessages, ['One of more Field(s) need your attention']]})
+        // }
+
 
     }
     render(){
-        const {username, password, loading} = this.state;
+        const {username, password, loading, errors, errorMessages} = this.state;
         return(
             <Col xs={10} xsOffset="1" sm={4} smOffset="6" md={4} mdOffset="4"  className="login">
                 <Row >
@@ -40,17 +56,18 @@ class LoginUser extends Component {
                         <div  className="hrule"></div>
                     </Col>
                     <Col xs="12"  className="inputField">
-                        <span className="inputContainer lg">
+                        <span className={errors.username?'inputContainer lg error':'inputContainer lg'}>
                         <input
                             type="text"
                             value={username}
+
                             onChange={(e)=>this.setState({username:e.target.value})}
                             placeholder="Email"
                         />
                         </span>
                     </Col>
                     <Col xs="12"className="inputField">
-                        <span className="inputContainer lg">
+                        <span className={errors.password?'inputContainer lg error':'inputContainer lg'}>
                             <input
                                 type="password"
                                 value={password}
@@ -64,12 +81,13 @@ class LoginUser extends Component {
                         }
                     </Col>
 
+                        <ErrorMessage errorMessage={errorMessages} />
 
                         {
-                            this.props.error ? <div className="errorNotification animate shake">{ this.props.error}</div>:''
+                            // this.props.error ? <div className="errorNotification animate shake">{ this.props.error}</div>:''
                         }
                         <div> Forgot Password </div>
-                        <span className="alternate"> {`Don't have an account`}? <a href="#">Sign Up</a> </span>
+                        <span className="alternate"> {`Don't have an account`}? <a onClick={()=>this.props.close('register')}>Sign Up</a> </span>
                 </Row>
             </Col>
         )

@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {signUpUser, signinUser} from '../../actions/userActions';
 import {connect} from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
-import Icon from '../icon'
+import Icon from '../icon';
 import Heading from '../heading';
 import _ from 'lodash'
-
+import ErrorMessage from '../errorMessages'
+import {errorHandler} from '../errorHandler'
+import {empyFieldChecker} from '../errorChecker'
 class RegisterUser extends Component {
     constructor(props){
         super(props)
@@ -18,22 +20,29 @@ class RegisterUser extends Component {
             password:"",
             role:0,
             loading:false,
+            errors:{},
+            errorMessages:[]
         }
     }
+    componentWillReceiveProps(nextProps){
+        errorHandler.bind(this, nextProps)()
+    }
     registerUser(){
-        this.setState({loading:true})
-        let params= _.omit(this.state, ['firstName', 'lastName'])
-        params.name=`${this.state.firstName} ${this.state.lastName}`;
-        this.props.signUpUser(params).then((data)=>{
-            console.log(data)
-            if(data.data.id){
+        this.setState({loading: true, errorMessages:[]})
+        let errors=empyFieldChecker.bind(this, {}, _.omit( {...this.state}, ['loading', 'errors', 'errorMessages']))();
+        if(_.isEmpty(errors)){
+            let params= _.omit(this.state, ['firstName', 'lastName'])
+            params.name=`${this.state.firstName} ${this.state.lastName}`;
+            this.props.signUpUser(params).then((data)=>{
                 this.setState({loading:false})
-                this.props.signinUser(data.data.email, this.state.password).then((data)=>{
-                    this.props.close('/dashboard')
-                })
-            }
-        })
-        .catch((e)=> this.setState({loading:false}))
+                if(data.data.id){
+                    this.props.signinUser(data.data.email, this.state.password).then((data)=>{
+                        this.props.close('/dashboard')
+                    })
+                }
+            })
+            .catch((e)=> this.setState({loading:false}))
+        }
     }
     parseError(errorObject){
         console.log(errorObject);
@@ -45,9 +54,9 @@ class RegisterUser extends Component {
         )
     }
     render(){
-        const {email, firstName, lastName, phone,password_confirmation, password, loading} = this.state;
+        const {email, firstName, lastName, phone,password_confirmation, password, loading, errors, errorMessages} = this.state;
         return(
-            <Col xs={10} xsOffset="1" sm={8} smOffset="2" md={4} mdOffset="4"  className="login">
+            <Col xs={10} xsOffset={1} sm={8} smOffset="2" md={4} mdOffset="4"  className="login">
                 <Row >
                 <Heading size="lg" title="Create an account"></Heading>
                 <span className="facebookSignin"> Sign Up using Facebook <Icon icon="facebook" /></span>
@@ -59,26 +68,26 @@ class RegisterUser extends Component {
                     <div  className="hrule"></div>
                 </Col>
                 <Col xs="12"  className="inputField">
-                    <span className="inputContainer sm">
+                    <span className={errors.firstName?'inputContainer sm error':'inputContainer sm'}>
                         <input type="text" value={firstName} onChange={(e)=>this.setState({firstName:e.target.value})} placeholder="Firstname" />
                     </span>
-                    <span className="inputContainer sm">
+                    <span className={errors.lastName?'inputContainer sm error':'inputContainer sm'}>
                         <input type="text" value={lastName} onChange={(e)=>this.setState({lastName:e.target.value})} placeholder="Lastname" />
                     </span>
                 </Col>
                 <Col xs="12"  className="inputField">
-                    <span className="inputContainer sm">
+                    <span className={errors.email?'inputContainer sm error':'inputContainer sm'}>
                         <input type="text" value={email} onChange={(e)=>this.setState({email:e.target.value})} placeholder="Email" />
                     </span>
-                    <span className="inputContainer sm">
+                    <span className={errors.phone?'inputContainer sm error':'inputContainer sm'}>
                         <input type="text" value={phone} onChange={(e)=>this.setState({phone:e.target.value})} placeholder="Phone" />
                     </span>
                 </Col>
                 <Col xs="12"  className="inputField">
-                    <span className="inputContainer sm">
+                    <span className={errors.password?'inputContainer sm error':'inputContainer sm'}>
                         <input type ="password" value={password} onChange={(e)=>this.setState({password:e.target.value})} placeholder="Password" />
                     </span>
-                    <span className="inputContainer sm">
+                    <span className={errors.password_confirmation?'inputContainer sm error':'inputContainer sm'}>
                         <input type ="password" value={password_confirmation} onChange={(e)=>this.setState({password_confirmation:e.target.value})} placeholder="Confirm Password"  />
                     </span>
                 </Col>
@@ -90,10 +99,8 @@ class RegisterUser extends Component {
                     }
 
                 </Col>
-                {
-                    this.props.error? <div className="errorNotification animate shake"> {this.props.error}</div>:''
-                }
-                <span className="alternate"> {`Already have an account`}? <a href="#">Sign In</a> </span>
+                <ErrorMessage errorMessage={errorMessages} />
+                <span className="alternate"> {`Already have an account`}? <a  onClick={()=>this.props.close('login')}>Sign In</a> </span>
                 </Row>
             </Col>
         )

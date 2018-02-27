@@ -391,7 +391,6 @@ class Dashboard extends Component {
         )
     }
 }
-
 function mapStateToProps(state){
     return(
         {allCampaigns:state.campaigns.allCampaigns}

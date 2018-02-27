@@ -761,6 +761,7 @@ input, select, textarea, button{
 .moreRemover{
   color: #977;
 }
+
 .inputField{
   position: relative;
   margin: 1em 0 2.5em;
@@ -815,7 +816,7 @@ input, select, textarea, button{
   .inputContainer{
     display: inline-block;
     border-radius: 5px;
-    border:1px solid #999 !important;
+    border:1px solid #999;
   }
   .rangeInput{
     width:45%;
@@ -922,6 +923,9 @@ input, select, textarea, button{
 }
 input[type=file]{
   margin:2em 0;
+}
+.error{
+    border: 1px solid #a55 !important;
 }
 .creativeContainer, .multipleFileItem{
   margin:2em 0;
@@ -1036,6 +1040,9 @@ input[type=file]{
     margin:0;
     outline: none;
     position: relative;
+    a{
+        cursor: pointer;
+    }
     .alternate{
         font-size: 1.2em;
         margin-top: 2em;

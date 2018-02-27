@@ -5,7 +5,7 @@ import Register from './auth/register';
 import AddAdSet from './AddSet/addAdSet';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signoutUser, fetchUser} from '../actions/userActions';
+import { signoutUser, fetchUser, modalStatus} from '../actions/userActions';
 import ReactModal from 'react-modal';
 import Icon from './icon'
 import CreateCampaign from './createCampaign';
@@ -29,7 +29,6 @@ class Header extends Component {
     authenticated(user){
         // console.log(this.props.allCampaigns)
         let modalRoute=this.props.allCampaigns.length>0?'addAdset':'createCampaign'
-        console.log(modalRoute)
         let resolvedLinks = (user.authenticated)?
             [
 
@@ -58,25 +57,21 @@ class Header extends Component {
                 <li role="presentation" className="active"><Link to="/">Feature</Link></li>,
                 <li role="presentation"><Link to="/howitworks">How it works</Link></li>,
                 <li role="presentation"><Link to="/help">Spaces</Link></li>,
-                <li role="presentation" key="2a"  onClick={()=>this.setState({modalLoad:'login', modalOpen:true})}><a className="buttonLink"  href="#">login</a></li>,
-                <li role="presentation" key="2b"  onClick={()=>this.setState({modalLoad:'register', modalOpen:true})}><a className="buttonLink"  href="#">register</a></li>
+                <li role="presentation" key="2a"  onClick={()=>this.props.modalStatus(true, 'login')}><a className="buttonLink"  href="#">login</a></li>,
+                <li role="presentation" key="2b"  onClick={()=>this.props.modalStatus(true, 'register')}><a className="buttonLink"  href="#">register</a></li>
             ]
             return resolvedLinks
     }
     handleCloseModal (route) {
-        console.log(route)
-        if(route=='addAdSet'){
-            this.setState({ modalLoad: route });
+        if(!route.target && route.indexOf('/')< 0){
+            this.props.modalStatus(true, route);
             return;
         }
-            this.props.history.push(route)
-            this.setState({ modalOpen: false });
-
-
-
+        this.props.history.push(route)
+        this.props.modalStatus(false, null);
     }
     render(){
-        const {modalOpen, modalLoad}=this.state;
+        // const {modalOpen, modalLoad}=this.state;
         const {user}=this.props;
         console.log(user)
         return(
@@ -90,7 +85,6 @@ class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-
                             {
                                 this.authenticated(user)
                             }
@@ -115,7 +109,7 @@ class Header extends Component {
 
                 }
                 <ReactModal
-                    isOpen={modalOpen} shouldCloseOnOverlayClick={true}
+                    isOpen={user.modalState.isOpen} shouldCloseOnOverlayClick={true}
                     onRequestClose={this.handleCloseModal.bind(this)}
                     className={
                         {
@@ -126,11 +120,11 @@ class Header extends Component {
                     }
                 >
                     {
-                        (modalLoad==='login')?
+                        (user.modalState.page==='login')?
                         <Login close={this.handleCloseModal.bind(this)} />:
-                            (modalLoad=='register')?
+                            (user.modalState.page=='register')?
                             <Register close={this.handleCloseModal.bind(this)} />:
-                                (modalLoad=='createCampaign')?
+                                (user.modalState.page=='createCampaign')?
                                     <CreateCampaign close={this.handleCloseModal.bind(this)} />:
                                     <AddAdSet close={this.handleCloseModal.bind(this)} />
                     }
@@ -142,8 +136,8 @@ class Header extends Component {
 function mapStateToProps(state) {
   return {
        user: state.user,
-       allCampaigns:state.campaigns.allCampaigns
+       allCampaigns:state.campaigns.allCampaigns,
    };
 }
-const mapDispatchToProps= {signoutUser}
+const mapDispatchToProps= {signoutUser, modalStatus}
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
