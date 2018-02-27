@@ -20,6 +20,7 @@ export const AUTH_ERROR = 'auth_error';
 export const FETCH_OFFERS = 'fetch_offers';
 export const SWITCH_MODAL_STATE = "switch_modal_state";
 export const FETCH_USER= "FETCH_USER";
+export const NO_INTERNET= "Please check your internet connection and try again"
 
 //CAMPAIGN ACTIONS
 export const CAMPAIGN_CREATE= 'CAMPAIGN_CREATE';

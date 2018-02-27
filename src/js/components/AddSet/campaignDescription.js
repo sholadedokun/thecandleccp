@@ -9,43 +9,45 @@ import AdvanceTiming from '../timingForm';
 import ToolTipMarker from '../tooltip.js';
 import 'react-day-picker/lib/style.css';
 import _ from 'lodash'
-
+import ErrorMessage from '../errorMessages'
+import {errorHandler} from '../errorHandler'
+import {empyFieldChecker} from '../errorChecker'
 class AdSetDescription extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      data:{
-        campaign_id:(()=>(props.campaign)?props.campaign.id:'')(),
-        name:'',
-        brandColor:'',
-        // dateFrom: '',
-        // dateTo:'12/12/2017',
-        min_age:20,
-        max_age:25,
-        traffic:'all',
-        weather:'all',
-        gender:'all',
-        scenario:[''],
-        timing:[''],
-        advanceTiming:[],
-        // totalSpendAmount:12000,
-        // totalSpendType:'Daily',
-        mcpv:100,
-        fastDisplay:''
+    constructor(props){
+        super(props);
+        this.ageOption=[];
+        for (let i=20; i<=100; i+=5){
+            this.ageOption.push(i)
+        }
+        this.state={
+          data:{
+            campaign_id:(()=>(props.campaign)?props.campaign.id:'')(),
+            name:'',
+            brandColor:'',
+            min_age:20,
+            max_age:25,
+            traffic:'all',
+            weather:'all',
+            gender:'all',
+            scenario:[''],
+            timing:[''],
+            advanceTiming:[""],
+            mcpv:100,
+            fastDisplay:''
 
-      },
-      scenariosList:['Car Accident', 'User Stares at Board', 'Kim Jong Un Lunched a Nuclear Bomb']
-    }
-    this.ageOption=[];
-    for (let i=20; i<=100; i+=5){
-      this.ageOption.push(i)
-    }
+          },
+          scenariosList:['Car Accident', 'User Stares at Board', 'Kim Jong Un Lunched a Nuclear Bomb'],
+          loading:false,
+          errors:{},
+          errorMessages:[]
+        }
   }
-  componentWillMount(){
+  componentWillReceiveProps(nextProps){
+      errorHandler.bind(this, nextProps)()
   }
   setOptionValue(index,option, e){
     let data= this.state.data
-    if(arguments.length >2){
+    if(arguments.length > 2){
       data[arguments[1]][arguments[0]]=arguments[2].target.value;
     }
     else{
@@ -65,17 +67,17 @@ class AdSetDescription extends Component{
     data[dataLable].splice(index, 1)
     this.setState({data})
   }
-  selectTime(index, from, to){
-      let newTime= this.state.data;
-
-      if(newTime.advanceTiming.length==0 && (newTime.timing[index]==="" || typeof newTime.timing[index]==="undefined") ){
-          newTime.timing[index]=`${from} - ${to}`
-      }
-      else{
-          newTime.timing[index]=""
-      }
-      this.setState({data:newTime})
-  }
+  // selectTime(index, from, to){
+  //     let newTime= this.state.data;
+  //
+  //     if(newTime.advanceTiming.length==0 && (newTime.timing[index]==="" || typeof newTime.timing[index]==="undefined") ){
+  //         newTime.timing[index]=`${from} - ${to}`
+  //     }
+  //     else{
+  //         newTime.timing[index]=""
+  //     }
+  //     this.setState({data:newTime})
+  // }
   advanceTimingToggle(operands){
 
       let data=this.state.data
@@ -91,19 +93,24 @@ class AdSetDescription extends Component{
   }
   setTime(index, position, value){
       console.log(value)
-      let advanceTiming= this.state.data.advanceTiming;
-      advanceTiming[index]= advanceTiming[index] || {}
-      advanceTiming[index][position]=value;
+      let timing= this.state.data.timing;
+      timing[index]= timing[index] || {}
+      timing[index][position]=value;
       this.setState(
           {
-              data:{...this.state.data, advanceTiming}
+              data:{...this.state.data, timing}
           }
       )
       console.log(this.state.data.advanceTiming)
   }
   confirmInput(){
       //send the adSet description to the addAdSet parent container through the setCampaignDetails props
-      this.props.setCampaignDetails(this.state.data)
+      this.setState({loading: true, errorMessages:[]})
+      let errors=empyFieldChecker.bind(this, {}, _.omit( {...this.state.data}, ['fastDisplay', 'scenario', 'advanceTiming']))();
+      console.log(errors)
+      if(_.isEmpty(errors)){
+          this.props.setCampaignDetails(this.state.data)
+      }
       // this.props.setCampaignDetails()
 
   }
@@ -120,7 +127,10 @@ class AdSetDescription extends Component{
             before: new Date (this.state.data.dateFrom),
           }
         };
-    const {scenariosList, data:{campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
+    const {
+        scenariosList, errors, errorMessages,
+        data:{campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom}}=this.state;
+        console.log(errorMessages)
     return(
       <Row className="campaignContainer">
         <Col xs={3} xsHidden={true}>
@@ -145,34 +155,36 @@ class AdSetDescription extends Component{
               <Heading size="sm" title="Brand Details" />
               <div className="inputField">
                 <label>Select Campaign</label>
-                <span className="formField rangeSelect">
-                <select onChange={(e)=>this.setState({data:{...this.state.data, campaign_id:e.target.value}})} value={campaign_id}>
-                    <option>Please Select A Campaign</option>
-                    {this.props.allCampaigns.map((item, index)=>
-                        (<option key={item.id} value={item.id}>{item.name}</option>)
-                    )}
-                </select>
+                <span className={`formField rangeSelect ${errors.campaign_id?'error':''}`}>
+                    <select onChange={(e)=>this.setState({data:{...this.state.data, campaign_id:e.target.value}})} value={campaign_id}>
+                        <option>Please Select A Campaign</option>
+                        {this.props.allCampaigns.map((item, index)=>
+                            (<option key={item.id} value={item.id}>{item.name}</option>)
+                        )}
+                    </select>
                 </span>
               </div>
               <div className="inputField">
                 <label>Name</label>
-                <span className="inputContainer lg">
+                <span className={`inputContainer lg ${errors.name?'error':''}`}>
                   <input type="text" value={name} onChange={(e)=>this.setState({data:{...this.state.data, name:e.target.value}})} name="campaign_name" placeholder="Enter Adset Name" />
                 </span>
               </div>
 
               <div className="inputField">
                 <label>Brand Major Color</label>
-                <span className="inputContainer md">
+
+                <span className={`inputContainer md ${errors.brandColor?'error':''}`}>
                   <input type="text" value={brandColor} onChange={(e)=>this.setState({data:{...this.state.data, brandColor:e.target.value}})} name="brandColor" placeholder="Enter Brand Color Pantone" />
                 </span>
+                <span className="minimumValues">Hex Code Req. (e.g #FA8943)</span>
               </div>
             </Row>
             <Row id="audience" className="formSections">
               <Heading size="sm" title="Audience" />
               <div className="inputField">
                 <label>Age</label>
-                <span className="formField rangeSelect">
+                <span className={`formField rangeSelect ${errors.min_age?'error':''}`}>
                   <select onChange={(e)=>this.setState({data:{...this.state.data, min_age:e.target.value}})} value={min_age}>
                   {this.ageOption.map((item, index)=>
                       (<option key={index} value={item}>{item}</option>)
@@ -180,7 +192,7 @@ class AdSetDescription extends Component{
                   </select>
                 </span>
                 <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
-                <span className="formField rangeSelect">
+                <span className={`formField rangeSelect ${errors.max_age?'error':''}`}>
                   <select onChange={(e)=>this.setState({data:{...this.state.data, max_age:e.target.value}})} value={max_age}>
                     {this.ageOption.map((item, index)=>
                         (<option key={index} value={item}>{item}</option>)
@@ -190,7 +202,7 @@ class AdSetDescription extends Component{
               </div>
               <div className="inputField">
                 <label>Gender</label>
-                <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'all'}})}>
+                <span  className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'all'}})}>
                   <span className={`radioLabel ${gender==='all'?'active':''}`} >All</span>
                 </span>
                 <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, gender:'male'}})}>
@@ -238,6 +250,7 @@ class AdSetDescription extends Component{
                       <div key={_.uniqueId()}>
                         <span className="formField">
                           <select onChange={this.setOptionValue.bind(this,index, 'scenario')} value={scenario[index]}>
+                            <option value="">Select a Scenario</option>
                             {scenariosList.map((opItems, opIndex)=>{
                               return(
                                 <option value={opItems} key={opIndex}>{opItems}</option>
@@ -254,7 +267,7 @@ class AdSetDescription extends Component{
               </div>
               <div className="inputField">
                 <label>Time Of Display</label>
-                <span className="inputContainer radio" onClick={this.selectTime.bind(this, 0,'6:00AM', '12:00PM')}>
+                {/*<span className="inputContainer radio" onClick={this.selectTime.bind(this, 0,'6:00AM', '12:00PM')}>
                   <span className={`radioLabel ${timing[0]==='6:00AM - 12:00PM'?'active':''}`}>6AM - 12PM</span>
                 </span>
                 <span className="inputContainer radio" onClick={this.selectTime.bind(this, 1,'12:00PM', '6:00PM')}>
@@ -273,11 +286,11 @@ class AdSetDescription extends Component{
                             <span  className="moreRemover" onClick={this.advanceTimingToggle.bind(this, 0)}><Icon icon="minus-circle"  /></span>
 
                     }
-                </label>
+                </label>*/}
                 {
                     advanceTiming.map((item, index)=>{
                         return(
-                            <div>
+                            <div  className={`${errors.timing?'error':''}`}>
                                 <AdvanceTiming setNewTime={this.setTime.bind(this, index, "from" )}  />
                                 <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
                                 <AdvanceTiming setNewTime={this.setTime.bind(this, index, "to" )}  />
@@ -294,73 +307,14 @@ class AdSetDescription extends Component{
             </Row>
             <Row id="budget" className="formSections">
                <Heading size="sm" title="Budget" />
-            {//   <div className="inputField">
-            //     <label>Total Spend
-            //         <ToolTipMarker id={_.uniqueId()} tooltip="Total amount you are willing to spend.">
-            //             <span><Icon icon="question-circle" /></span>
-            //         </ToolTipMarker>
-            //     </label>
-            //     <span className="inputContainer selectInput">
-            //       <input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={(e)=>this.setState({data:{...this.state.data, totalSpendAmount:e.target.valus}})} value={totalSpendAmount}  />
-            //       <span className="inlineSelect">
-            //           <select onChange={(e)=> this.setState({data:{...this.state.data, totalSpendType:e.target.valus}})} value={totalSpendType}>
-            //             <option value="Daily">Daily</option>
-            //             <option value="Lifetime">Lifetime</option>
-            //           </select>
-            //       </span>
-            //     </span>
-            //     <span className="minimumValues">Minimum Amount is &#8358;12,000</span>
-            //
-            //
-            //   </div>
-            //   <div className="inputField">
-            //     <label>Desired Period</label>
-
-                    //   totalSpendType==='Daily'?
-                    //       <span className="SelectDate">
-                    //           <span className="inputContainer radio" onClick={()=>this.setState({data:{...this.state.data, totalSpendType:'Daily'}})}>
-                    //             <span className={`radioLabel ${(totalSpendType==='Daily' && dateFrom=='')?'active':''}`}>Start Immediately</span>
-                    //           </span>
-                    //           <span className="inputContainer rangeInput">
-                    //             <span className="subLabel">From</span>
-                    //             <DayPickerInput
-                    //               placeholder="MM/DD/YYYY"
-                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
-                    //               dayPickerProps={dayPickerPropsFrom}
-                    //             />
-                    //           </span>
-                    //       </span>
-                    //       :
-                    //       <span className="SelectDate">
-                    //           <span className="inputContainer rangeInput">
-                    //             <span className="subLabel">From</span>
-                    //             <DayPickerInput
-                    //               placeholder="MM/DD/YYYY"
-                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateFrom:date} })}}
-                    //               dayPickerProps={dayPickerPropsFrom}
-                    //             />
-                    //           </span>
-                    //           <span className="arrowRange rangeSeperator"><Icon icon="long-arrow-right"></Icon></span>
-                    //           <span className="inputContainer rangeInput">
-                    //             <span className="subLabel">To</span>
-                    //             <DayPickerInput
-                    //               placeholder="MM/DD/YYYY"
-                    //               onDayChange={(date)=>{this.setState({data:{...this.state.data, dateTo:date} })}}
-                    //               dayPickerProps={dayPickerPropsTo}
-                    //             />
-                    //           </span>
-                    //       </span>
-
-            //   </div>
-          }
-              <div className="inputField">
+              <div  className={`inputField ${errors.mcpv?'error':''}`}>
                 <label>MCPV
                     <ToolTipMarker id={_.uniqueId()} tooltip="Minimum Cost Per View.">
                         <span><Icon icon="question-circle" /></span>
                     </ToolTipMarker>
                 </label>
                 <span className="inputContainer">
-                  <input type="text" name="mcpv" placeholder="" />
+                  <input type="text" name="mcpv" placeholder="" value={mcpv} onChange={(e)=>this.setState({data:{...this.state.data, mcpv:e.target.value}})}   />
                 </span>
                 <span className="minimumValues">Minimum Amount is &#8358;100</span>
               </div>
@@ -372,6 +326,7 @@ class AdSetDescription extends Component{
                 </label>
                 <span className="formField">
                   <select onChange={this.setOptionValue.bind(this, 'fastDisplay')} value={fastDisplay}>
+                    <option value="">{`No, I don't want fast Display`}</option>
                     <option value="Auto Select">Auto Select</option>
                     <option value="10%">10%</option>
 
@@ -382,7 +337,9 @@ class AdSetDescription extends Component{
           </Col>
             <button className="primaryButton" onClick={this.confirmInput.bind(this)}>Next</button>
             <button className="cancelButton">Cancel</button>
+            <ErrorMessage errorMessage={errorMessages} />
         </Col>
+
       </Row>
     )
   }

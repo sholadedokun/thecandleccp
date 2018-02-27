@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import { Row, Col, Navbar, Nav, NavItem} from 'react-bootstrap'
 import Login from './auth/loginUser';
 import Register from './auth/register';
+import CreateCampaign from './createCampaign';
 import AddAdSet from './AddSet/addAdSet';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signoutUser, fetchUser, modalStatus} from '../actions/userActions';
 import ReactModal from 'react-modal';
 import Icon from './icon'
-import CreateCampaign from './createCampaign';
 class Header extends Component {
     constructor(props){
         super(props);
@@ -47,9 +47,7 @@ class Header extends Component {
                     </div>
 
                 </li>,
-                <li role="presentation" key="1b" onClick={()=>this.setState({
-                    modalLoad:modalRoute,
-                    modalOpen:true})}>
+                <li role="presentation" key="1b" onClick={()=>this.props.modalStatus(true, modalRoute)}>
                         <a className="actionButton post_campaign_ads"  href="#">Post Ads</a>
                     </li>,
             ]:

@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import ReactModal from 'react-modal';
-import CreateCampaign from './createCampaign';
-import AddAdSet from './AddSet/addAdSet';
 import {fetchCampaign} from '../actions/campaignActions';
-import {fetchUser} from '../actions/userActions'
+import {fetchUser, modalStatus} from '../actions/userActions'
 import {connect} from 'react-redux';
 import {Row, Grid, Col} from 'react-bootstrap';
 import Analytics from './analytics'
@@ -191,15 +188,15 @@ class Dashboard extends Component {
         this.props.fetchCampaign()
     }
     createCampaign(){
-        this.setState({modalOpen: true, modalLoad:'createCampaign'})
+        this.props.modalStatus(true,'createCampaign')
     }
     addAdSet(){
-        this.setState({modalOpen: true, modalLoad:'addAdSet'})
+        this.props.modalStatus(true,'addAdSet')
     }
     handleCloseModal (route) {
-        if( route && !route.target) this.setState({modalLoad:route})
+        if( route && !route.target) this.props.modalStatus(true, route)
         else{
-            this.setState({ modalOpen: false });
+            this.props.modalStatus(false);
         }
     }
     setBigline(value, type){
@@ -370,23 +367,7 @@ class Dashboard extends Component {
                 </Col>
                 <Col md={9}>
                 </Col>
-                <ReactModal
-                    isOpen={modalOpen}  shouldCloseOnOverlayClick={true}
-                    onRequestClose={this.handleCloseModal.bind(this)}
-                    className={
-                        {
-                            base: 'modalClass',
-                            afterOpen: 'modalClass_after-open',
-                            beforeClose: 'modalClass_before-close'
-                        }
-                    }
-                >
-                    {
-                        (modalLoad==='createCampaign')?
-                        <CreateCampaign close={this.handleCloseModal.bind(this)} />:
-                        <AddAdSet close={this.handleCloseModal.bind(this)} />
-                    }
-                </ReactModal>
+
             </Grid>
         )
     }
@@ -396,5 +377,5 @@ function mapStateToProps(state){
         {allCampaigns:state.campaigns.allCampaigns}
     )
 }
-const mapDispatchToProps = {fetchCampaign, fetchUser}
+const mapDispatchToProps = {fetchCampaign, fetchUser, modalStatus}
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

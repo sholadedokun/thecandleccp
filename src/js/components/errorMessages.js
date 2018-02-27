@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash';
 export default function ({errorMessage}){
     return(
-        <div className="col-md-12">
+        <div className="errorContainer">
             {  errorMessage.length>0?
                 <div className="col-md-12 alert alert-danger">
                     {

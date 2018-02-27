@@ -5,7 +5,8 @@ import {
   UNAUTH_USER,
   AUTH_ERROR,
   FETCH_USER,
-  SWITCH_MODAL_STATE
+  SWITCH_MODAL_STATE,
+  NO_INTERNET,
 } from './actionTypes';
 import _ from 'lodash'
 
@@ -25,7 +26,10 @@ export function signinUser( email, password ) {
             // dispatch(fetchUser())
             resolve(response)
         })
-        .catch(() => {
+        .catch((error) => {
+            if(!error.response){
+                dispatch(authError(NO_INTERNET))
+            }
             reject();
             // If request is bad...
             // - Show an error to the user
@@ -45,7 +49,9 @@ export function signUpUser(values) {
                 resolve (response.data)
             })
             .catch(error => {
-                console.log(error.response.data.message)
+                if(!error.response){
+                    dispatch(authError(NO_INTERNET))
+                }
                 reject(error.response.data.message);
                 let errorMap=_.map(error.response.data.message, (item, index)=>item)
                 dispatch(authError(errorMap));
@@ -81,10 +87,15 @@ export function fetchUser() {
             });
         })
         .catch(error => {
-            if(error.response.data.message=='Invalid token'){
-                dispatch(signoutUser(error.response.data.message));
+
+            if(!error.response){
+                dispatch(authError(NO_INTERNET))
             }
-            dispatch(authError(error.response.data.message));
+            else if(error.response.data.message=='Invalid token'){
+                dispatch(signoutUser(error.response.data.message));
+                dispatch(authError(error.response.data.message));
+            }
+
         });
     }
 }

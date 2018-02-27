@@ -924,6 +924,10 @@ input, select, textarea, button{
 input[type=file]{
   margin:2em 0;
 }
+.errorContainer{
+    margin-top: 1em;
+    width:100%;
+}
 .error{
     border: 1px solid #a55 !important;
 }
