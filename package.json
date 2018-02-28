@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "chart.js": "^2.7.1",
+    "flow-bin": "^0.66.0",
     "jimp": "^0.2.28",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
@@ -26,7 +27,20 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "flow": "flow",
+    "flow start": "flow start",
+    "flow stop": "flow stop",
+    "flow status": "flow status",
+    "flow coverage": "flow coverage",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "4.9.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "prettier-eslint": "^8.8.1"
   }
 }
