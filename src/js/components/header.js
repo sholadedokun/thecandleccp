@@ -10,24 +10,16 @@ import { signoutUser, fetchUser, modalStatus } from "../actions/userActions";
 import ReactModal from "react-modal";
 import Icon from "./icon";
 class Header extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			modalOpen: false,
-			modalLoad: "login"
-		};
-	}
 	signoutUser() {
 		this.props.signoutUser();
 	}
 	userLogin(e) {
-		e.target.value == "signOut" ? this.signoutUser() : "";
+		e== "signOut" || e.target.value == "signOut" ? this.signoutUser() : "";
 	}
 	authenticated(user) {
 		// console.log(this.props.allCampaigns)
 		let modalRoute = this.props.allCampaigns.length > 0 ? "addAdset" : "createCampaign";
-		let resolvedLinks = user.authenticated
-			? [
+		let authenticated_bar_dashboard= [
 					<li role="presentation" key="1a">
 						<div className="formField rangeSelect profile_display">
 							<span className="display_pic">
@@ -45,27 +37,48 @@ class Header extends Component {
 						</a>
 					</li>
 			  ]
-			: [
-					<li role="presentation" className="active">
-						<Link to="/">Feature</Link>
-					</li>,
-					<li role="presentation">
-						<Link to="/howitworks">How it works</Link>
-					</li>,
-					<li role="presentation">
-						<Link to="/help">Spaces</Link>
-					</li>,
-					<li role="presentation" key="2a" onClick={() => this.props.modalStatus(true, "login")}>
-						<a className="buttonLink" href="#">
-							login
-						</a>
-					</li>,
-					<li role="presentation" key="2b" onClick={() => this.props.modalStatus(true, "register")}>
-						<a className="buttonLink" href="#">
-							register
-						</a>
-					</li>
-			  ];
+		let authenticated_bar=[
+			<li role="presentation" className="active">
+				<Link to="/dashboard">Dashboard</Link>
+			</li>,
+			<li role="presentation"  onClick={this.userLogin.bind(this, "signOut" )}>
+				<a className="buttonLink">Sign out</a>
+			</li>,
+			<li role="presentation"  onClick={() => this.props.modalStatus(true, modalRoute)}>
+				<a className="buttonLink">Post Ads</a>
+			</li>,
+		]
+		let unAuthenticate=[
+			<li role="presentation" key="2a" onClick={() => this.props.modalStatus(true, "login")}>
+				<a className="buttonLink" href="#">
+					login
+				</a>
+			</li>,
+			<li role="presentation" key="2b" onClick={() => this.props.modalStatus(true, "register")}>
+				<a className="buttonLink" href="#">
+					register
+				</a>
+			</li>
+		];
+		let regularRoute=[
+			<li role="presentation" className="active">
+				<Link to="/">Feature</Link>
+			</li>,
+			<li role="presentation">
+				<Link to="/howitworks">How it works</Link>
+			</li>,
+			<li role="presentation">
+				<Link to="/help">Spaces</Link>
+			</li>
+		];
+		let resolvedLinks = 
+			(user.authenticated && this.props.location.pathname=='/dashboard')? 
+				authenticated_bar_dashboard // route is authenticated and the view is on dashboard
+				: 
+				user.authenticated ?//user is authenticated but on the not on dashboar
+					regularRoute.concat(...authenticated_bar)
+					:
+					regularRoute.concat(...unAuthenticate)
 		return resolvedLinks;
 	}
 	handleCloseModal(route) {
@@ -78,11 +91,10 @@ class Header extends Component {
 		this.props.modalStatus(false, null);
 	}
 	render() {
-		// const {modalOpen, modalLoad}=this.state;
-		const { user } = this.props;
-		console.log(user);
+		const { user, history, location:{pathname} } = this.props;
+		console.log(this.props );
 		return (
-			<Row className={user.authenticated ? "nav_dashboard header" : "header"}>
+			<Row className={user.authenticated && pathname !="/"  ? "nav_dashboard header" : "header"}>
 				<Navbar inverse collapseOnSelect>
 					<Navbar.Header>
 						<Navbar.Brand>
@@ -94,7 +106,7 @@ class Header extends Component {
 						<Nav>{this.authenticated(user)}</Nav>
 					</Navbar.Collapse>
 				</Navbar>
-				{user.authenticated ? (
+				{(user.authenticated && pathname=="/dashboard") ?  (
 					<Row>
 						<Col xs="12">
 							<div className="hrule" />
