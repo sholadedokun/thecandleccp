@@ -4,7 +4,6 @@ import Heading from "../heading";
 import Icon from "../icon";
 import { Col, Row } from "react-bootstrap";
 import moment from "moment";
-
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import AdvanceTiming from "../timingForm";
 import ToolTipMarker from "../tooltip.js";
@@ -13,6 +12,8 @@ import _ from "lodash";
 import ErrorMessage from "../errorMessages";
 import { errorHandler } from "../errorHandler";
 import { empyFieldChecker } from "../errorChecker";
+import Particules from "react-particles-js";
+
 class AdSetDescription extends Component {
 	constructor(props) {
 		super(props);
@@ -20,6 +21,7 @@ class AdSetDescription extends Component {
 		for (let i = 20; i <= 100; i += 5) {
 			this.ageOption.push(i);
 		}
+		console.log(props);
 		this.state = {
 			data: {
 				campaign_id: (() => (props.campaign ? props.campaign.id : ""))(),
@@ -40,6 +42,121 @@ class AdSetDescription extends Component {
 			loading: false,
 			errors: {},
 			errorMessages: []
+		};
+		this.particuleStyle = {
+			position: "fixed",
+			height: "inherit",
+			width: "35%"
+		};
+		this.particuleConfig = {
+			particles: {
+				number: {
+					value: 380,
+					density: {
+						enable: true,
+						value_area: 800
+					}
+				},
+				color: {
+					value: "#ffffff"
+				},
+				shape: {
+					type: "circle",
+					stroke: {
+						width: 0,
+						color: "#000000"
+					},
+					polygon: {
+						nb_sides: 5
+					},
+					image: {
+						src: "img/github.svg",
+						width: 100,
+						height: 100
+					}
+				},
+				opacity: {
+					value: 1,
+					random: false,
+					anim: {
+						enable: false,
+						speed: 1,
+						opacity_min: 0.5,
+						sync: false
+					}
+				},
+				size: {
+					value: 3,
+					random: true,
+					anim: {
+						enable: false,
+						speed: 20,
+						size_min: 0.1,
+						sync: false
+					}
+				},
+				line_linked: {
+					enable: true,
+					distance: 150,
+					color: "#ffffff",
+					opacity: 0.76,
+					width: 1
+				},
+				move: {
+					enable: true,
+					speed: 4,
+					direction: "none",
+					random: false,
+					straight: false,
+					out_mode: "out",
+					bounce: false,
+					attract: {
+						enable: false,
+						rotateX: 600,
+						rotateY: 1200
+					}
+				}
+			},
+			interactivity: {
+				detect_on: "canvas",
+				events: {
+					onhover: {
+						enable: true,
+						mode: "grab"
+					},
+					onclick: {
+						enable: true,
+						mode: "push"
+					},
+					resize: true
+				},
+				modes: {
+					grab: {
+						distance: 140,
+						line_linked: {
+							opacity: 1
+						}
+					},
+					bubble: {
+						distance: 400,
+						size: 40,
+						duration: 2,
+						opacity: 8,
+						speed: 3
+					},
+					repulse: {
+						distance: 200,
+						duration: 0.4
+					},
+					push: {
+						particles_nb: 4
+					},
+					remove: {
+						particles_nb: 2
+					}
+				}
+			},
+			retina_detect: true
 		};
 	}
 	componentWillReceiveProps(nextProps) {
@@ -119,12 +236,19 @@ class AdSetDescription extends Component {
 				before: new Date(this.state.data.dateFrom)
 			}
 		};
-		const { scenariosList, errors, errorMessages, data: { campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom } } = this.state;
+		const {
+			scenariosList,
+			errors,
+			errorMessages,
+			data: { campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom }
+		} = this.state;
+		const { campaign, allCampaigns } = this.props;
 		console.log(errorMessages);
 		return (
 			<Row className="campaignContainer">
 				<Col xs={3} xsHidden={true}>
 					<Row className="descriptMenu">
+						<Particules className="particules" style={this.particuleStyle} params={this.particuleConfig} />
 						<Col xs="12">
 							<Col componentClass="ul" xs={12} className="detailsMenu">
 								<li>
@@ -175,7 +299,7 @@ class AdSetDescription extends Component {
 										}
 										value={campaign_id}>
 										<option> Please Select A Campaign </option>
-										{this.props.allCampaigns.map((item, index) => (
+										{allCampaigns.concat(campaign).map((item, index) => (
 											<option key={item.id} value={item.id}>
 												{item.name}
 											</option>

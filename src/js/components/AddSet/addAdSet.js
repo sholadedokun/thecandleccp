@@ -20,6 +20,7 @@ class AddAdSet extends Component {
 	displaySteps() {
 		const { currentStep } = this.state;
 		const { allCampaigns, newCampaign } = this.props;
+		console.log(newCampaign);
 		//pushing the saved Campaigns into the already existing campaings...
 		// if(newCampaign)
 		//     allCampaigns.push(newCampaign)

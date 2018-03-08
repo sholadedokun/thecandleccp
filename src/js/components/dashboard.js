@@ -181,7 +181,7 @@ class Dashboard extends Component {
 		let totalCampaigns = allCampaigns ? allCampaigns.length : 0;
 		return (
 			<Grid className="dashboard section">
-				<Col xs="12" className="analyticsBoard">
+				<Col xs={12} className="analyticsBoard">
 					<Row>
 						<ul className="analyticsMenu">
 							<li onClick={e => this.setState({ analyticsType: "bigLineGraph" })} className={analyticsType == "bigLineGraph" ? "active" : ""}>
@@ -193,7 +193,7 @@ class Dashboard extends Component {
 						</ul>
 						<div className="viewBoard">
 							{analyticsType == "bigLineGraph" ? (
-								<Col xs="12" className="bigLineMenu" componentClass="ul">
+								<Col xs={12} className="bigLineMenu" componentClass="ul">
 									<li className={activeBigline == "impression" ? "active" : ""} onClick={this.setBigline.bind(this, totalImpression, "impression")}>
 										<label>Impressions</label>
 										<span className="value">12,235,323</span>
@@ -214,7 +214,7 @@ class Dashboard extends Component {
 							) : (
 								""
 							)}
-							<Col xs="12" className="viewContainer">
+							<Col xs={12} className="viewContainer">
 								<span className="inputField timeline">
 									<span className="formField">
 										<select>
@@ -225,12 +225,12 @@ class Dashboard extends Component {
 									</span>
 								</span>
 								{analyticsType == "bigLineGraph" ? (
-									<Analytics xs="12" name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
+									<Analytics xs={12} name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
 								) : (
 									<span className="analyticsContainer">
 										<Analytics
-											xs="12"
-											sm="6"
+											xs={12}
+											sm={12}
 											md="4"
 											classN="analytics"
 											name="barExample"
@@ -239,10 +239,10 @@ class Dashboard extends Component {
 											height={90}
 											type="bar"
 										/>
-										<Analytics xs="12" sm="6" md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
+										<Analytics xs={12} sm={12} md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
 										<Analytics
-											xs="12"
-											sm="6"
+											xs={12}
+											sm={12}
 											md="4"
 											classN="analytics"
 											name="doughExample"
@@ -258,15 +258,15 @@ class Dashboard extends Component {
 					</Row>
 				</Col>
 
-				<Col xs="12" className="campaignTable">
+				<Col xs={12} className="campaignTable">
 					<ul className="campaign_menu">
 						<li className="active">Campaigns</li>
 						<li>Adsets</li>
 					</ul>
-					<Col className="hrule" xs="12" />
+					<Col className="hrule" xs={12} />
 
-					<Col xs="12" className="campaign_actionables">
-						<Col xs="6">
+					<Col xs={12} className="campaign_actionables">
+						<Col xs={12}>
 							<Heading size="sm" title={` ${totalCampaigns}  Campaigns`} />
 							<span className="actionButton" onClick={this.createCampaign.bind(this)}>
 								<Icon icon="plus" /> Create Campaign
@@ -274,7 +274,7 @@ class Dashboard extends Component {
 							<span className="disabledButton">Edit</span>
 							<span className="disabledButton">Delete</span>
 						</Col>
-						<Col xs="6" className="filter">
+						<Col xs={12} className="filter">
 							<span className="searchInput">
 								<input type="text" className="" placeholder="search campaigns" />
 							</span>
@@ -282,7 +282,7 @@ class Dashboard extends Component {
 							<span className="disabledButton">Sort</span>
 						</Col>
 					</Col>
-					<Col xs="12" className="list_header">
+					<Col xs={12} className="list_header">
 						<ul className="campaign_header">
 							<li>&nbsp;</li>
 							<li>&nbsp;</li>
@@ -333,7 +333,7 @@ class Dashboard extends Component {
 						);
 					})}
 					{allCampaigns ? (
-						<Col xs="12" className="total_result">
+						<Col xs={12} className="total_result">
 							<Heading size="xs" title={`Result from all ${allCampaigns.length} campaigns`} />
 							<span className="total_view">
 								<span className="campaign_value">1,040,000.00</span>

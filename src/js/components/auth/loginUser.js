@@ -44,7 +44,7 @@ class LoginUser extends Component {
 	render() {
 		const { username, password, loading, errors, errorMessages } = this.state;
 		return (
-			<Col xs={10} xsOffset="1" sm={4} smOffset="6" md={4} mdOffset="4" className="login">
+			<Col xs={10} xsOffset={1} sm={4} smOffset={6} md={4} mdOffset={4} className="login">
 				<Row>
 					<Heading size="md" title="Sign in to account" />
 					<span className="facebookSignin">

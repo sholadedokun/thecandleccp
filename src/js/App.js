@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/header";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
 
 import Home from "./components/home";
@@ -18,7 +18,7 @@ class App extends Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/Howitworks" component={Howitworks} />
 					<Route exact path="/help" component={Help} />
-					<Route path="/dashboard" component={requireAuth(Dashboard)} />
+					<Route exact path="/dashboard" component={requireAuth(Dashboard)} />
 					<Footer />
 				</Grid>
 			</Router>
