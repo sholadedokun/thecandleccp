@@ -49,7 +49,7 @@ class RegisterUser extends Component {
 				params.days = moment(this.state.dateTo).diff(moment(this.state.dateFrom), "days");
 			} else params.date_from = moment(this.state.dateFrom).format("YYYY-MM-DD");
 			params.type = "pseudo";
-			params.id = this.props.allCampaigns.length > 0 ? parseInt(this.props.allCampaigns[this.props.allCampaigns.length - 1].id) + 1 : 0;
+			params.id = 'temp_id';
 			this.props.saveCampaign(params).then(data => {
 				this.setState({
 					createSuccess: true

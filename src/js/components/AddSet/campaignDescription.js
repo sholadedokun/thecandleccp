@@ -299,11 +299,14 @@ class AdSetDescription extends Component {
 										}
 										value={campaign_id}>
 										<option> Please Select A Campaign </option>
-										{allCampaigns.concat(campaign).map((item, index) => (
-											<option key={item.id} value={item.id}>
-												{item.name}
-											</option>
-										))}
+
+										{campaign && campaign.id
+											? allCampaigns.concat(campaign).map((item, index) => (
+													<option key={item.id} value={item.id}>
+														{item.name}
+													</option>
+											  ))
+											: ""}
 									</select>
 								</span>
 							</div>

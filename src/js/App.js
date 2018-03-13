@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/header";
-import { HashRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
 
 import Home from "./components/home";
