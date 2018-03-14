@@ -8,7 +8,7 @@ import Heading from "../heading";
 import _ from "lodash";
 import ErrorMessage from "../errorMessages";
 import { errorHandler } from "../errorHandler";
-import { empyFieldChecker } from "../errorChecker";
+import { emptyFieldChecker } from "../errorChecker";
 class RegisterUser extends Component {
 	constructor(props) {
 		super(props);
@@ -30,7 +30,7 @@ class RegisterUser extends Component {
 	}
 	registerUser() {
 		this.setState({ loading: true, errorMessages: [] });
-		let errors = empyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "role", "errors", "errorMessages"]))();
+		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "role", "errors", "errorMessages"]))();
 		if (_.isEmpty(errors)) {
 			let params = _.omit(this.state, ["firstName", "lastName"]);
 			params.name = `${this.state.firstName} ${this.state.lastName}`;

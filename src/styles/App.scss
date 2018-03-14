@@ -164,7 +164,7 @@ a {
 		text-transform: capitalize;
 		margin: 0.8em 2em;
 		outline: none;
-		cursor:pointer;
+		cursor: pointer;
 	}
 	.buttonLink:hover {
 		border: 1px solid #fff;
@@ -1042,6 +1042,45 @@ input[type="file"] {
 }
 .ReactModal__Overlay {
 	overflow: scroll;
+}
+.file-loading {
+	border-radius: 5px;
+	position: relative;
+	border: 1px solid #595;
+	padding: 0.75em;
+	overflow: hidden;
+	margin-bottom: 5px;
+
+	input {
+		opacity: 0;
+		width: 100%;
+		display: inline-block;
+		margin: 0;
+		height: 1.5em;
+		position: relative;
+		z-index: 2;
+		cursor: pointer;
+	}
+	.browse {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 20%;
+		color: #fff;
+		background: #595;
+		display: inline-block;
+		border-radius: 4px;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		padding: 0.82em;
+		cursor: pointer;
+	}
+	p {
+		position: absolute;
+		top: 13px;
+		left: 30px;
+		color: #aaa;
+	}
 }
 .modalClass {
 	margin: 0;

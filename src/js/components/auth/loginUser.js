@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Heading from "../heading";
 import Icon from "../icon";
-import { empyFieldChecker } from "../errorChecker";
+import { emptyFieldChecker } from "../errorChecker";
 import _ from "lodash";
 import ErrorMessage from "../errorMessages";
 import { errorHandler } from "../errorHandler";
@@ -25,7 +25,7 @@ class LoginUser extends Component {
 	}
 	loginUser() {
 		this.setState({ loading: true, errorMessages: [] });
-		let errors = empyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "errors", "errorMessages"]))();
+		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "errors", "errorMessages"]))();
 		if (_.isEmpty(errors)) {
 			this.props
 				.signinUser(this.state.username, this.state.password)

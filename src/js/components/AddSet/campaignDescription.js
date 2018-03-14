@@ -11,7 +11,7 @@ import "react-day-picker/lib/style.css";
 import _ from "lodash";
 import ErrorMessage from "../errorMessages";
 import { errorHandler } from "../errorHandler";
-import { empyFieldChecker } from "../errorChecker";
+import { emptyFieldChecker } from "../errorChecker";
 import Particules from "react-particles-js";
 
 class AdSetDescription extends Component {
@@ -216,7 +216,7 @@ class AdSetDescription extends Component {
 	confirmInput() {
 		//send the adSet description to the addAdSet parent container through the setCampaignDetails props
 		this.setState({ loading: true, errorMessages: [] });
-		let errors = empyFieldChecker.bind(this, {}, _.omit({ ...this.state.data }, ["fastDisplay", "scenario", "advanceTiming"]))();
+		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state.data }, ["fastDisplay", "scenario", "advanceTiming"]))();
 		console.log(errors);
 		if (_.isEmpty(errors)) {
 			this.props.setCampaignDetails(this.state.data);
@@ -225,17 +225,7 @@ class AdSetDescription extends Component {
 	}
 	render() {
 		console.log(this.props);
-		const dayPickerPropsFrom = {
-			disabledDays: {
-				after: new Date(this.state.data.dateTo),
-				before: new Date()
-			}
-		};
-		const dayPickerPropsTo = {
-			disabledDays: {
-				before: new Date(this.state.data.dateFrom)
-			}
-		};
+
 		const {
 			scenariosList,
 			errors,
@@ -243,7 +233,8 @@ class AdSetDescription extends Component {
 			data: { campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom }
 		} = this.state;
 		const { campaign, allCampaigns } = this.props;
-		console.log(errorMessages);
+		let newAllCampaigns = campaign && campaign.id ? allCampaigns.concat(campaign) : allCampaigns;
+		console.log(errorMessages, allCampaigns);
 		return (
 			<Row className="campaignContainer">
 				<Col xs={3} xsHidden={true}>
@@ -300,13 +291,11 @@ class AdSetDescription extends Component {
 										value={campaign_id}>
 										<option> Please Select A Campaign </option>
 
-										{campaign && campaign.id
-											? allCampaigns.concat(campaign).map((item, index) => (
-													<option key={item.id} value={item.id}>
-														{item.name}
-													</option>
-											  ))
-											: ""}
+										{newAllCampaigns.map((item, index) => (
+											<option key={item.id} value={item.id}>
+												{item.name}
+											</option>
+										))}
 									</select>
 								</span>
 							</div>
@@ -626,5 +615,4 @@ class AdSetDescription extends Component {
 		);
 	}
 }
-
 export default AdSetDescription;

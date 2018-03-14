@@ -14,7 +14,7 @@ import { CAMPAIGN_DICTIONARY } from "../config.js";
 import _ from "lodash";
 import ErrorMessage from "./errorMessages";
 import { errorHandler } from "./errorHandler";
-import { empyFieldChecker } from "./errorChecker";
+import { emptyFieldChecker } from "./errorChecker";
 
 class RegisterUser extends Component {
 	constructor(props) {
@@ -38,7 +38,7 @@ class RegisterUser extends Component {
 		this.setState({ loading: true, errorMessages: [] });
 		let object = _.pick(this.state, ["name", "dateTo", "dateFrom", "budget"]);
 		if (this.state.budget_type == "Daily") object = _.omit(object, ["dateTo"]);
-		let errors = empyFieldChecker.bind(this, {}, object)();
+		let errors = emptyFieldChecker.bind(this, {}, object)();
 		console.log(errors);
 		if (_.isEmpty(errors)) {
 			let params = _.omit(this.state, ["dateFrom", "dateTo", "createSuccess"]);
@@ -49,7 +49,7 @@ class RegisterUser extends Component {
 				params.days = moment(this.state.dateTo).diff(moment(this.state.dateFrom), "days");
 			} else params.date_from = moment(this.state.dateFrom).format("YYYY-MM-DD");
 			params.type = "pseudo";
-			params.id = 'temp_id';
+			params.id = "temp_id";
 			this.props.saveCampaign(params).then(data => {
 				this.setState({
 					createSuccess: true

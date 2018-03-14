@@ -17,6 +17,7 @@ export default class singlePost extends Component {
 	}
 	render() {
 		const { selectedMediaIndex } = this.state;
+		const { mediaName } = this.props;
 		return (
 			<Col xs={12} className="creativeContainer">
 				<div class="inputField">
@@ -32,19 +33,41 @@ export default class singlePost extends Component {
 					</span>
 				</div>
 				<Heading size="sm" title="Add Image" />
-				{(() => {
-					switch (this.state.mediaTypes[selectedMediaIndex]) {
-						case "image":
-							return <input type="file" accept="image/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />;
-						case "video":
-							return <input type="file" accept="video/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />;
-						case "url":
-							return <input type="text" onBlur={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} placeholder="Please type Web URL" />;
-						default:
-							return <input type="file" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />;
-					}
-				})()}
+				<div className={this.props.errors ? "error" : ""}>
+					{(() => {
+						switch (this.state.mediaTypes[selectedMediaIndex]) {
+							case "image":
+								return (
+									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+										<input id="passport" type="file" accept="image/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
+										<span className="browse">
+											<i className="fa fa-upload" /> Browse
+										</span>
+										<p>{mediaName ? mediaName.name : "Select Image..."}</p>
+									</div>
+								);
 
+							case "video":
+								return (
+									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+										<input id="passport" type="file" accept="video/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
+										<span className="browse">
+											<i className="fa fa-upload" /> Browse
+										</span>
+										<p>{mediaName ? mediaName.name : "Select Video..."}</p>
+									</div>
+								);
+							case "url":
+								return (
+									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+										<input type="text" onBlur={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} placeholder="Please type Web URL" />
+									</div>
+								);
+							default:
+								return <input type="file" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />;
+						}
+					})()}
+				</div>
 				<Heading size="xs" title="Upload Instructions" />
 				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 			</Col>
