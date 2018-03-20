@@ -23,10 +23,10 @@ export default (props)=>{
     }
     return(
         <span className="headings">
-            {props.size==='lg'?<h1 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h1>:
-                props.size==='md'?<h2 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h2>:
-                    props.size==='sm'?<h3 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h3>:
-                      props.size==='xs'?<h4 style={style[props.size]}><Icon icon={props.icon} />{props.title}</h4>:
+            {props.size==='lg'?<h1 style={style[props.size]}>{props.icon?<Icon icon={props.icon} />:''}{props.title}</h1>:
+                props.size==='md'?<h2 style={style[props.size]}>{props.icon?<Icon icon={props.icon} />:''}{props.title}</h2>:
+                    props.size==='sm'?<h3 style={style[props.size]}>{props.icon?<Icon icon={props.icon} />:''}{props.title}</h3>:
+                      props.size==='xs'?<h4 style={style[props.size]}>{props.icon?<Icon icon={props.icon} />:''}{props.title}</h4>:
                         <h1 style={style[props.size]}>props.title</h1>
             }
             {

@@ -15,16 +15,23 @@ class Header extends Component {
 		this.props.signoutUser();
 	}
 	userLogin = e => (e == "signOut" || e.target.value == "signOut" ? this.signoutUser() : "");
-
+	selectedCustomItem(item) {
+		console.log("here" + item);
+	}
 	authenticated(user) {
 		// console.log(this.props.allCampaigns)
 		let modalRoute = this.props.allCampaigns.length > 0 ? "addAdset" : "createCampaign";
 		let authenticated_bar_dashboard = [
-			// <CustomeSelect selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]} rightImage="sdfsdf" leftIcon="angle-down" />,
+			<CustomeSelect
+				selectedItem={this.selectedCustomItem.bind(this)}
+				selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]}
+				rightImage="sdfsdf"
+				leftIcon="fas fa-angle-down"
+			/>,
 			<li role="presentation" key={1}>
 				<div className="formField rangeSelect profile_display">
 					<span className="display_pic">
-						<Icon icon="user" />
+						<Icon icon="fas fa-user-circle" size="md" />
 					</span>
 					<select onChange={this.userLogin.bind(this)}>
 						<option className="">{(() => (user.data ? user.data.name : ""))()}</option>
@@ -85,8 +92,8 @@ class Header extends Component {
 			this.props.modalStatus(true, route);
 			return;
 		}
-		this.props.history.push(route);
 		this.props.modalStatus(false, null);
+		this.props.history.push(route);
 	}
 	render() {
 		const { user, history, location: { pathname } } = this.props;
@@ -121,25 +128,27 @@ class Header extends Component {
 				) : (
 					""
 				)}
-				<ReactModal
-					isOpen={user.modalState.isOpen}
-					shouldCloseOnOverlayClick={true}
-					onRequestClose={this.handleCloseModal.bind(this)}
-					className={{
-						base: "modalClass",
-						afterOpen: "modalClass_after-open",
-						beforeClose: "modalClass_before-close"
-					}}>
-					{user.modalState.page === "login" ? (
-						<Login close={this.handleCloseModal.bind(this)} />
-					) : user.modalState.page == "register" ? (
-						<Register close={this.handleCloseModal.bind(this)} />
-					) : user.modalState.page == "createCampaign" ? (
-						<CreateCampaign close={this.handleCloseModal.bind(this)} />
-					) : (
-						<AddAdSet close={this.handleCloseModal.bind(this)} />
-					)}
-				</ReactModal>
+				<div>
+					<ReactModal
+						isOpen={user.modalState.isOpen}
+						shouldCloseOnOverlayClick={true}
+						onRequestClose={this.handleCloseModal.bind(this)}
+						className={{
+							base: "modalClass",
+							afterOpen: "modalClass_after-open",
+							beforeClose: "modalClass_before-close"
+						}}>
+						{user.modalState.page === "login" ? (
+							<Login close={this.handleCloseModal.bind(this)} />
+						) : user.modalState.page == "register" ? (
+							<Register close={this.handleCloseModal.bind(this)} />
+						) : user.modalState.page == "createCampaign" ? (
+							<CreateCampaign close={this.handleCloseModal.bind(this)} />
+						) : (
+							<AddAdSet close={this.handleCloseModal.bind(this)} />
+						)}
+					</ReactModal>
+				</div>
 			</Row>
 		);
 	}

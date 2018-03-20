@@ -92,7 +92,7 @@ class RegisterUser extends Component {
 							Total Spend
 							<ToolTipMarker id={_.uniqueId()} tooltip="Total amount you are willing to spend.">
 								<span>
-									<Icon icon="question-circle" />
+									<Icon icon="fas fa-question-circle" />
 								</span>
 							</ToolTipMarker>
 						</label>
@@ -142,7 +142,7 @@ class RegisterUser extends Component {
 									/>
 								</span>
 								<span className="arrowRange rangeSeperator">
-									<Icon icon="long-arrow-right"> </Icon>
+									<Icon icon="fas fa-long-arrow-right-alt"> </Icon>
 								</span>
 								<span className={`inputContainer rangeInput ${errors.dateTo ? "error" : ""}`}>
 									<span className="subLabel"> To </span>
@@ -159,7 +159,7 @@ class RegisterUser extends Component {
 					</div>
 				</Col>
 				{loading ? (
-					<Icon icon="circle-o-notch fa-spin loading" />
+					<Icon icon="fas fa-spinner loading" />
 				) : (
 					<button className="primaryButton" onClick={this.createCampaign.bind(this)}>
 						Create campaign

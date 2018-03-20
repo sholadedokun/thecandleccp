@@ -269,7 +269,7 @@ class Dashboard extends Component {
 						<Col xs={12}>
 							<Heading size="sm" title={` ${totalCampaigns}  Campaigns`} />
 							<span className="actionButton" onClick={this.createCampaign.bind(this)}>
-								<Icon icon="plus" /> Create Campaign
+								<Icon icon="fas fa-plus" /> Create Campaign
 							</span>
 							<span className="disabledButton">Edit</span>
 							<span className="disabledButton">Delete</span>

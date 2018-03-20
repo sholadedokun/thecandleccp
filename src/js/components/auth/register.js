@@ -68,7 +68,7 @@ class RegisterUser extends Component {
 					</Heading>{" "}
 					<span className="facebookSignin">
 						{" "}
-						Sign Up using Facebook <Icon icon="facebook" />{" "}
+						Sign Up using Facebook <Icon icon="fab fa-facebook-square" />{" "}
 					</span>{" "}
 					<Col xs="5">
 						{" "}
@@ -111,7 +111,7 @@ class RegisterUser extends Component {
 					<Col xs="12" className="inputField">
 						{" "}
 						{loading ? (
-							<Icon icon="circle-o-notch fa-spin loading" />
+							<Icon icon="fas fa-spinner fa-spin loading" />
 						) : (
 							<button className="primaryButton" onClick={this.registerUser.bind(this)}>
 								Register{" "}

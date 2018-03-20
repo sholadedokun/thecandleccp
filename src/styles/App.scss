@@ -1,4 +1,4 @@
-@import "font-awesome.min.css";
+@import "./font-awesome.min.css";
 
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300italic,500,500italic");
@@ -716,7 +716,7 @@ button {
 }
 
 .cancelButton {
-	padding: 10px 20px;
+	@extend .actionButton;
 	min-width: 160px;
 	text-align: center;
 	color: #555;
@@ -762,10 +762,32 @@ button {
 	color: #977;
 }
 .customSelect {
-	ul {
+	margin: 1em;
+	cursor: pointer;
+	span {
+		display: inline-block;
+	}
+	.optionContainer {
+		position: relative;
+		min-width: 1px;
 		display: inline-block !important;
-		li {
-			border-bottom: 1px solid #999;
+		height:1em;
+		ul {
+			height: 1.2em;
+			padding: 0 1em;
+			overflow: hidden;
+			li {
+				margin-bottom: 0.5em;
+			}
+		}
+		.revelCont{
+			height:auto;
+			display: inline-table;
+			background: #eee;
+			padding: 0.5em 1em;
+			margin: 0 1em;
+			box-shadow: 0px 0px 2px #444;
+			border-radius: 5px;
 		}
 	}
 }

@@ -30,7 +30,6 @@ class LoginUser extends Component {
 			this.props
 				.signinUser(this.state.username, this.state.password)
 				.then(data => {
-					this.setState({ loading: false });
 					this.props.close("/dashboard");
 				})
 				.catch(e => {
@@ -48,7 +47,7 @@ class LoginUser extends Component {
 				<Row>
 					<Heading size="md" title="Sign in to account" />
 					<span className="facebookSignin">
-						Sign in using Facebook <Icon icon="facebook" />
+						Sign in using Facebook <Icon icon="fab fa-facebook-square" />
 					</span>
 					<Col xs="5">
 						<div className="hrule" />
@@ -69,7 +68,7 @@ class LoginUser extends Component {
 							<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Passowrd" />
 						</span>
 						{loading ? (
-							<Icon icon="circle-o-notch fa-spin loading" />
+							<Icon icon="fas fa-spinner fa-spin loading" />
 						) : (
 							<button className="primaryButton" onClick={this.loginUser.bind(this)}>
 								Login

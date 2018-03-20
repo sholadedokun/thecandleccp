@@ -217,7 +217,6 @@ class AdSetDescription extends Component {
 		//send the adSet description to the addAdSet parent container through the setCampaignDetails props
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state.data }, ["fastDisplay", "scenario", "advanceTiming"]))();
-		console.log(errors);
 		if (_.isEmpty(errors)) {
 			this.props.setCampaignDetails(this.state.data);
 		}
@@ -353,7 +352,7 @@ class AdSetDescription extends Component {
 									</select>
 								</span>
 								<span className="arrowRange rangeSeperator">
-									<Icon icon="long-arrow-right"> </Icon>
+									<Icon icon="fas fa-long-arrow-alt-right"> </Icon>
 								</span>
 								<span className={`formField rangeSelect ${errors.max_age ? "error" : ""}`}>
 									<select
@@ -506,11 +505,11 @@ class AdSetDescription extends Component {
 											</span>
 											{index === scenario.length - 1 ? (
 												<span className="moreAdder" onClick={this.addMoreField.bind(this, "scenario")}>
-													<Icon icon="plus-circle" />
+													<Icon icon="fas fa-plus-circle" />
 												</span>
 											) : (
 												<span className="moreRemover" onClick={this.removeThisField.bind(this, "scenario", index)}>
-													<Icon icon="minus-circle" />
+													<Icon icon="fas fa-minus-circle" />
 												</span>
 											)}
 										</div>
@@ -543,16 +542,16 @@ class AdSetDescription extends Component {
 										<div className={`${errors.timing ? "error" : ""}`}>
 											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
 											<span className="arrowRange rangeSeperator">
-												<Icon icon="long-arrow-right"> </Icon>
+												<Icon icon="fas fa-long-arrow-right"> </Icon>
 											</span>
 											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} />
 											{advanceTiming.length - 1 === index ? (
 												<span className="moreAdder" onClick={this.addMoreField.bind(this, "advanceTiming")}>
-													<Icon icon="plus-circle" />
+													<Icon icon="fas fa-plus-circle" />
 												</span>
 											) : (
 												<span className="moreRemover" onClick={this.removeThisField.bind(this, "advanceTiming", index)}>
-													<Icon icon="minus-circle" />
+													<Icon icon="fas fa-minus-circle" />
 												</span>
 											)}
 										</div>
@@ -567,7 +566,7 @@ class AdSetDescription extends Component {
 									MCPV
 									<ToolTipMarker id={_.uniqueId()} tooltip="Minimum Cost Per View.">
 										<span>
-											<Icon icon="question-circle" />
+											<Icon icon="fas fa-question-circle" />
 										</span>
 									</ToolTipMarker>
 								</label>
@@ -591,7 +590,7 @@ class AdSetDescription extends Component {
 									Fast Display
 									<ToolTipMarker id={_.uniqueId()} tooltip="Percentage increase you are willing to pay to secure your spot.">
 										<span>
-											<Icon icon="question-circle" />
+											<Icon icon="fas fa-question-circle" />
 										</span>
 									</ToolTipMarker>
 								</label>

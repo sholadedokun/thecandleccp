@@ -15,16 +15,16 @@ export default ({ name, image, position }) => (
 					<Heading size="xs" title="Follow us" />
 					<span>
 						<a href="" target="_blank">
-							<Icon icon="instagram" />
+							<Icon icon="fab fa-instagram" />
 						</a>
 						<a href="" target="_blank">
-							<Icon icon="facebook" />
+							<Icon icon="fab fa-facebook" />
 						</a>
 						<a href="" target="_blank">
-							<Icon icon="twitter" />
+							<Icon icon="fab fa-twitter" />
 						</a>
 						<a href="" target="_blank">
-							<Icon icon="linkedin" />
+							<Icon icon="fab fa-linkedin" />
 						</a>
 					</span>
 				</Col>
