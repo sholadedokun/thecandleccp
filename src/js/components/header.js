@@ -135,15 +135,17 @@ class Header extends Component {
 				{user.authenticated && pathname == "/dashboard" ? (
 					<Row>
 						<Col xs={12}>
+							<div className="hrule" />
 							<div className="dashboard_menu">
 								<ul>
 									{_.map(dashBoardMenu, (item, index) => (
-										<li key={_.uniqueId()} onClick={() => this.setState({ currentSub: index })}>
+										<li key={_.uniqueId()} onClick={() => this.setState({ currentSub: index })} className={` ${currentSub == index ? "active" : ""}`}>
 											<span>{item.title}</span> <span className={` ${currentSub == index ? "subArrow" : ""}`} />
 										</li>
 									))}
 								</ul>
 							</div>
+							<div className="hrule" />
 							<div className="dashboard_submenu">
 								<ul>{dashBoardMenu[currentSub].subMenu.map(item => <li key={_.uniqueId()}>{item.title}</li>)}</ul>
 							</div>

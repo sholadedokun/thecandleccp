@@ -75,7 +75,7 @@ export default class singlePost extends Component {
 											<input type="text" onBlur={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} placeholder="Please type Web URL" />
 										</div>
 										<Heading size="xs" title="Web Page Design Instructions" />
-										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+										<p>Web site URL must be prefixed with http:// OR https://, e.g http://example.com</p>
 									</div>
 								);
 							default:

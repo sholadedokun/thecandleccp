@@ -542,7 +542,7 @@ class AdSetDescription extends Component {
 										<div className={`${errors.timing ? "error" : ""}`}>
 											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
 											<span className="arrowRange rangeSeperator">
-												<Icon icon="fas fa-long-arrow-right"> </Icon>
+												<Icon icon="fas fa-long-arrow-alt-right" />
 											</span>
 											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} />
 											{advanceTiming.length - 1 === index ? (
