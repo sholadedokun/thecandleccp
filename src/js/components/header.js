@@ -10,7 +10,35 @@ import { signoutUser, fetchUser, modalStatus } from "../actions/userActions";
 import ReactModal from "react-modal";
 import Icon from "./icon";
 import CustomeSelect from "./customSelect";
+import _ from "lodash";
+
+const dashBoardMenu = {
+	Dashboard: {
+		title: "Dashboard",
+		subMenu: [{ title: "Campaigns" }, { title: "Ad Sets" }]
+	},
+	ManageAds: {
+		title: "Manage Ads",
+		subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigms" }]
+	},
+	Billings: {
+		title: "Billings",
+		subMenu: [{ title: "Billing History" }, { title: "Current Spending" }]
+	},
+	Account: {
+		title: "Account",
+		subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
+	}
+};
+
 class Header extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			currentSub: "ManageAds"
+		};
+	}
+
 	signoutUser() {
 		this.props.signoutUser();
 	}
@@ -22,22 +50,13 @@ class Header extends Component {
 		// console.log(this.props.allCampaigns)
 		let modalRoute = this.props.allCampaigns.length > 0 ? "addAdset" : "createCampaign";
 		let authenticated_bar_dashboard = [
-			<CustomeSelect
-				selectedItem={this.selectedCustomItem.bind(this)}
-				selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]}
-				rightImage="sdfsdf"
-				leftIcon="fas fa-angle-down"
-			/>,
-			<li role="presentation" key={1}>
-				<div className="formField rangeSelect profile_display">
-					<span className="display_pic">
-						<Icon icon="fas fa-user-circle" size="md" />
-					</span>
-					<select onChange={this.userLogin.bind(this)}>
-						<option className="">{(() => (user.data ? user.data.name : ""))()}</option>
-						<option value="signOut">Sign out</option>
-					</select>
-				</div>
+			<li role="presentation">
+				<CustomeSelect
+					selectedItem={this.selectedCustomItem.bind(this)}
+					selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]}
+					rightImage="sdfsdf"
+					leftIcon="fas fa-angle-down"
+				/>
 			</li>,
 			<li role="presentation" key={2} onClick={() => this.props.modalStatus(true, modalRoute)}>
 				<a className="actionButton post_campaign_ads">Post Ads</a>
@@ -97,13 +116,15 @@ class Header extends Component {
 	}
 	render() {
 		const { user, history, location: { pathname } } = this.props;
-		console.log(this.props);
+		const { currentSub } = this.state;
 		return (
 			<Row className={user.authenticated && pathname != "/" ? "nav_dashboard header" : "header"}>
 				<Navbar inverse collapseOnSelect>
 					<Navbar.Header>
 						<Navbar.Brand>
-							<a href="/">TheCandle</a>
+							<a href="/" className="logo">
+								The<span className="sublogo">Candle</span>
+							</a>
 						</Navbar.Brand>
 						<Navbar.Toggle />
 					</Navbar.Header>
@@ -114,15 +135,18 @@ class Header extends Component {
 				{user.authenticated && pathname == "/dashboard" ? (
 					<Row>
 						<Col xs={12}>
-							<div className="hrule" />
 							<div className="dashboard_menu">
 								<ul>
-									<li>Dashboard</li>
-									<li>Billings</li>
-									<li>Account</li>
+									{_.map(dashBoardMenu, (item, index) => (
+										<li key={_.uniqueId()} onClick={() => this.setState({ currentSub: index })}>
+											<span>{item.title}</span> <span className={` ${currentSub == index ? "subArrow" : ""}`} />
+										</li>
+									))}
 								</ul>
 							</div>
-							<div className="hrule" />
+							<div className="dashboard_submenu">
+								<ul>{dashBoardMenu[currentSub].subMenu.map(item => <li key={_.uniqueId()}>{item.title}</li>)}</ul>
+							</div>
 						</Col>
 					</Row>
 				) : (

@@ -64,11 +64,11 @@ export default class uploadAdCreative extends Component {
 		console.log(newCreativeCollages);
 	}
 	renderPreview(index, mediaType, e) {
-		if (!e.target.files[0]) return;
 		let reader = new FileReader();
 		let allCreatives = this.state.creative;
 
 		if (mediaType != "url") {
+			if (!e.target.files || !e.target.files[0]) return;
 			let that = this;
 			allCreatives[index].formEntity = e.target.files[0];
 			reader.onload = function() {
@@ -99,6 +99,18 @@ export default class uploadAdCreative extends Component {
 			top: "18.7%",
 			left: "5.8%"
 		};
+		const iFrameStyle = {
+			"-moz-transform-origin": "top left",
+			"-webkit-transform-origin": "top left",
+			"-o-transform-origin": "top left",
+			"-ms-transform-origin": "top left",
+			"transform-origin": "top left",
+			width: "1024px",
+			height: "768px",
+			border: "none",
+			"-webkit-transform": "scale(0.5)",
+			"-moz-transform": "scale(0.5)"
+		};
 		const totalCreative = creative.length;
 		const unitWidth = actualWidth / totalCreative;
 		const unitHeight = actualHeight / 2;
@@ -128,7 +140,7 @@ export default class uploadAdCreative extends Component {
 											</video>
 										);
 									case "url":
-										return <iframe src={item.data} style={{ border: "none" }} />;
+										return <iframe src={item.data} style={iFrameStyle} />;
 									default:
 										return "";
 								}

@@ -32,35 +32,50 @@ export default class singlePost extends Component {
 						<span className={`radioLabel ${selectedMediaIndex === 2 ? "active" : ""}`}>Web URL</span>
 					</span>
 				</div>
-				<Heading size="sm" title="Add Image" />
+
 				<div className={this.props.errors ? "error" : ""}>
 					{(() => {
 						switch (this.state.mediaTypes[selectedMediaIndex]) {
 							case "image":
 								return (
-									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
-										<input id="passport" type="file" accept="image/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
-										<span className="browse">
-											<i className="fa fa-upload" /> Browse
-										</span>
-										<p>{mediaName ? mediaName.name : "Select Image..."}</p>
+									<div>
+										<Heading size="sm" title="Add Image" />
+										<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+											<input id="passport" type="file" accept="image/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
+											<span className="browse">
+												<i className="fa fa-upload" /> Browse
+											</span>
+											<p>{mediaName ? mediaName.name : "Select Image..."}</p>
+										</div>
+										<Heading size="xs" title="Upload Instructions" />
+										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 									</div>
 								);
 
 							case "video":
 								return (
-									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
-										<input id="passport" type="file" accept="video/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
-										<span className="browse">
-											<i className="fa fa-upload" /> Browse
-										</span>
-										<p>{mediaName ? mediaName.name : "Select Video..."}</p>
+									<div>
+										<Heading size="sm" title="Add Video" />
+										<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+											<input id="passport" type="file" accept="video/*" onChange={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} />
+											<span className="browse">
+												<i className="fa fa-upload" /> Browse
+											</span>
+											<p>{mediaName ? mediaName.name : "Select Video..."}</p>
+										</div>
+										<Heading size="xs" title="Upload Instructions" />
+										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 									</div>
 								);
 							case "url":
 								return (
-									<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
-										<input type="text" onBlur={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} placeholder="Please type Web URL" />
+									<div>
+										<Heading size="sm" title="Add Web URL" />
+										<div className={`file-loading ${this.props.errors ? "error" : ""}`}>
+											<input type="text" onBlur={this.props.renderPreview.bind(this, 0, this.state.mediaTypes[selectedMediaIndex])} placeholder="Please type Web URL" />
+										</div>
+										<Heading size="xs" title="Web Page Design Instructions" />
+										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 									</div>
 								);
 							default:
@@ -68,8 +83,6 @@ export default class singlePost extends Component {
 						}
 					})()}
 				</div>
-				<Heading size="xs" title="Upload Instructions" />
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 			</Col>
 		);
 	}

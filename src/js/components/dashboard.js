@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { fetchCampaign } from "../actions/campaignActions";
 import { fetchUser, modalStatus } from "../actions/userActions";
+import { fetchBoards } from "../actions/boardActions";
 import { connect } from "react-redux";
 import { Row, Grid, Col } from "react-bootstrap";
 import Analytics from "./analytics";
@@ -156,6 +157,7 @@ class Dashboard extends Component {
 	componentWillMount() {
 		this.props.fetchUser();
 		this.props.fetchCampaign();
+		this.props.fetchBoards();
 	}
 	createCampaign() {
 		this.props.modalStatus(true, "createCampaign");
@@ -259,27 +261,22 @@ class Dashboard extends Component {
 				</Col>
 
 				<Col xs={12} className="campaignTable">
-					<ul className="campaign_menu">
-						<li className="active">Campaigns</li>
-						<li>Adsets</li>
-					</ul>
-					<Col className="hrule" xs={12} />
-
 					<Col xs={12} className="campaign_actionables">
-						<Col xs={12}>
+						<Col xs={12} sm={6}>
 							<Heading size="sm" title={` ${totalCampaigns}  Campaigns`} />
 							<span className="actionButton" onClick={this.createCampaign.bind(this)}>
 								<Icon icon="fas fa-plus" /> Create Campaign
 							</span>
-							<span className="disabledButton">Edit</span>
-							<span className="disabledButton">Delete</span>
+							<span className="formField">Edit</span>
+							<span className="formField">Delete</span>
 						</Col>
-						<Col xs={12} className="filter">
+						<Col xs={12} sm={6} className="filter float-sm-right">
+							<span className="formField">Sort</span>
+							<span className="formField">Export CSV</span>
 							<span className="searchInput">
 								<input type="text" className="" placeholder="search campaigns" />
+								<Icon icon="fas fa-search" size="xs" />
 							</span>
-							<span className="disabledButton">Export CSV</span>
-							<span className="disabledButton">Sort</span>
 						</Col>
 					</Col>
 					<Col xs={12} className="list_header">
@@ -298,7 +295,11 @@ class Dashboard extends Component {
 					{_.map(allCampaigns, (item, index) => {
 						return (
 							<Col key={index} componentClass="ul" className="each_campaign">
-								<li>&nbsp;</li>
+								<li>
+									<span>
+										<input type="checkbox" />
+									</span>
+								</li>
 								<li>
 									<span className={item.status ? "statusToggle active" : "statusToggle"}>
 										<span className="toggler" />
@@ -352,12 +353,6 @@ class Dashboard extends Component {
 						""
 					)}
 				</Col>
-				<Col md={3}>
-					<a href="#" onClick={this.addAdSet.bind(this)}>
-						Add AdSet
-					</a>
-				</Col>
-				<Col md={9} />
 			</Grid>
 		);
 	}
@@ -365,5 +360,5 @@ class Dashboard extends Component {
 function mapStateToProps(state) {
 	return { allCampaigns: state.campaigns.allCampaigns };
 }
-const mapDispatchToProps = { fetchCampaign, fetchUser, modalStatus };
+const mapDispatchToProps = { fetchCampaign, fetchUser, modalStatus, fetchBoards };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

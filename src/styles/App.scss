@@ -11,7 +11,7 @@ $primary-color: #1a9179;
 	padding: 15px 20px;
 	background: $primary-color;
 	box-shadow: 0 0 2px #aaa;
-	min-width: 160px;
+	min-width: 100px;
 	text-align: center;
 	margin-right: 20px;
 	color: #fff;
@@ -127,10 +127,11 @@ a {
 		background: none;
 		border: none;
 		z-index: 2;
+		margin-bottom: 0.25em;
+		border-bottom: 2px solid rgba($color: #b2b2ba, $alpha: 0.2);
 	}
 	.post_campaign_ads {
 		margin-right: 0 !important;
-		margin-left: 2em;
 		padding: 0.8em 0.5em;
 		text-transform: capitalize;
 	}
@@ -183,6 +184,16 @@ a {
 	}
 	.navbar-nav {
 		float: right;
+	}
+}
+.logo {
+	margin-top: 0.5em;
+	color: #70818e;
+	font-size: 1.6em;
+	text-shadow: none !important;
+	font-weight: 300;
+	.sublogo {
+		color: #f4d06f;
 	}
 }
 .section {
@@ -314,18 +325,13 @@ a {
 	font-size: 0.9em;
 }
 .searchInput {
-	background: #eee;
+	background: #f7f7f7;
 	border-radius: 5px;
 	width: 200px;
 	padding: 0.5em;
 	display: inline-block;
 	input {
-		width: 90%;
-	}
-	input::after {
-		content: "\f002";
-		font-family: FontAwesome;
-		color: #aaa;
+		width: 92%;
 	}
 }
 //dashboard
@@ -341,7 +347,7 @@ a {
 	}
 	.campaignTable {
 		background: #fff;
-		padding: 2em 0em;
+		padding: 1em 0em;
 		min-height: 50px;
 		border: 2px #eee solid;
 		// box-shadow: 0 0 3px #bbb;
@@ -401,6 +407,13 @@ a {
 		text-align: left;
 		padding-bottom: 1em;
 		border-bottom: 2px #eee solid;
+		.formField {
+			margin-left: 0.5em;
+			padding: 5px 15px;
+		}
+		.searchInput {
+			padding: 0.3em 1em 0.2em;
+		}
 		h3 {
 			font-weight: bold;
 			display: inline-block;
@@ -414,6 +427,8 @@ a {
 		}
 		.filter {
 			padding-top: 1.2em;
+			display: flex;
+			flex-direction: row-reverse;
 		}
 	}
 
@@ -480,6 +495,18 @@ a {
 		}
 		li:first-child {
 			border-bottom: none;
+			text-align: center;
+			input {
+				width: 0.75em;
+				height: 0.75em;
+				box-shadow: none;
+				border: 1px solid rgba($color: #b2b2ba, $alpha: 0.2) !important;
+				background: #fff;
+			}
+			span {
+				margin-top: -0.1em;
+				display: block;
+			}
 		}
 	}
 	.campaign_value {
@@ -525,22 +552,47 @@ a {
 	text-align: center;
 	display: inline-block;
 }
+.flexHeader {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	margin: 0 auto;
+	height: 1.2em;
+	font-size: 1.05em;
+}
 .dashboard_menu {
 	padding: 1.5em 1em;
+	border-bottom: 2px solid rgba($color: #b2b2ba, $alpha: 0.2);
 	ul {
-		position: relative;
-		width: 33%;
-		margin: 0 auto;
-		height: 1.2em;
+		@extend .flexHeader;
 	}
 	li {
-		font-size: 1.25em;
-		float: left;
-		margin-right: 5em;
-		text-align: center;
+		cursor: pointer;
+		position: relative;
+		.subArrow {
+			position: absolute;
+			display: inline-block;
+			background: #fff;
+			border-right: 2px solid rgba($color: #b2b2ba, $alpha: 0.2);
+			border-bottom: 2px solid rgba($color: #b2b2ba, $alpha: 0.2);
+			width: 0.7em;
+			height: 0.7em;
+			left: 40%;
+			top: 2.3em;
+			transform: rotate(-135deg);
+		}
 	}
-	li:last-child {
-		margin-right: 0;
+	li:not(:last-child) {
+		margin-right: 5em;
+	}
+}
+.dashboard_submenu {
+	padding: 1em 0;
+	ul {
+		@extend .flexHeader;
+		li:not(:last-child) {
+			margin-right: 3em;
+		}
 	}
 }
 .lg {
@@ -629,12 +681,12 @@ ul {
 .inlineSelect,
 .customSelect,
 .list_header {
-	background: linear-gradient(#fafafa, #eee) !important;
+	background: linear-gradient(#fcfdff, #f5f5f5) !important;
 }
 .formField {
 	display: inline-block;
 	width: auto;
-	padding: 5px 15px;
+	padding: 4px 15px;
 	border-radius: 4px;
 	// border: 1px solid #ccc;
 	box-shadow: 0 0 1px 0px #999;
@@ -771,7 +823,7 @@ button {
 		position: relative;
 		min-width: 1px;
 		display: inline-block !important;
-		height:1em;
+		height: 1em;
 		ul {
 			height: 1.2em;
 			padding: 0 1em;
@@ -780,8 +832,8 @@ button {
 				margin-bottom: 0.5em;
 			}
 		}
-		.revelCont{
-			height:auto;
+		.revelCont {
+			height: auto;
 			display: inline-table;
 			background: #eee;
 			padding: 0.5em 1em;
@@ -1072,13 +1124,15 @@ input[type="file"] {
 	padding: 0.75em;
 	overflow: hidden;
 	margin-bottom: 5px;
-
 	input {
-		opacity: 0;
 		width: 100%;
 		display: inline-block;
 		margin: 0;
 		height: 1.5em;
+	}
+	input[type="file"] {
+		opacity: 0;
+
 		position: relative;
 		z-index: 2;
 		cursor: pointer;
@@ -1298,7 +1352,6 @@ input[type="file"] {
 				border-right: 1px #e3e3e3 solid;
 				background: linear-gradient(#fcfdff, #f6f6f6) !important;
 				label {
-					color: #d8d8d8;
 					font-weight: normal;
 				}
 				.value {
@@ -1313,6 +1366,9 @@ input[type="file"] {
 				border: none;
 			}
 			li.active {
+				label {
+					color: #d8d8d8;
+				}
 				background: none !important;
 			}
 		}
