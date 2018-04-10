@@ -19,7 +19,6 @@ $primary-color: #1a9179;
 	margin-top: 1em;
 	cursor: pointer;
 }
-
 body {
 	margin: 0;
 	padding: 0;
@@ -187,6 +186,9 @@ a {
 	}
 }
 .logo {
+	a:hover {
+		color: inherit;
+	}
 	margin-top: 0.5em;
 	color: #70818e;
 	font-size: 1.6em;
@@ -569,6 +571,7 @@ a {
 	li {
 		cursor: pointer;
 		position: relative;
+		color: #999;
 		.subArrow {
 			position: absolute;
 			display: inline-block;
@@ -586,15 +589,25 @@ a {
 		margin-right: 5em;
 	}
 	li.active {
+		color: $primary-color;
 		font-weight: bold;
 	}
 }
 .dashboard_submenu {
 	padding: 1em 0;
+
+	width: 100%;
+	background: #fff;
 	ul {
 		@extend .flexHeader;
-		li:not(:last-child) {
-			margin-right: 3em;
+		li {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			span {
+				display: inline-block;
+				margin-right: 3em;
+			}
 		}
 	}
 }

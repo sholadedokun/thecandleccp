@@ -8,12 +8,16 @@ import { Row, Grid, Col } from "react-bootstrap";
 import Analytics from "./analytics";
 import Heading from "./heading";
 import Icon from "./icon";
+import Loading from "./loading";
 import _ from "lodash";
+
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.activeData = [19, 36, 23, 32, 22, 45, 36, 30];
+		this.LoadingMessages = ["Erecting Boards at Ikoyi", "Cleaning Boards", "Powering Boards", "Loading Adverts", "In Traffic on Ikoyi Bridge"];
 		this.state = {
+			loading: true,
 			modalOpen: false,
 			dashBoardView: "Campaign",
 			modalLoad: "create Campaign",
@@ -155,9 +159,7 @@ class Dashboard extends Component {
 		};
 	}
 	componentWillMount() {
-		this.props.fetchUser();
-		this.props.fetchCampaign();
-		this.props.fetchBoards();
+		this.props.fetchUser().then(data => this.props.fetchCampaign().then(data => this.props.fetchBoards().then(data => this.setState({ loading: false }))));
 	}
 	createCampaign() {
 		this.props.modalStatus(true, "createCampaign");
@@ -178,183 +180,185 @@ class Dashboard extends Component {
 		this.setState({ lineChart, activeBigline: type });
 	}
 	render() {
-		const { modalOpen, modalLoad, analyticsType, totalView, totalReach, totalSpent, totalImpression, activeBigline } = this.state;
+		const { modalOpen, modalLoad, analyticsType, totalView, totalReach, totalSpent, totalImpression, activeBigline, loading } = this.state;
 		const { allCampaigns } = this.props;
 		let totalCampaigns = allCampaigns ? allCampaigns.length : 0;
-		return (
-			<Grid className="dashboard section">
-				<Col xs={12} className="analyticsBoard">
-					<Row>
-						<ul className="analyticsMenu">
-							<li onClick={e => this.setState({ analyticsType: "bigLineGraph" })} className={analyticsType == "bigLineGraph" ? "active" : ""}>
-								<span className="icon-stats" />
-							</li>
-							<li onClick={e => this.setState({ analyticsType: "demoGraph" })} className={analyticsType == "demoGraph" ? "active" : ""}>
-								<span className="icon-Shape" />
-							</li>
-						</ul>
-						<div className="viewBoard">
-							{analyticsType == "bigLineGraph" ? (
-								<Col xs={12} className="bigLineMenu" componentClass="ul">
-									<li className={activeBigline == "impression" ? "active" : ""} onClick={this.setBigline.bind(this, totalImpression, "impression")}>
-										<label>Impressions</label>
-										<span className="value">12,235,323</span>
+		if (loading) return <Loading type="step" key={1} messages={this.LoadingMessages} />;
+		else
+			return (
+				<Grid className="dashboard section">
+					<Col xs={12} className="analyticsBoard">
+						<Row>
+							<ul className="analyticsMenu">
+								<li onClick={e => this.setState({ analyticsType: "bigLineGraph" })} className={analyticsType == "bigLineGraph" ? "active" : ""}>
+									<span className="icon-stats" />
+								</li>
+								<li onClick={e => this.setState({ analyticsType: "demoGraph" })} className={analyticsType == "demoGraph" ? "active" : ""}>
+									<span className="icon-Shape" />
+								</li>
+							</ul>
+							<div className="viewBoard">
+								{analyticsType == "bigLineGraph" ? (
+									<Col xs={12} className="bigLineMenu" componentClass="ul">
+										<li className={activeBigline == "impression" ? "active" : ""} onClick={this.setBigline.bind(this, totalImpression, "impression")}>
+											<label>Impressions</label>
+											<span className="value">12,235,323</span>
+										</li>
+										<li className={activeBigline == "views" ? "active" : ""} onClick={this.setBigline.bind(this, totalView, "views")}>
+											<label>Views</label>
+											<span className="value">1,405,863</span>
+										</li>
+										<li className={activeBigline == "reach" ? "active" : ""} onClick={this.setBigline.bind(this, totalReach, "reach")}>
+											<label>Reach</label>
+											<span className="value">4,778,203</span>
+										</li>
+										<li className={activeBigline == "spent" ? "active" : ""} onClick={this.setBigline.bind(this, totalSpent, "spent")}>
+											<label>Total Spent</label>
+											<span className="value">&#8358;31,456,110</span>
+										</li>
+									</Col>
+								) : (
+									""
+								)}
+								<Col xs={12} className="viewContainer">
+									<span className="inputField timeline">
+										<span className="formField">
+											<select>
+												<option>Weekly</option>
+												<option>Monthly</option>
+												<option>Yearly</option>
+											</select>
+										</span>
+									</span>
+									{analyticsType == "bigLineGraph" ? (
+										<Analytics xs={12} name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
+									) : (
+										<span className="analyticsContainer">
+											<Analytics
+												xs={12}
+												sm={12}
+												md="4"
+												classN="analytics"
+												name="barExample"
+												dataSet={[this.state.barChartExample.data, []]}
+												options={this.state.barChartExample.options}
+												height={90}
+												type="bar"
+											/>
+											<Analytics xs={12} sm={12} md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
+											<Analytics
+												xs={12}
+												sm={12}
+												md="4"
+												classN="analytics"
+												name="doughExample"
+												dataSet={[this.state.doughnutChartExample.data, []]}
+												options={this.state.doughnutChartExample.options}
+												height={80}
+												type="doughnut"
+											/>
+										</span>
+									)}
+								</Col>
+							</div>
+						</Row>
+					</Col>
+
+					<Col xs={12} className="campaignTable">
+						<Col xs={12} className="campaign_actionables">
+							<Col xs={12} sm={6}>
+								<Heading size="sm" title={` ${totalCampaigns}  Campaigns`} />
+								<span className="actionButton" onClick={this.createCampaign.bind(this)}>
+									<Icon icon="fas fa-plus" /> Create Campaign
+								</span>
+								<span className="formField">Edit</span>
+								<span className="formField">Delete</span>
+							</Col>
+							<Col xs={12} sm={6} className="filter float-sm-right">
+								<span className="formField">Sort</span>
+								<span className="formField">Export CSV</span>
+								<span className="searchInput">
+									<input type="text" className="" placeholder="search campaigns" />
+									<Icon icon="fas fa-search" size="xs" />
+								</span>
+							</Col>
+						</Col>
+						<Col xs={12} className="list_header">
+							<ul className="campaign_header">
+								<li>&nbsp;</li>
+								<li>&nbsp;</li>
+								<li>Campaign Name</li>
+								<li>Status</li>
+								<li>Views</li>
+								<li>Cost</li>
+								<li>Schedule</li>
+								<li>Spent Today</li>
+								<li>Total Spent</li>
+							</ul>
+						</Col>
+						{_.map(allCampaigns, (item, index) => {
+							return (
+								<Col key={index} componentClass="ul" className="each_campaign">
+									<li>
+										<span>
+											<input type="checkbox" />
+										</span>
 									</li>
-									<li className={activeBigline == "views" ? "active" : ""} onClick={this.setBigline.bind(this, totalView, "views")}>
-										<label>Views</label>
-										<span className="value">1,405,863</span>
+									<li>
+										<span className={item.status ? "statusToggle active" : "statusToggle"}>
+											<span className="toggler" />
+										</span>
 									</li>
-									<li className={activeBigline == "reach" ? "active" : ""} onClick={this.setBigline.bind(this, totalReach, "reach")}>
-										<label>Reach</label>
-										<span className="value">4,778,203</span>
+									<li>{item.name}</li>
+									<li>
+										<span className={`activityIndicator ${!item.activity ? "inactive" : item.activity == "active" ? "active" : "completed"}`} />
+										<span>{item.activity || "inactive"}</span>
 									</li>
-									<li className={activeBigline == "spent" ? "active" : ""} onClick={this.setBigline.bind(this, totalSpent, "spent")}>
-										<label>Total Spent</label>
-										<span className="value">&#8358;31,456,110</span>
+									<li className="value">
+										<span className="campaign_value">{item.budget}</span>
+										<span className="value_description">people</span>
+									</li>
+									<li className="value">
+										<span className="campaign_value">$50.00</span>
+										<span className="value_description">per view</span>
+									</li>
+									<li className="value">
+										<span className="campaign_value">08/11/2017</span>
+										<span className="value_description">to 11/12/2017</span>
+									</li>
+									<li className="value">
+										<span className="campaign_value">$34.34</span>
+										<span className="value_description">$99.99 Budget</span>
+									</li>
+									<li className="value ">
+										<span className="campaign_value">$10,000.00</span>
+										<span className="value_description">$25,000.00 Budget</span>
 									</li>
 								</Col>
-							) : (
-								""
-							)}
-							<Col xs={12} className="viewContainer">
-								<span className="inputField timeline">
-									<span className="formField">
-										<select>
-											<option>Weekly</option>
-											<option>Monthly</option>
-											<option>Yearly</option>
-										</select>
-									</span>
+							);
+						})}
+						{allCampaigns ? (
+							<Col xs={12} className="total_result">
+								<Heading size="xs" title={`Result from all ${allCampaigns.length} campaigns`} />
+								<span className="total_view">
+									<span className="campaign_value">1,040,000.00</span>
+									<span className="value_description">People</span>
 								</span>
-								{analyticsType == "bigLineGraph" ? (
-									<Analytics xs={12} name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
-								) : (
-									<span className="analyticsContainer">
-										<Analytics
-											xs={12}
-											sm={12}
-											md="4"
-											classN="analytics"
-											name="barExample"
-											dataSet={[this.state.barChartExample.data, []]}
-											options={this.state.barChartExample.options}
-											height={90}
-											type="bar"
-										/>
-										<Analytics xs={12} sm={12} md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
-										<Analytics
-											xs={12}
-											sm={12}
-											md="4"
-											classN="analytics"
-											name="doughExample"
-											dataSet={[this.state.doughnutChartExample.data, []]}
-											options={this.state.doughnutChartExample.options}
-											height={80}
-											type="doughnut"
-										/>
-									</span>
-								)}
+								<span className="total_spent">
+									<span className="campaign_value">$104,000.00</span>
+									<span className="value_description">$250,000.00</span>
+								</span>
+								<span className="total_budget">
+									<span className="campaign_value">$81,040,000.00</span>
+									<span className="value_description">$100,000,000.00</span>
+								</span>
 							</Col>
-						</div>
-					</Row>
-				</Col>
-
-				<Col xs={12} className="campaignTable">
-					<Col xs={12} className="campaign_actionables">
-						<Col xs={12} sm={6}>
-							<Heading size="sm" title={` ${totalCampaigns}  Campaigns`} />
-							<span className="actionButton" onClick={this.createCampaign.bind(this)}>
-								<Icon icon="fas fa-plus" /> Create Campaign
-							</span>
-							<span className="formField">Edit</span>
-							<span className="formField">Delete</span>
-						</Col>
-						<Col xs={12} sm={6} className="filter float-sm-right">
-							<span className="formField">Sort</span>
-							<span className="formField">Export CSV</span>
-							<span className="searchInput">
-								<input type="text" className="" placeholder="search campaigns" />
-								<Icon icon="fas fa-search" size="xs" />
-							</span>
-						</Col>
+						) : (
+							""
+						)}
 					</Col>
-					<Col xs={12} className="list_header">
-						<ul className="campaign_header">
-							<li>&nbsp;</li>
-							<li>&nbsp;</li>
-							<li>Campaign Name</li>
-							<li>Status</li>
-							<li>Views</li>
-							<li>Cost</li>
-							<li>Schedule</li>
-							<li>Spent Today</li>
-							<li>Total Spent</li>
-						</ul>
-					</Col>
-					{_.map(allCampaigns, (item, index) => {
-						return (
-							<Col key={index} componentClass="ul" className="each_campaign">
-								<li>
-									<span>
-										<input type="checkbox" />
-									</span>
-								</li>
-								<li>
-									<span className={item.status ? "statusToggle active" : "statusToggle"}>
-										<span className="toggler" />
-									</span>
-								</li>
-								<li>{item.name}</li>
-								<li>
-									<span className={`activityIndicator ${!item.activity ? "inactive" : item.activity == "active" ? "active" : "completed"}`} />
-									<span>{item.activity || "inactive"}</span>
-								</li>
-								<li className="value">
-									<span className="campaign_value">{item.budget}</span>
-									<span className="value_description">people</span>
-								</li>
-								<li className="value">
-									<span className="campaign_value">$50.00</span>
-									<span className="value_description">per view</span>
-								</li>
-								<li className="value">
-									<span className="campaign_value">08/11/2017</span>
-									<span className="value_description">to 11/12/2017</span>
-								</li>
-								<li className="value">
-									<span className="campaign_value">$34.34</span>
-									<span className="value_description">$99.99 Budget</span>
-								</li>
-								<li className="value ">
-									<span className="campaign_value">$10,000.00</span>
-									<span className="value_description">$25,000.00 Budget</span>
-								</li>
-							</Col>
-						);
-					})}
-					{allCampaigns ? (
-						<Col xs={12} className="total_result">
-							<Heading size="xs" title={`Result from all ${allCampaigns.length} campaigns`} />
-							<span className="total_view">
-								<span className="campaign_value">1,040,000.00</span>
-								<span className="value_description">People</span>
-							</span>
-							<span className="total_spent">
-								<span className="campaign_value">$104,000.00</span>
-								<span className="value_description">$250,000.00</span>
-							</span>
-							<span className="total_budget">
-								<span className="campaign_value">$81,040,000.00</span>
-								<span className="value_description">$100,000,000.00</span>
-							</span>
-						</Col>
-					) : (
-						""
-					)}
-				</Col>
-			</Grid>
-		);
+				</Grid>
+			);
 	}
 }
 function mapStateToProps(state) {

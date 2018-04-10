@@ -1,0 +1,2 @@
+.basicTransition-enter,.basicTransition-appear{opacity:0;left:-200px}.basicTransition-enter.basicTransition-enter-active,.basicTransition-appear.basicTransition-appear-active{opacity:1;left:0px;transition:all 500ms}.basicTransition-leave{opacity:1;left:0px}.basicTransition-leave.basicTransition-leave-active{opacity:0;left:200px;transition:all 100ms}
+/*# sourceMappingURL=animation.min.css.map */

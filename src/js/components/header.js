@@ -11,6 +11,7 @@ import ReactModal from "react-modal";
 import Icon from "./icon";
 import CustomeSelect from "./customSelect";
 import _ from "lodash";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 const dashBoardMenu = {
 	Dashboard: {
@@ -19,7 +20,7 @@ const dashBoardMenu = {
 	},
 	ManageAds: {
 		title: "Manage Ads",
-		subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigms" }]
+		subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigns" }]
 	},
 	Billings: {
 		title: "Billings",
@@ -147,7 +148,15 @@ class Header extends Component {
 							</div>
 							<div className="hrule" />
 							<div className="dashboard_submenu">
-								<ul>{dashBoardMenu[currentSub].subMenu.map(item => <li key={_.uniqueId()}>{item.title}</li>)}</ul>
+								<ReactCSSTransitionGroup component="ul" transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									{dashBoardMenu[currentSub].subMenu.reduce((accumulator, item, index) => {
+										if (index < dashBoardMenu[currentSub].subMenu.length - 1) {
+											return accumulator.concat(<span>{item.title}</span>);
+										} else {
+											return <li key={_.uniqueId()}>{accumulator.concat(<span>{item.title}</span>)}</li>;
+										}
+									}, [])}
+								</ReactCSSTransitionGroup>
 							</div>
 						</Col>
 					</Row>

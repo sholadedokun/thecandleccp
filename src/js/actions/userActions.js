@@ -74,21 +74,24 @@ export function modalStatus(state, page) {
 }
 export function fetchUser() {
 	return function(dispatch) {
-		axios
-			.get(`${ROOT_URL}/user?token=${localStorage.getItem("TheCandleToken")}`)
-			.then(response => {
-				dispatch({
-					type: FETCH_USER,
-					payload: response.data
+		return new Promise((resolve, reject) => {
+			axios
+				.get(`${ROOT_URL}/user?token=${localStorage.getItem("TheCandleToken")}`)
+				.then(response => {
+					dispatch({
+						type: FETCH_USER,
+						payload: response.data
+					});
+					resolve(response);
+				})
+				.catch(error => {
+					if (!error.response) {
+						dispatch(authError([NO_INTERNET]));
+					} else if (error.response.data.message == "Invalid token") {
+						dispatch(signoutUser(error.response.data.message));
+						dispatch(authError(error.response.data.message));
+					}
 				});
-			})
-			.catch(error => {
-				if (!error.response) {
-					dispatch(authError([NO_INTERNET]));
-				} else if (error.response.data.message == "Invalid token") {
-					dispatch(signoutUser(error.response.data.message));
-					dispatch(authError(error.response.data.message));
-				}
-			});
+		});
 	};
 }
