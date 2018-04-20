@@ -9,6 +9,8 @@ import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
 import { Col, Row, Grid } from "react-bootstrap";
 import { ADSET_DICTIONARY } from "../../config.js";
+import _ from "lodash";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class AddAdSet extends Component {
 	constructor(props) {
 		super(props);
@@ -26,11 +28,11 @@ class AddAdSet extends Component {
 		//     allCampaigns.push(newCampaign)
 		switch (currentStep) {
 			case 0:
-				return <SelectBoard selectedBoard={this.selectedBoard.bind(this)} />;
+				return <SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />;
 			case 1:
-				return <CampaignDescription setCampaignDetails={this.setCampaignDetails.bind(this)} allCampaigns={allCampaigns} campaign={newCampaign} />;
+				return <CampaignDescription key={_.uniqueId()} setCampaignDetails={this.setCampaignDetails.bind(this)} allCampaigns={allCampaigns} campaign={newCampaign} />;
 			case 2:
-				return <UploadCreative setCreatives={this.uploadCreatives.bind(this)} />;
+				return <UploadCreative key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
 	uploadCreatives(data) {
@@ -105,7 +107,10 @@ class AddAdSet extends Component {
 		const { currentStep } = this.state;
 		return (
 			<Col xs={10} xsOffset={1} className="createAdset">
-				<Nav currentStep={currentStep} closeModal={this.props.close} /> {this.displaySteps()}{" "}
+				<Nav currentStep={currentStep} closeModal={this.props.close} />{" "}
+				<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+					{this.displaySteps()}
+				</ReactCSSTransitionGroup>
 			</Col>
 		);
 	}

@@ -39,7 +39,6 @@ class RegisterUser extends Component {
 		let object = _.pick(this.state, ["name", "dateTo", "dateFrom", "budget"]);
 		if (this.state.budget_type == "Daily") object = _.omit(object, ["dateTo"]);
 		let errors = emptyFieldChecker.bind(this, {}, object)();
-		console.log(errors);
 		if (_.isEmpty(errors)) {
 			let params = _.omit(this.state, ["dateFrom", "dateTo", "createSuccess"]);
 			params.budget_type = CAMPAIGN_DICTIONARY.budget_type[this.state.budget_type];
@@ -70,6 +69,7 @@ class RegisterUser extends Component {
 			}
 		};
 		if (this.state.dateTo) {
+			console.log(this.state.dateTo);
 			dayPickerPropsFrom.disabledDays.after = new Date(this.state.dateTo);
 		}
 		const { name, budget, budget_type, dateFrom, dateTo, password, createSuccess, loading, errors, errorMessages } = this.state;
@@ -100,11 +100,12 @@ class RegisterUser extends Component {
 							<input type="text" name="campaign_totalSpend" placeholder="Enter Amount" onChange={e => this.setState({ budget: e.target.value })} value={budget} />
 							<span className="inlineSelect">
 								<select onChange={e => this.setState({ budget_type: e.target.value })} value={budget_type}>
-									<option value="Daily"> Daily </option> <option value="Lifetime"> Lifetime </option>
+									<option value="Daily"> Daily </option>
+									<option value="Lifetime"> Lifetime </option>
 								</select>
 							</span>
 						</span>
-						<span className="minimumValues"> Minimum Amount is & #8358;12,000</span>
+						<span className="minimumValues"> Minimum Amount is &#8358;12,000</span>
 					</div>
 					<div className="inputField">
 						<label> Desired Period </label>
@@ -142,7 +143,9 @@ class RegisterUser extends Component {
 									/>
 								</span>
 								<span className="arrowRange rangeSeperator">
-									<Icon icon="fas fa-long-arrow-right-alt"> </Icon>
+									<div>
+										<Icon icon="fas fa-long-arrow-alt-right" />
+									</div>
 								</span>
 								<span className={`inputContainer rangeInput ${errors.dateTo ? "error" : ""}`}>
 									<span className="subLabel"> To </span>

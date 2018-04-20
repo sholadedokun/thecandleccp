@@ -173,15 +173,17 @@ class Header extends Component {
 							afterOpen: "modalClass_after-open",
 							beforeClose: "modalClass_before-close"
 						}}>
-						{user.modalState.page === "login" ? (
-							<Login close={this.handleCloseModal.bind(this)} />
-						) : user.modalState.page == "register" ? (
-							<Register close={this.handleCloseModal.bind(this)} />
-						) : user.modalState.page == "createCampaign" ? (
-							<CreateCampaign close={this.handleCloseModal.bind(this)} />
-						) : (
-							<AddAdSet close={this.handleCloseModal.bind(this)} />
-						)}
+						<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+							{user.modalState.page === "login" ? (
+								<Login key={_.uniqueId()} close={this.handleCloseModal.bind(this)} />
+							) : user.modalState.page == "register" ? (
+								<Register key={_.uniqueId()} close={this.handleCloseModal.bind(this)} />
+							) : user.modalState.page == "createCampaign" ? (
+								<CreateCampaign key={_.uniqueId()} close={this.handleCloseModal.bind(this)} />
+							) : (
+								<AddAdSet key={_.uniqueId()} close={this.handleCloseModal.bind(this)} />
+							)}
+						</ReactCSSTransitionGroup>
 					</ReactModal>
 				</div>
 			</Row>

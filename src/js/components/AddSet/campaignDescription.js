@@ -159,9 +159,9 @@ class AdSetDescription extends Component {
 			retina_detect: true
 		};
 	}
-	componentWillReceiveProps(nextProps) {
-		errorHandler.bind(this, nextProps)();
-	}
+	// componentWillReceiveProps(nextProps) {
+	// 	errorHandler.bind(this, nextProps)();
+	// }
 	setOptionValue(index, option, e) {
 		let data = this.state.data;
 		if (arguments.length > 2) {
@@ -539,7 +539,7 @@ class AdSetDescription extends Component {
                                                              }                                  </label> */}
 								{advanceTiming.map((item, index) => {
 									return (
-										<div className={`${errors.timing ? "error" : ""}`}>
+										<div key={_.uniqueId()} className={`${errors.timing ? "error" : ""}`}>
 											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
 											<span className="arrowRange rangeSeperator">
 												<Icon icon="fas fa-long-arrow-alt-right" />

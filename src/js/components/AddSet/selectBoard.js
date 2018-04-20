@@ -38,7 +38,7 @@ export default class SelectBoard extends Component {
 			<Row className="campaignContainer">
 				<Col xs={5}>
 					<Row>
-						<Map spaces={{ her: 0 }} size="addCampaign" />
+						<Map boards={this.props.allBoards} size="addCampaign" />
 					</Row>
 				</Col>
 				<Col xs={6} className="boardSelection">
@@ -50,12 +50,12 @@ export default class SelectBoard extends Component {
 					</span>
 					<Row className="spaceList">
 						<Col xs={6} sm={4}>
-							{boards.map((item, index) => {
+							{this.props.allBoards.map((item, index) => {
 								return (
 									<div key={index} className={selectedBoardIndex === index ? "spaceContainer active" : "spaceContainer"} onClick={() => this.setState({ selectedBoardIndex: index })}>
-										<img src={item.imageUrl} />
+										<img src={item.imageUrl || "images/space1.jpg"} />
 										<span className="location">
-											<Icon icon="fas fa-map-marker-alt"> </Icon> {item.address}
+											<Icon icon="fas fa-map-marker-alt"> </Icon> {item.location}
 										</span>
 									</div>
 								);
