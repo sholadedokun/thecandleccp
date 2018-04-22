@@ -15,15 +15,35 @@ import Home from "./home";
 import Adsets from "./adSets";
 import Toggler from "../toggle";
 import ActivityIndicator from "../activityIndicator";
-
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.LoadingMessages = ["Erecting Boards at Ikoyi", "Cleaning Boards", "Powering Boards", "Loading Adverts", "In Traffic on Ikoyi Bridge"];
 		this.state = {
-			loading: true
+			loading: true,
+			currentSub: "ManageAds"
 		};
 	}
+	dashBoardMenu = {
+		Dashboard: {
+			title: "Dashboard",
+			defaultLink: "",
+			subMenu: [{ title: "Campaigns", path: "" }, { title: "Ad Sets", path: "/adSets" }]
+		},
+		ManageAds: {
+			title: "Manage Ads",
+			subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigns" }]
+		},
+		Billings: {
+			title: "Billings",
+			subMenu: [{ title: "Billing History" }, { title: "Current Spending" }]
+		},
+		Account: {
+			title: "Account",
+			subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
+		}
+	};
 	componentWillMount() {
 		this.props.fetchUser().then(data => this.props.fetchCampaign().then(data => this.props.fetchBoards().then(data => this.setState({ loading: false }))));
 	}
@@ -34,16 +54,42 @@ class Dashboard extends Component {
 		}
 	}
 	render() {
-		const { loading } = this.state;
-		const { allCampaigns, match } = this.props;
+		const { loading, currentSub } = this.state;
+		const { allCampaigns, match, location } = this.props;
+		console.log(location);
 		if (loading) return <Loading type="step" key={1} messages={this.LoadingMessages} />;
 		else
 			return (
 				<Router>
-					<div>
-						<Route exact={true} path={`${match.url}`} component={() => <Home allCampaigns={allCampaigns} />} />
-						<Route exact={true} path={`${match.url}/adSets`} component={() => <Adsets allCampaigns={allCampaigns} createCampaign={() => "Hello"} />} />
-					</div>
+					<Row>
+						<div className="dashboardMenu">
+							<div className="hrule" />
+							<div className="dashboard_menu">
+								<ul>
+									{_.map(this.dashBoardMenu, (item, index) => (
+										<li key={_.uniqueId()} onClick={() => this.setState({ currentSub: index })} className={` ${currentSub == index ? "active" : ""}`}>
+											<Link to={`${match.url + item.defaultLink}`}>{item.title}</Link> <span className={` ${currentSub == index ? "subArrow" : ""}`} />
+										</li>
+									))}
+								</ul>
+							</div>
+							<div className="hrule" />
+							<div className="dashboard_submenu">
+								<ReactCSSTransitionGroup component="ul" transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									{this.dashBoardMenu[currentSub].subMenu.reduce((accumulator, item, index) => {
+										if (index < this.dashBoardMenu[currentSub].subMenu.length - 1) {
+											return accumulator.concat(<Link to={match.url + item.path}>{item.title}</Link>);
+										} else {
+											return <li key={_.uniqueId()}>{accumulator.concat(<Link to={match.url + item.path}>{item.title}</Link>)}</li>;
+										}
+									}, [])}
+								</ReactCSSTransitionGroup>
+							</div>
+						</div>
+
+						<Route exact={true} path={`${match.url}`} component={() => <Home allCampaigns={allCampaigns} location={location} />} />
+						<Route exact={true} path={`${match.url}/adSets`} component={() => <Adsets allCampaigns={allCampaigns} location={location} createCampaign={() => "Hello"} />} />
+					</Row>
 				</Router>
 			);
 	}

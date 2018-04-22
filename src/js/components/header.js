@@ -13,25 +13,6 @@ import CustomeSelect from "./customSelect";
 import _ from "lodash";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
-const dashBoardMenu = {
-	Dashboard: {
-		title: "Dashboard",
-		subMenu: [{ title: "Campaigns" }, { title: "Ad Sets" }]
-	},
-	ManageAds: {
-		title: "Manage Ads",
-		subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigns" }]
-	},
-	Billings: {
-		title: "Billings",
-		subMenu: [{ title: "Billing History" }, { title: "Current Spending" }]
-	},
-	Account: {
-		title: "Account",
-		subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
-	}
-};
-
 class Header extends Component {
 	constructor(props) {
 		super(props);
@@ -98,7 +79,7 @@ class Header extends Component {
 			</li>
 		];
 		let resolvedLinks =
-			user.authenticated && this.props.location.pathname == "/dashboard"
+			user.authenticated && this.props.location.pathname.indexOf("/dashboard") > -1
 				? authenticated_bar_dashboard // route is authenticated and the view is on dashboard
 				: user.authenticated //user is authenticated but on the not on dashboar
 					? regularRoute.concat(...authenticated_bar)
@@ -116,54 +97,25 @@ class Header extends Component {
 		this.props.history.push(route);
 	}
 	render() {
-		const { user, history, location: { pathname } } = this.props;
+		const { user, history, location: { pathname }, match } = this.props;
 		const { currentSub } = this.state;
 		return (
-			<Row className={user.authenticated && pathname != "/" ? "nav_dashboard header" : "header"}>
-				<Navbar inverse collapseOnSelect>
-					<Navbar.Header>
-						<Navbar.Brand>
-							<a href="/" className="logo">
-								The<span className="sublogo">Candle</span>
-							</a>
-						</Navbar.Brand>
-						<Navbar.Toggle />
-					</Navbar.Header>
-					<Navbar.Collapse>
-						<Nav>{this.authenticated(user)}</Nav>
-					</Navbar.Collapse>
-				</Navbar>
-				{user.authenticated && pathname.indexOf("/dashboard") > -1 ? (
-					<Row>
-						<Col xs={12}>
-							<div className="hrule" />
-							<div className="dashboard_menu">
-								<ul>
-									{_.map(dashBoardMenu, (item, index) => (
-										<li key={_.uniqueId()} onClick={() => this.setState({ currentSub: index })} className={` ${currentSub == index ? "active" : ""}`}>
-											<span>{item.title}</span> <span className={` ${currentSub == index ? "subArrow" : ""}`} />
-										</li>
-									))}
-								</ul>
-							</div>
-							<div className="hrule" />
-							<div className="dashboard_submenu">
-								<ReactCSSTransitionGroup component="ul" transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-									{dashBoardMenu[currentSub].subMenu.reduce((accumulator, item, index) => {
-										if (index < dashBoardMenu[currentSub].subMenu.length - 1) {
-											return accumulator.concat(<span>{item.title}</span>);
-										} else {
-											return <li key={_.uniqueId()}>{accumulator.concat(<span>{item.title}</span>)}</li>;
-										}
-									}, [])}
-								</ReactCSSTransitionGroup>
-							</div>
-						</Col>
-					</Row>
-				) : (
-					""
-				)}
-				<div>
+			<Row className={user.authenticated && pathname != "/" ? "nav_dashboard header" : "header homeHeader"}>
+				<Col xs="12">
+					<Navbar inverse collapseOnSelect>
+						<Navbar.Header>
+							<Navbar.Brand>
+								<a href="/" className="logo">
+									The<span className="sublogo">Candle</span>
+								</a>
+							</Navbar.Brand>
+							<Navbar.Toggle />
+						</Navbar.Header>
+						<Navbar.Collapse>
+							<Nav>{this.authenticated(user)}</Nav>
+						</Navbar.Collapse>
+					</Navbar>
+
 					<ReactModal
 						isOpen={user.modalState.isOpen}
 						shouldCloseOnOverlayClick={true}
@@ -185,7 +137,7 @@ class Header extends Component {
 							)}
 						</ReactCSSTransitionGroup>
 					</ReactModal>
-				</div>
+				</Col>
 			</Row>
 		);
 	}
