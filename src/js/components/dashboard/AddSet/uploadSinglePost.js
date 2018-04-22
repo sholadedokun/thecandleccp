@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from "react";
-import Icon from "../icon";
+import Icon from "../../icon";
 import { Col } from "react-bootstrap";
-import Heading from "../heading";
+import Heading from "../../heading";
 export default class singlePost extends Component {
 	constructor(props) {
 		super(props);

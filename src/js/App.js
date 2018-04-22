@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
 
 import Home from "./components/home";
-import Dashboard from "./components/dashboard";
+import Dashboard from "./components/dashboard/";
 import Howitworks from "./components/howitworks";
 import Footer from "./components/footer";
 import Help from "./components/help";
@@ -18,7 +18,7 @@ class App extends Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/Howitworks" component={Howitworks} />
 					<Route exact path="/help" component={Help} />
-					<Route exact path="/dashboard" component={requireAuth(Dashboard)} />
+					<Route path="/dashboard" component={requireAuth(Dashboard)} />
 					<Footer />
 				</Grid>
 			</Router>

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Heading from "../heading";
-import Icon from "../icon";
+import Heading from "../../heading";
+import Icon from "../../icon";
 import SinglePost from "./uploadSinglePost";
 import MultiplePost from "./uploadMultiplePost";
 import { Col, Row } from "react-bootstrap";
-import { errorHandler } from "../errorHandler";
-import { arrObjectFieldChecker } from "../errorChecker";
-import ErrorMessage from "../errorMessages";
+import { errorHandler } from "../../errorHandler";
+import { arrObjectFieldChecker } from "../../errorChecker";
+import ErrorMessage from "../../errorMessages";
 import _ from "lodash";
 
 export default class uploadAdCreative extends Component {

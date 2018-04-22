@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Heading from "../heading";
+import Heading from "../../heading";
 import { Col, Row, Grid } from "react-bootstrap";
-import Icon from "../icon";
+import Icon from "../../icon";
 class navigation extends Component {
 	constructor(props) {
 		super(props);

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Row, Col, Navbar, Nav, NavItem } from "react-bootstrap";
 import Login from "./auth/loginUser";
 import Register from "./auth/register";
-import CreateCampaign from "./createCampaign";
-import AddAdSet from "./AddSet/addAdSet";
+import CreateCampaign from "./dashboard/createCampaign";
+import AddAdSet from "./dashboard/AddSet/addAdSet";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { signoutUser, fetchUser, modalStatus } from "../actions/userActions";
@@ -133,7 +133,7 @@ class Header extends Component {
 						<Nav>{this.authenticated(user)}</Nav>
 					</Navbar.Collapse>
 				</Navbar>
-				{user.authenticated && pathname == "/dashboard" ? (
+				{user.authenticated && pathname.indexOf("/dashboard") > -1 ? (
 					<Row>
 						<Col xs={12}>
 							<div className="hrule" />

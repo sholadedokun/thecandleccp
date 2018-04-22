@@ -1,20 +1,20 @@
 //@flow
 import React, { Component } from "react";
-import { saveCampaign } from "../actions/campaignActions";
+import { saveCampaign } from "../../actions/campaignActions";
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import Icon from "./icon";
+import Icon from "../icon";
 import moment from "moment";
-import Heading from "./heading";
+import Heading from "../heading";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import AdvanceTiming from "./timingForm";
-import ToolTipMarker from "./tooltip.js";
+import ToolTipMarker from "../tooltip";
 import "react-day-picker/lib/style.css";
-import { CAMPAIGN_DICTIONARY } from "../config.js";
+import { CAMPAIGN_DICTIONARY } from "../../config.js";
 import _ from "lodash";
-import ErrorMessage from "./errorMessages";
-import { errorHandler } from "./errorHandler";
-import { emptyFieldChecker } from "./errorChecker";
+import ErrorMessage from "../errorMessages";
+import { errorHandler } from "../errorHandler";
+import { emptyFieldChecker } from "../errorChecker";
 
 class RegisterUser extends Component {
 	constructor(props) {

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Nav from "./navigation";
 import { connect } from "react-redux";
-import { selectBoard } from "../../actions/boardActions";
-import { createAdset, uploadCreative } from "../../actions/adSetActions";
-import { createCampaign } from "../../actions/campaignActions";
+import { selectBoard } from "../../../actions/boardActions";
+import { createAdset, uploadCreative } from "../../../actions/adSetActions";
+import { createCampaign } from "../../../actions/campaignActions";
 import SelectBoard from "./selectBoard";
 import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
 import { Col, Row, Grid } from "react-bootstrap";
-import { ADSET_DICTIONARY } from "../../config.js";
+import { ADSET_DICTIONARY } from "../../../config.js";
 import _ from "lodash";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class AddAdSet extends Component {
