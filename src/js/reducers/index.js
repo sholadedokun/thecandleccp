@@ -3,11 +3,12 @@ import { combineReducers } from 'redux';
 import userReducer from './userReducer';
 import campaignReducer from './campaignReducer';
 import boardReducers from './boardReducer';
+import adSetReducer from './adSetReducer';
 
 const rootReducer = combineReducers({
-  // form,
   user:userReducer,
   campaigns:campaignReducer,
-  boards:boardReducers
+  boards:boardReducers,
+  adSet:adSetReducer,
 });
 export default rootReducer;

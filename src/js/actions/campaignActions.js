@@ -66,17 +66,3 @@ export function campaignError(error) {
     payload: error
   };
 }
-
-// export function deleteCampaign() {
-//     return function(dispatch) {
-//         axios.get(`${ROOT_URL}/inventory`, {
-//             headers: { authorization: localStorage.getItem('TheCandleToken') }
-//         })
-//         .then(response => {
-//             dispatch({
-//                 type: FETCH_OFFERS,
-//                 payload: response.data
-//             });
-//         });
-//     }
-// }

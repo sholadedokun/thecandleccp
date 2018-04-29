@@ -5,7 +5,7 @@ import { fetchUser, modalStatus } from "../../actions/userActions";
 import { fetchBoards } from "../../actions/boardActions";
 import { connect } from "react-redux";
 import { Row, Grid, Col } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, withRouter, Switch } from "react-router-dom";
 import Analytics from "./analytics";
 import Heading from "../heading";
 import Icon from "../icon";
@@ -44,6 +44,10 @@ class Dashboard extends Component {
 			subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
 		}
 	};
+	changeRoute(route) {
+		console.log(this.props);
+		this.props.history.push(this.props.match.url + route);
+	}
 	componentWillMount() {
 		this.props.fetchUser().then(data => this.props.fetchCampaign().then(data => this.props.fetchBoards().then(data => this.setState({ loading: false }))));
 	}
@@ -78,17 +82,29 @@ class Dashboard extends Component {
 								<ReactCSSTransitionGroup component="ul" transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 									{this.dashBoardMenu[currentSub].subMenu.reduce((accumulator, item, index) => {
 										if (index < this.dashBoardMenu[currentSub].subMenu.length - 1) {
-											return accumulator.concat(<Link to={match.url + item.path}>{item.title}</Link>);
+											return accumulator.concat(<Link to={match.url + (item.path || "")}>{item.title}</Link>);
 										} else {
-											return <li key={_.uniqueId()}>{accumulator.concat(<Link to={match.url + item.path}>{item.title}</Link>)}</li>;
+											return <li key={_.uniqueId()}>{accumulator.concat(<Link to={match.url + (item.path || "")}>{item.title}</Link>)}</li>;
 										}
 									}, [])}
 								</ReactCSSTransitionGroup>
 							</div>
 						</div>
-
-						<Route exact={true} path={`${match.url}`} component={() => <Home allCampaigns={allCampaigns} location={location} />} />
-						<Route exact={true} path={`${match.url}/adSets`} component={() => <Adsets allCampaigns={allCampaigns} location={location} createCampaign={() => "Hello"} />} />
+						<Route
+							render={({ location }) => (
+								<ReactCSSTransitionGroup key={location.key} transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									<Switch location={location}>
+										<Route exact={true} path={`${match.url}`} component={() => <Home allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} />} />
+										<Route
+											exact={true}
+											path={`${match.url}/adSets/:campaignId`}
+											component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
+										/>
+										{console.log(location, match)}
+									</Switch>
+								</ReactCSSTransitionGroup>
+							)}
+						/>
 					</Row>
 				</Router>
 			);
@@ -98,4 +114,4 @@ function mapStateToProps(state) {
 	return { allCampaigns: state.campaigns.allCampaigns };
 }
 const mapDispatchToProps = { fetchCampaign, fetchUser, modalStatus, fetchBoards };
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));

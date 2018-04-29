@@ -336,38 +336,40 @@ class AdSetDescription extends Component {
 							<Heading size="sm" title="Audience" />
 							<div className="inputField">
 								<label> Age </label>
-								<span className={`formField rangeSelect ${errors.min_age ? "error" : ""}`}>
-									<select
-										onChange={e =>
-											this.setState({
-												data: { ...this.state.data, min_age: e.target.value }
-											})
-										}
-										value={min_age}>
-										{this.ageOption.map((item, index) => (
-											<option key={index} value={item}>
-												{item}
-											</option>
-										))}
-									</select>
-								</span>
-								<span className="arrowRange rangeSeperator">
-									<Icon icon="fas fa-long-arrow-alt-right"> </Icon>
-								</span>
-								<span className={`formField rangeSelect ${errors.max_age ? "error" : ""}`}>
-									<select
-										onChange={e =>
-											this.setState({
-												data: { ...this.state.data, max_age: e.target.value }
-											})
-										}
-										value={max_age}>
-										{this.ageOption.map((item, index) => (
-											<option key={index} value={item}>
-												{item}
-											</option>
-										))}
-									</select>
+								<span className="SelectDate">
+									<span className={`formField rangeSelect ${errors.min_age ? "error" : ""}`}>
+										<select
+											onChange={e =>
+												this.setState({
+													data: { ...this.state.data, min_age: e.target.value }
+												})
+											}
+											value={min_age}>
+											{this.ageOption.map((item, index) => (
+												<option key={index} value={item}>
+													{item}
+												</option>
+											))}
+										</select>
+									</span>
+									<span className="arrowRange rangeSeperator">
+										<Icon icon="fas fa-long-arrow-alt-right"> </Icon>
+									</span>
+									<span className={`formField rangeSelect ${errors.max_age ? "error" : ""}`}>
+										<select
+											onChange={e =>
+												this.setState({
+													data: { ...this.state.data, max_age: e.target.value }
+												})
+											}
+											value={max_age}>
+											{this.ageOption.map((item, index) => (
+												<option key={index} value={item}>
+													{item}
+												</option>
+											))}
+										</select>
+									</span>
 								</span>
 							</div>
 							<div className="inputField">
@@ -540,11 +542,13 @@ class AdSetDescription extends Component {
 								{advanceTiming.map((item, index) => {
 									return (
 										<div key={_.uniqueId()} className={`${errors.timing ? "error" : ""}`}>
-											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
-											<span className="arrowRange rangeSeperator">
-												<Icon icon="fas fa-long-arrow-alt-right" />
+											<span className="SelectDate">
+												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
+												<span className="arrowRange rangeSeperator">
+													<Icon icon="fas fa-long-arrow-alt-right" />
+												</span>
+												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} />
 											</span>
-											<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} />
 											{advanceTiming.length - 1 === index ? (
 												<span className="moreAdder" onClick={this.addMoreField.bind(this, "advanceTiming")}>
 													<Icon icon="fas fa-plus-circle" />

@@ -5,8 +5,13 @@ import { Grid, Col } from "react-bootstrap";
 import Toggler from "../toggle";
 import ActivityIndicator from "../activityIndicator";
 import Icon from "../icon";
-
-export default class Adset extends Component {
+import { fetchAdset } from "../../actions/adSetActions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+class Adset extends Component {
+	componentWillMount() {
+		this.props.Adset ? "" : this.props.fetchAdset(this.props.match.params.campaignId);
+	}
 	render() {
 		return (
 			<Grid className="dashboard section">
@@ -28,6 +33,7 @@ export default class Adset extends Component {
 						</span>
 					</Col>
 				</Col>
+
 				<Col xs="4" className="adSetContainer">
 					<div className="adSetPreview">
 						<div className="previewImage">
@@ -75,3 +81,9 @@ export default class Adset extends Component {
 		);
 	}
 }
+function mapStateToProps(state) {
+	return {
+		adSet: state.adSet.allAdsets
+	};
+}
+export default connect(mapStateToProps, { fetchAdset })(withRouter(Adset));

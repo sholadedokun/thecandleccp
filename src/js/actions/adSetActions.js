@@ -57,7 +57,6 @@ export function uploadCreative(creative) {
 
 export function fetchAdset(campaign_id) {
     console.log(localStorage.getItem('TheCandleToken'))
-
     return function(dispatch) {
         return new Promise( (resolve)=>{
             axios.get(`${ROOT_URL}/adsets?token=${localStorage.getItem('TheCandleToken')}&campaign_id=${campaign_id}` )
@@ -78,17 +77,3 @@ export function adsetError(error) {
     payload: error
   };
 }
-
-// export function deleteAdset() {
-//     return function(dispatch) {
-//         axios.get(`${ROOT_URL}/inventory`, {
-//             headers: { authorization: localStorage.getItem('TheCandleToken') }
-//         })
-//         .then(response => {
-//             dispatch({
-//                 type: FETCH_OFFERS,
-//                 payload: response.data
-//             });
-//         });
-//     }
-// }

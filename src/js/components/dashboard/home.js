@@ -159,7 +159,9 @@ class DashHome extends Component {
 			}
 		};
 	}
-
+	displayAdsets(index) {
+		this.props.changeRoute("/adSets/" + index);
+	}
 	createCampaign() {
 		this.props.modalStatus(true, "createCampaign");
 	}
@@ -181,10 +183,22 @@ class DashHome extends Component {
 				<Col xs={12} className="analyticsBoard">
 					<Row>
 						<ul className="analyticsMenu">
-							<li onClick={e => this.setState({ analyticsType: "bigLineGraph" })} className={analyticsType == "bigLineGraph" ? "active" : ""}>
+							<li
+								onClick={e =>
+									this.setState({
+										analyticsType: "bigLineGraph"
+									})
+								}
+								className={analyticsType == "bigLineGraph" ? "active" : ""}>
 								<span className="icon-stats" />
 							</li>
-							<li onClick={e => this.setState({ analyticsType: "demoGraph" })} className={analyticsType == "demoGraph" ? "active" : ""}>
+							<li
+								onClick={e =>
+									this.setState({
+										analyticsType: "demoGraph"
+									})
+								}
+								className={analyticsType == "demoGraph" ? "active" : ""}>
 								<span className="icon-Shape" />
 							</li>
 						</ul>
@@ -289,7 +303,7 @@ class DashHome extends Component {
 					</Col>
 					{_.map(allCampaigns, (item, index) => {
 						return (
-							<Col key={index} componentClass="ul" className="each_campaign">
+							<Col componentClass="ul" className="each_campaign" key={_.uniqueId()} onClick={this.displayAdsets.bind(this, index)}>
 								<li>
 									<span>
 										<input type="checkbox" />
@@ -327,7 +341,7 @@ class DashHome extends Component {
 						);
 					})}
 					{allCampaigns ? (
-						<Col xs={12} className="total_result">
+						<Col xs={12} className="total_result" key={_.uniqueId()}>
 							<Heading size="xs" title={`Result from all ${allCampaigns.length} campaigns`} />
 							<span className="total_view">
 								<span className="campaign_value">1,040,000.00</span>
