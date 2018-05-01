@@ -34,6 +34,7 @@ export default class SelectBoard extends Component {
 	}
 	render() {
 		const { boards, selectedBoardIndex, error } = this.state;
+		console.log(this.props);
 		return (
 			<Row className="campaignContainer">
 				<Col xs={5}>
@@ -49,18 +50,19 @@ export default class SelectBoard extends Component {
 						</select>
 					</span>
 					<Row className="spaceList">
-						<Col xs={6} sm={4}>
-							{this.props.allBoards.map((item, index) => {
-								return (
+						{this.props.allBoards.map((item, index) => {
+							return (
+								<Col xs={6} sm={4}>
 									<div key={index} className={selectedBoardIndex === index ? "spaceContainer active" : "spaceContainer"} onClick={() => this.setState({ selectedBoardIndex: index })}>
 										<img src={item.imageUrl || "images/space1.jpg"} />
 										<span className="location">
 											<Icon icon="fas fa-map-marker-alt"> </Icon> {item.location}
 										</span>
 									</div>
-								);
-							})}
-						</Col>
+								</Col>
+							);
+						})}
+
 						<Col xs={12} className="errorNotification">
 							{error !== "" ? error : ""}
 						</Col>

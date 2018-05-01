@@ -25,9 +25,6 @@ class RegisterUser extends Component {
 			errorMessages: []
 		};
 	}
-	componentWillReceiveProps(nextProps) {
-		errorHandler.bind(this, nextProps)();
-	}
 	registerUser() {
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "role", "errors", "errorMessages"]))();
@@ -37,9 +34,8 @@ class RegisterUser extends Component {
 			this.props
 				.signUpUser(params)
 				.then(data => {
-					this.setState({ loading: false });
-					if (data.data.id) {
-						this.props.signinUser(data.data.email, this.state.password).then(data => {
+					if (data.id) {
+						this.props.signinUser(data.email, this.state.password).then(data => {
 							this.props.close("/dashboard");
 						});
 					}
@@ -61,7 +57,7 @@ class RegisterUser extends Component {
 	render() {
 		const { email, firstName, lastName, phone, password_confirmation, password, loading, errors, errorMessages } = this.state;
 		return (
-			<Col xs={10} xsOffset={1} sm={8} smOffset="2" md={4} mdOffset="4" className="login">
+			<Col xs={10} xsOffset={1} sm={8} smOffset={2} md={4} mdOffset={4} className="login">
 				<Row>
 					<Heading size="lg" title="Create an account">
 						{" "}
@@ -111,14 +107,16 @@ class RegisterUser extends Component {
 					<Col xs="12" className="inputField">
 						{" "}
 						{loading ? (
-							<Icon icon="fas fa-spinner fa-spin loading" />
+							<div>
+								<Icon icon="fas fa-spinner fa-spin loading" />
+							</div>
 						) : (
 							<button className="primaryButton" onClick={this.registerUser.bind(this)}>
 								Register{" "}
 							</button>
 						)}{" "}
 					</Col>{" "}
-					<ErrorMessage errorMessage={errorMessages} />{" "}
+					<ErrorMessage errorMessage={this.props.error} />{" "}
 					<span className="alternate">
 						{" "}
 						{`Already have an account`} ? <a onClick={() => this.props.close("login")}> Sign In </a>{" "}

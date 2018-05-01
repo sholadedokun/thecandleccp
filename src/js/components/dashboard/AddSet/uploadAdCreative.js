@@ -35,9 +35,6 @@ export default class uploadAdCreative extends Component {
 			this.props.setCreatives(this.state);
 		}
 	}
-	componentWillReceiveProps(nextProps) {
-		errorHandler.bind(this, nextProps)();
-	}
 	componentDidMount() {
 		let boardDimension = document.querySelector("#displayBoard").getBoundingClientRect();
 		console.log(boardDimension);

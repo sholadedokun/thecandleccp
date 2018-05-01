@@ -16,7 +16,7 @@ export function fetchBoards() {
 			axios
 				.get(`${ROOT_URL}/boards?token=${localStorage.getItem("TheCandleToken")}`)
 				.then(response => {
-					dispatch({ type: FETCH_BOARD, payload: response.data.data });
+					dispatch({ type: FETCH_BOARD, payload: response.data });
 					resolve(response);
 				})
 				.catch(error => {

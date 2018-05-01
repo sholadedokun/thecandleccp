@@ -303,7 +303,7 @@ class DashHome extends Component {
 					</Col>
 					{_.map(allCampaigns, (item, index) => {
 						return (
-							<Col componentClass="ul" className="each_campaign" key={_.uniqueId()} onClick={this.displayAdsets.bind(this, index)}>
+							<Col componentClass="ul" className="each_campaign" key={_.uniqueId()} onClick={this.displayAdsets.bind(this, item.id)}>
 								<li>
 									<span>
 										<input type="checkbox" />

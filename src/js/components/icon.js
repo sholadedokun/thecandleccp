@@ -1,6 +1,6 @@
 import React from "react";
 
-export default ({ type, icon, size = "sm" }) => {
+export default ({ icon, size = "sm" }) => {
 	const style = {
 		xs: {
 			fontSize: "0.75em"

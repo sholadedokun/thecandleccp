@@ -20,9 +20,6 @@ class LoginUser extends Component {
 			errorMessages: []
 		};
 	}
-	componentWillReceiveProps(nextProps) {
-		errorHandler.bind(this, nextProps)();
-	}
 	loginUser() {
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "errors", "errorMessages"]))();
@@ -32,9 +29,7 @@ class LoginUser extends Component {
 				.then(data => {
 					this.props.close("/dashboard");
 				})
-				.catch(e => {
-					this.setState({ loading: false });
-				});
+				.catch(e => this.setState({ loading: false }));
 		}
 		// else{
 		//     this.setState({errors, loading:false, errorMessages:[...this.state.errorMessages, ['One of more Field(s) need your attention']]})
@@ -43,7 +38,7 @@ class LoginUser extends Component {
 	render() {
 		const { username, password, loading, errors, errorMessages } = this.state;
 		return (
-			<Col xs={10} xsOffset={1} sm={4} smOffset={6} md={4} mdOffset={4} className="login">
+			<Col xs={10} xsOffset={1} sm={6} smOffset={3} md={4} mdOffset={4} className="login">
 				<Row>
 					<Heading size="md" title="Sign in to account" />
 					<span className="facebookSignin">
@@ -68,14 +63,18 @@ class LoginUser extends Component {
 							<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Passowrd" />
 						</span>
 						{loading ? (
-							<Icon icon="fas fa-spinner fa-spin loading" />
+							<div>
+								<Icon icon="fas fa-spinner fa-spin loading" />
+							</div>
 						) : (
 							<button className="primaryButton" onClick={this.loginUser.bind(this)}>
 								Login
 							</button>
 						)}
 					</Col>
-					<ErrorMessage errorMessage={errorMessages} />
+					<div>
+						<ErrorMessage errorMessage={this.props.error} />
+					</div>
 					{
 						// this.props.error ? <div className="errorNotification animate shake">{ this.props.error}</div>:''
 					}

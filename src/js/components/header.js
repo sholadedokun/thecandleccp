@@ -26,7 +26,9 @@ class Header extends Component {
 	}
 	userLogin = e => (e == "signOut" || e.target.value == "signOut" ? this.signoutUser() : "");
 	selectedCustomItem(item) {
-		console.log("here" + item);
+		if (item == "signout") {
+			this.signoutUser();
+		}
 	}
 	authenticated(user) {
 		// console.log(this.props.allCampaigns)
