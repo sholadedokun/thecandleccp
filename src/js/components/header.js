@@ -108,7 +108,7 @@ class Header extends Component {
 						<Navbar.Header>
 							<Navbar.Brand>
 								<a href="/" className="logo">
-									The<span className="sublogo">Candle</span>
+									<img src="images/Candle-.png" width="100%" />
 								</a>
 							</Navbar.Brand>
 							<Navbar.Toggle />

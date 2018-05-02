@@ -8,7 +8,7 @@ import { errorHandler } from "../../errorHandler";
 import { arrObjectFieldChecker } from "../../errorChecker";
 import ErrorMessage from "../../errorMessages";
 import _ from "lodash";
-
+import Loading from "../../loading";
 export default class uploadAdCreative extends Component {
 	constructor(props) {
 		super(props);
@@ -25,6 +25,7 @@ export default class uploadAdCreative extends Component {
 			loading: false,
 			errorMessages: []
 		};
+		this.LoadingMessages = ["Sending Your Media to our Boards", "", "Waiting Response from Boards", "Optimising Media Quality", "Syncing Meida accross all boards"];
 	}
 	confirmInput() {
 		//send the adSet description to the addAdSet parent container through the setCampaignDetails props
@@ -150,7 +151,11 @@ export default class uploadAdCreative extends Component {
 	}
 	render() {
 		const { postType, errorMessages, loading, errors, creative } = this.state;
-		return (
+		return loading == true ? (
+			<Row className="campaignContainer">
+				<Loading type="flyingDude" key={1} messages={this.LoadingMessages} />
+			</Row>
+		) : (
 			<Row className="campaignContainer">
 				<Col xs={12} className="postTypeSelector">
 					<Col xs={5} xsOffset={3}>
@@ -194,17 +199,13 @@ export default class uploadAdCreative extends Component {
 							</p>
 						</Row>
 					</Col>
-					{!loading ? (
-						<Col>
-							<button className="primaryButton" onClick={e => this.confirmInput()}>
-								Next
-							</button>
-							<button className="cancelButton">Cancel</button>
-							{errorMessages ? <ErrorMessage errorMessage={errorMessages} /> : ""}
-						</Col>
-					) : (
-						<p>Uploading Adsets... Please wait</p>
-					)}
+					<Col>
+						<button className="primaryButton" onClick={e => this.confirmInput()}>
+							Next
+						</button>
+						<button className="cancelButton">Cancel</button>
+						{errorMessages ? <ErrorMessage errorMessage={errorMessages} /> : ""}
+					</Col>
 				</Col>
 			</Row>
 		);

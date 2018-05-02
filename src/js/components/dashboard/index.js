@@ -22,7 +22,7 @@ class Dashboard extends Component {
 		this.LoadingMessages = ["Erecting Boards at Ikoyi", "Cleaning Boards", "Powering Boards", "Loading Adverts", "In Traffic on Ikoyi Bridge"];
 		this.state = {
 			loading: true,
-			currentSub: "ManageAds"
+			currentSub: "Dashboard"
 		};
 	}
 	dashBoardMenu = {

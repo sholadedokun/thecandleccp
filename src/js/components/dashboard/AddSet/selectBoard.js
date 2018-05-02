@@ -26,11 +26,12 @@ export default class SelectBoard extends Component {
 		};
 	}
 	confirmInput() {
+		console.log(this.state.selectedBoardIndex);
 		if (this.state.selectedBoardIndex === "") {
 			this.setState({ error: "Please select a board to continue" });
 			return;
 		}
-		this.props.selectedBoard(this.state.boards[this.state.selectedBoardIndex]);
+		this.props.selectedBoard(this.state.boards[0]);
 	}
 	render() {
 		const { boards, selectedBoardIndex, error } = this.state;

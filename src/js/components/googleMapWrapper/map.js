@@ -4,12 +4,13 @@ export default class Map extends Component {
 		return false;
 	}
 	componentDidMount() {
-		var lagos = { lat: 8.0, lng: 3.3333 };
+		var locations = this.props.boards;
+		var lagos = { lat: 6.448594, lng: 3.457622 };
 		var map = new window.google.maps.Map(document.getElementById("map"), {
-			zoom: 13,
+			zoom: 10,
 			center: lagos
 		});
-		var locations = this.props.boards;
+
 		console.log(locations);
 		var infowindow = new window.google.maps.InfoWindow();
 		var marker, i;
