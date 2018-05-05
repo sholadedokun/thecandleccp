@@ -7,7 +7,7 @@
 $primary-color: #cc0000;
 $primary-color-deeper: #aa0000;
 $primary-color-deeper-deeper: #990000;
-$secondary-color:#1a9179;
+$secondary-color: #1a9179;
 //very common
 .actionButton {
 	padding: 15px 20px;
@@ -1498,6 +1498,42 @@ input[type="file"] {
 				background: none !important;
 			}
 		}
+		.liveStreamContainer {
+			.liveFeeds {
+				text-align: right;
+				padding: 4em 1em 1em;
+				border-right: 2px #f4f5fa solid;
+
+				li {
+					display: block;
+					margin-right: 0.5em;
+					padding-bottom: 1em;
+					cursor: pointer;
+					width: 100%;
+				}
+				li i {
+					display: block;
+					width: 20%;
+					margin-left: 80%;
+					border-bottom: 1px solid #c00;
+					transition: width 0.5s, margin-left 0.5s;
+				}
+				li:hover {
+					i {
+						width: 50%;
+						margin-left: 50%;
+						transition: width 1s, margin-left 1s;
+					}
+				}
+			}
+			.VideoDisplay {
+				padding: 4em 2em;
+				.video-js {
+					width: 100%;
+				}
+			}
+		}
+
 		.viewContainer {
 			padding: 0 1.75em;
 		}

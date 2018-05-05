@@ -41,7 +41,7 @@ export default class Loader extends Component {
 							<div className="messages">{this.props.messages[this.state.messageIndex]}</div>
 						</div>
 					) : this.props.type == "bouncing-ball" ? (
-						<div className="loadning-comp">
+						<div className="loading-comp">
 							<div class="wrap">
 								<div class="loading">
 									<div class="bounceball" />
@@ -50,7 +50,7 @@ export default class Loader extends Component {
 							</div>
 						</div>
 					) : (
-						<div className="loadning-comp">
+						<div className="loading-comp">
 							<div class="body">
 								<span>
 									<span />

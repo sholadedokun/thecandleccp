@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@videojs/http-streaming": "^1.0.1",
     "axios": "^0.16.2",
     "chart.js": "^2.7.1",
     "flow-bin": "^0.66.0",
@@ -25,7 +26,8 @@
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "video.js": "^6.8.0"
   },
   "scripts": {
     "start": "react-scripts start",

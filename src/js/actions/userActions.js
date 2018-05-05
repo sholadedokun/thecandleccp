@@ -22,7 +22,7 @@ export function signinUser(email, password) {
 				})
 				.catch(error => {
 					if (!error.response) {
-						dispatch(authError([NO_INTERNET]));
+						return dispatch(authError([NO_INTERNET]));
 					}
 					reject();
 					// If request is bad...
@@ -45,7 +45,7 @@ export function signUpUser(values) {
 				})
 				.catch(error => {
 					if (!error.response) {
-						dispatch(authError([NO_INTERNET]));
+						return dispatch(authError([NO_INTERNET]));
 					}
 					reject(error.response.data.message);
 					let errorMap = _.map(error.response.data.message, (item, index) => item);

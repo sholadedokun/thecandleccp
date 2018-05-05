@@ -14,7 +14,8 @@ import _ from "lodash";
 import Home from "./home";
 import Toggler from "../toggle";
 import ActivityIndicator from "../activityIndicator";
-
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import LiveStream from "./liveStream";
 class DashHome extends Component {
 	constructor(props) {
 		super(props);
@@ -28,6 +29,17 @@ class DashHome extends Component {
 			totalView: [7, 15, 13, 25, 22, 35, 30, 37],
 			totalReach: [36, 60, 45, 89, 76, 104, 82, 120],
 			totalSpent: [1.5, 2.9, 2.0, 4.6, 3.3, 5.3, 4.2, 2.3],
+			currentFeed: 1,
+			sources: [
+				{
+					src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
+					type: "application/x-mpegURL"
+				},
+				{
+					src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
+					type: "application/x-mpegURL"
+				}
+			],
 			barChartExample: {
 				data: {
 					title: "Social Class",
@@ -201,69 +213,105 @@ class DashHome extends Component {
 								className={analyticsType == "demoGraph" ? "active" : ""}>
 								<span className="icon-Shape" />
 							</li>
+							<li
+								onClick={e =>
+									this.setState({
+										analyticsType: "liveStream"
+									})
+								}
+								className={analyticsType == "liveStream" ? "active" : ""}>
+								<span className="icon-camera" />
+							</li>
 						</ul>
 						<div className="viewBoard">
-							{analyticsType == "bigLineGraph" ? (
-								<Col xs={12} className="bigLineMenu" componentClass="ul">
-									<li className={activeBigline == "impression" ? "active" : ""} onClick={this.setBigline.bind(this, totalImpression, "impression")}>
-										<label>Impressions</label>
-										<span className="value">12,235,323</span>
-									</li>
-									<li className={activeBigline == "views" ? "active" : ""} onClick={this.setBigline.bind(this, totalView, "views")}>
-										<label>Views</label>
-										<span className="value">1,405,863</span>
-									</li>
-									<li className={activeBigline == "reach" ? "active" : ""} onClick={this.setBigline.bind(this, totalReach, "reach")}>
-										<label>Reach</label>
-										<span className="value">4,778,203</span>
-									</li>
-									<li className={activeBigline == "spent" ? "active" : ""} onClick={this.setBigline.bind(this, totalSpent, "spent")}>
-										<label>Total Spent</label>
-										<span className="value">&#8358;31,456,110</span>
-									</li>
-								</Col>
-							) : (
-								""
-							)}
-							<Col xs={12} className="viewContainer">
-								<span className="inputField timeline">
-									<span className="formField">
-										<select>
-											<option>Weekly</option>
-											<option>Monthly</option>
-											<option>Yearly</option>
-										</select>
-									</span>
-								</span>
+							<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 								{analyticsType == "bigLineGraph" ? (
-									<Analytics xs={12} name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
+									<Col xs={12} className="bigLineMenu" componentClass="ul">
+										<li className={activeBigline == "impression" ? "active" : ""} onClick={this.setBigline.bind(this, totalImpression, "impression")}>
+											<label>Impressions</label>
+											<span className="value">12,235,323</span>
+										</li>
+										<li className={activeBigline == "views" ? "active" : ""} onClick={this.setBigline.bind(this, totalView, "views")}>
+											<label>Views</label>
+											<span className="value">1,405,863</span>
+										</li>
+										<li className={activeBigline == "reach" ? "active" : ""} onClick={this.setBigline.bind(this, totalReach, "reach")}>
+											<label>Reach</label>
+											<span className="value">4,778,203</span>
+										</li>
+										<li className={activeBigline == "spent" ? "active" : ""} onClick={this.setBigline.bind(this, totalSpent, "spent")}>
+											<label>Total Spent</label>
+											<span className="value">&#8358;31,456,110</span>
+										</li>
+									</Col>
 								) : (
-									<span className="analyticsContainer">
-										<Analytics
-											xs={12}
-											sm={12}
-											md="4"
-											classN="analytics"
-											name="barExample"
-											dataSet={[this.state.barChartExample.data, []]}
-											options={this.state.barChartExample.options}
-											height={90}
-											type="bar"
-										/>
-										<Analytics xs={12} sm={12} md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
-										<Analytics
-											xs={12}
-											sm={12}
-											md="4"
-											classN="analytics"
-											name="doughExample"
-											dataSet={[this.state.doughnutChartExample.data, []]}
-											options={this.state.doughnutChartExample.options}
-											height={80}
-											type="doughnut"
-										/>
-									</span>
+									""
 								)}
+							</ReactCSSTransitionGroup>
+
+							<Col xs={12} className="viewContainer">
+								<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									{analyticsType != "liveStream" ? (
+										<span className="inputField timeline">
+											<span className="formField">
+												<select>
+													<option>Weekly</option>
+													<option>Monthly</option>
+													<option>Yearly</option>
+												</select>
+											</span>
+										</span>
+									) : (
+										""
+									)}
+								</ReactCSSTransitionGroup>
+								<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									{analyticsType == "bigLineGraph" ? (
+										<Analytics xs={12} key="analytics" name="lineChart" dataSet={[this.state.lineChart.data]} options={this.state.lineChart.options} height={20} type="line" />
+									) : analyticsType == "demoGraph" ? (
+										<span key="graph" className="analyticsContainer">
+											<Analytics
+												xs={12}
+												sm={12}
+												md="4"
+												classN="analytics"
+												name="barExample"
+												dataSet={[this.state.barChartExample.data, []]}
+												options={this.state.barChartExample.options}
+												height={90}
+												type="bar"
+											/>
+											<Analytics xs={12} sm={12} md="4" classN="analytics" name="numberStat" dataSet={[this.state.numberStat.data, []]} height={90} type="numberStat" />
+											<Analytics
+												xs={12}
+												sm={12}
+												md="4"
+												classN="analytics"
+												name="doughExample"
+												dataSet={[this.state.doughnutChartExample.data, []]}
+												options={this.state.doughnutChartExample.options}
+												height={80}
+												type="doughnut"
+											/>
+										</span>
+									) : (
+										<Row className="liveStreamContainer">
+											<Col xs={12} className="nop">
+												<Col xs={1} componentClass="ul" className="liveFeeds">
+													<li onClick={e => this.setState({ currentFeed: 0 })}>
+														Madison<i />
+													</li>
+													<li onClick={e => this.setState({ currentFeed: 1 })}>
+														Fela<i />
+													</li>
+												</Col>
+												<Col xs="11" className="VideoDisplay">
+													<LiveStream key="liveStream" sources={this.state.sources[this.state.currentFeed]} boardName="The Madison" location="Ikoyi, Lagos" />
+												</Col>
+											</Col>
+										</Row>
+									)}
+								</ReactCSSTransitionGroup>
 							</Col>
 						</div>
 					</Row>
