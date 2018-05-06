@@ -1,6 +1,8 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import videojs from "video.js";
+import Heading from "../heading";
+import Icon from "../icon";
 import "@videojs/http-streaming";
 import "video.js/dist/video-js.css";
 class LiveStream extends React.Component {
@@ -14,7 +16,6 @@ class LiveStream extends React.Component {
 		this.createPlayer();
 	}
 	createPlayer() {
-		console.log(this.props);
 		this.player = videojs(
 			this.videoNode,
 			{
@@ -43,9 +44,21 @@ class LiveStream extends React.Component {
 	}
 
 	render() {
+		const { name, location } = this.props.feedDescription;
 		return (
-			<div data-vjs-player>
-				<video ref={node => (this.videoNode = node)} className="video-js" width="inherit" />
+			<div>
+				<div data-vjs-player>
+					<video ref={node => (this.videoNode = node)} className="video-js" width="inherit" />
+				</div>
+				<Row>
+					<Col xs="12" className="feedDescription">
+						<Heading size="sm" title={name} />
+						<br />
+						<span>
+							<Icon icon="fas fa-map-marker-alt"> </Icon> {location}
+						</span>
+					</Col>
+				</Row>
 			</div>
 		);
 	}

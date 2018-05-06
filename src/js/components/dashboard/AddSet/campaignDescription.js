@@ -270,7 +270,7 @@ class AdSetDescription extends Component {
 						</Col>
 					</Row>
 				</Col>
-				<Col xs={12} sm={8} className="boardSelection">
+				<Col xs={6} className="boardSelection">
 					<Heading size="md" title="Describe Campaign and target Audience" />
 					<Col xs={12}>
 						<Row id="campaign_details" className="formSections">
@@ -418,7 +418,7 @@ class AdSetDescription extends Component {
 											data: { ...this.state.data, traffic: "all" }
 										})
 									}>
-									<span className={`radioLabel ${traffic === "all" ? "active" : ""}`}>All Traffic Situations</span>
+									<span className={`radioLabel ${traffic === "all" ? "active" : ""}`}>All Situations</span>
 								</span>
 								<span
 									className="inputContainer radio"
@@ -452,7 +452,7 @@ class AdSetDescription extends Component {
 											data: { ...this.state.data, weather: "all" }
 										})
 									}>
-									<span className={`radioLabel ${weather === "all" ? "active" : ""}`}>All Weather Conditions</span>
+									<span className={`radioLabel ${weather === "all" ? "active" : ""}`}>All Conditions</span>
 								</span>
 								<span
 									className="inputContainer radio"
@@ -587,7 +587,7 @@ class AdSetDescription extends Component {
 										}
 									/>
 								</span>
-								<span className="minimumValues">Minimum Amount is & #8358;100</span>
+								<span className="minimumValues">Minimum Amount is &#8358;100</span>
 							</div>
 							<div className="inputField">
 								<label>
@@ -613,6 +613,25 @@ class AdSetDescription extends Component {
 					</button>
 					<button className="cancelButton"> Cancel </button>
 					<ErrorMessage errorMessage={errorMessages} />
+				</Col>
+				<Col xs={3} className="campaignEstimate">
+					<div className="estimateContainer">
+						<div className="priceEstimate">
+							<label>Estimated Cost</label>
+							<Heading size="sm" title="&#8358; 300,000.00" />
+							<label>NGN</label>
+						</div>
+						<div className="priceEstimate">
+							<label>Estimated Audience size</label>
+							<Heading size="sm" title="3,500,000 +" />
+							<label>People</label>
+							<ul className="boardPoints">
+								<li>People living and Working around Ikoyi, Lekki and Ajah.</li>
+								<li>Mostly Office Hours Workers.</li>
+								<li>Between the Ages of 25 and 60.</li>
+							</ul>
+						</div>
+					</div>
 				</Col>
 			</Row>
 		);

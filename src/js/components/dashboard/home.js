@@ -29,15 +29,27 @@ class DashHome extends Component {
 			totalView: [7, 15, 13, 25, 22, 35, 30, 37],
 			totalReach: [36, 60, 45, 89, 76, 104, 82, 120],
 			totalSpent: [1.5, 2.9, 2.0, 4.6, 3.3, 5.3, 4.2, 2.3],
-			currentFeed: 1,
+			currentFeed: 0,
 			sources: [
 				{
-					src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
-					type: "application/x-mpegURL"
+					feedLink: {
+						src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
+						type: "application/x-mpegURL"
+					},
+					feedDesc: {
+						name: "Madison",
+						location: "Ikoyi-Lekki Bridge"
+					}
 				},
 				{
-					src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
-					type: "application/x-mpegURL"
+					feedLink: {
+						src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
+						type: "application/x-mpegURL"
+					},
+					feedDesc: {
+						name: "Fela",
+						location: "Falomo Bridge Lagos"
+					}
 				}
 			],
 			barChartExample: {
@@ -295,7 +307,7 @@ class DashHome extends Component {
 											/>
 										</span>
 									) : (
-										<Row className="liveStreamContainer">
+										<Row key="liveStream" className="liveStreamContainer">
 											<Col xs={12} className="nop">
 												<Col xs={1} componentClass="ul" className="liveFeeds">
 													<li onClick={e => this.setState({ currentFeed: 0 })}>
@@ -306,7 +318,7 @@ class DashHome extends Component {
 													</li>
 												</Col>
 												<Col xs="11" className="VideoDisplay">
-													<LiveStream key="liveStream" sources={this.state.sources[this.state.currentFeed]} boardName="The Madison" location="Ikoyi, Lagos" />
+													<LiveStream key="liveStream" sources={this.state.sources[this.state.currentFeed].feedLink} feedDescription={this.state.sources[this.state.currentFeed].feedDesc} />
 												</Col>
 											</Col>
 										</Row>
