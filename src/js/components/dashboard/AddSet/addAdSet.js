@@ -7,6 +7,7 @@ import { createCampaign } from "../../../actions/campaignActions";
 import SelectBoard from "./selectBoard";
 import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
+import Payment from "../payment";
 import { Col, Row, Grid } from "react-bootstrap";
 import { ADSET_DICTIONARY } from "../../../config.js";
 import _ from "lodash";
@@ -15,12 +16,13 @@ class AddAdSet extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentStep: 1,
-			currentBoardLocations: ""
+			currentStep: 3,
+			currentBoardLocations: "",
+			baseCost: 300000
 		};
 	}
 	displaySteps() {
-		const { currentStep } = this.state;
+		const { currentStep, baseCost } = this.state;
 		const { allCampaigns, newCampaign } = this.props;
 		console.log(newCampaign);
 		//pushing the saved Campaigns into the already existing campaings...
@@ -30,9 +32,20 @@ class AddAdSet extends Component {
 			case 0:
 				return <SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />;
 			case 1:
-				return <CampaignDescription key={_.uniqueId()} setCampaignDetails={this.setCampaignDetails.bind(this)} allCampaigns={allCampaigns} campaign={newCampaign} />;
+				return (
+					<CampaignDescription
+						key={_.uniqueId()}
+						setCampaignDetails={this.setCampaignDetails.bind(this)}
+						allCampaigns={allCampaigns}
+						campaign={newCampaign}
+						baseCost={baseCost}
+						estimatedCost={newCost => this.setState({ baseCost: newCost })}
+					/>
+				);
 			case 2:
-				return <UploadCreative key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+			case 3:
+				return <Payment baseCost={baseCost} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
 	uploadCreatives(data) {
@@ -107,7 +120,7 @@ class AddAdSet extends Component {
 		const { currentStep } = this.state;
 		return (
 			<Col xs={10} xsOffset={1} className="createAdset">
-				<Nav currentStep={currentStep} closeModal={this.props.close} />{" "}
+				<Nav currentStep={currentStep} closeModal={this.props.close} />
 				<ReactCSSTransitionGroup transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 					{this.displaySteps()}
 				</ReactCSSTransitionGroup>

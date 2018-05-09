@@ -9,31 +9,16 @@ class navigation extends Component {
 			currentBoardLocations: "",
 			steps: [
 				{
-					title: "spaces",
-					listOfSpaces: [
-						{
-							location: "Lagos Island",
-							postion: ""
-						}
-					]
+					title: "spaces"
 				},
 				{
-					title: "Description and Target Audience",
-					listOfSpaces: [
-						{
-							location: "Lagos Island",
-							postion: ""
-						}
-					]
+					title: "Description and Target Audience"
 				},
 				{
-					title: "upload Ad Creative",
-					listOfSpaces: [
-						{
-							location: "Lagos Island",
-							postion: ""
-						}
-					]
+					title: "upload Ad Creative"
+				},
+				{
+					title: "Payment"
 				}
 			]
 		};

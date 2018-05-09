@@ -11,6 +11,13 @@ import Help from "./components/help";
 import requireAuth from "./components/auth/require_auth";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class App extends Component {
+	componentDidMount() {
+		//extending the number function for money conversion.
+		Number.prototype.formatMoney = function(n, x) {
+			var re = "\\d(?=(\\d{" + (x || 3) + "})+" + (n > 0 ? "\\." : "$") + ")";
+			return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, "g"), "$&,");
+		};
+	}
 	render() {
 		return (
 			<Router>

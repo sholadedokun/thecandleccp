@@ -224,7 +224,7 @@ class AdSetDescription extends Component {
 	}
 	render() {
 		console.log(this.props);
-
+		const { baseCost } = this.props;
 		const {
 			scenariosList,
 			errors,
@@ -618,12 +618,12 @@ class AdSetDescription extends Component {
 					<div className="estimateContainer">
 						<div className="priceEstimate">
 							<label>Estimated Cost</label>
-							<Heading size="sm" title="&#8358; 300,000.00" />
+							<Heading size="sm" title={`&#8358; ${baseCost.formatMoney(2)}`} />
 							<label>NGN</label>
 						</div>
 						<div className="priceEstimate">
 							<label>Estimated Audience size</label>
-							<Heading size="sm" title="3,500,000 +" />
+							<Heading size="sm" title="3,500,000+" />
 							<label>People</label>
 							<ul className="boardPoints">
 								<li>People living and Working around Ikoyi, Lekki and Ajah.</li>
