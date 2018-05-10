@@ -43,8 +43,7 @@ class navigation extends Component {
 								);
 							})}
 							<li onClick={e => this.props.closeModal()}>
-								{" "}
-								<Icon icon="far fa-times-circle" />Close
+								<Icon icon="far fa-times-circle" /> Close
 							</li>
 						</ul>
 					</Row>

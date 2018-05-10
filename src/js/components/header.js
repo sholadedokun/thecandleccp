@@ -35,12 +35,17 @@ class Header extends Component {
 		let modalRoute = this.props.allCampaigns.length > 0 ? "addAdset" : "createCampaign";
 		let authenticated_bar_dashboard = [
 			<li role="presentation">
-				<CustomeSelect
-					selectedItem={this.selectedCustomItem.bind(this)}
-					selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]}
-					rightImage="sdfsdf"
-					leftIcon="fas fa-angle-down"
-				/>
+				<div className="customSelect formField">
+					<span className="display_pic">
+						<Icon size="sm" icon="fas fa-user-circle" />
+					</span>
+					<CustomeSelect
+						selectedItem={this.selectedCustomItem.bind(this)}
+						selectItem={[{ name: (() => (user.data ? user.data.name : ""))(), value: "" }, { value: "signout", name: "signout" }]}
+						rightImage="sdfsdf"
+						leftIcon="fas fa-angle-down"
+					/>
+				</div>
 			</li>,
 			<li role="presentation" key={2} onClick={() => this.props.modalStatus(true, modalRoute)}>
 				<a className="actionButton post_campaign_ads">Post Ads</a>

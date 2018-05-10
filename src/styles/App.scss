@@ -16,7 +16,7 @@ $secondary-color: #1a9179;
 	min-width: 100px;
 	text-align: center;
 	margin-right: 20px;
-	color: #fff;
+	color: #eee;
 	border-radius: 4px;
 	margin-top: 1em;
 	cursor: pointer;
@@ -666,7 +666,7 @@ a {
 		top: 0;
 		padding: 0.45em 0;
 		text-align: center;
-		border-right: 1px solid #38c4b1;
+		border-right: 1px solid #c00;
 	}
 	li {
 		font-size: 1em;
@@ -853,21 +853,17 @@ button {
 	@extend .planeBackground;
 }
 .primaryButton:hover {
-	font-weight: bold;
+	color:#fff;
 	@extend .planeBackgroundHover;
 }
-.disabledButton {
+.disabledButton, cancelButton {
 	@extend .actionButton;
 	background: #eee;
 	color: #aaa;
 }
-
-.cancelButton {
-	@extend .actionButton;
-	min-width: 160px;
-	text-align: center;
+.disabledButton:hover, cancelButton:hover {
+	background: #ddd;
 	color: #555;
-	background: linear-gradient(#eaeaea, #ddd) !important;
 }
 
 .detailsMenu {
@@ -914,29 +910,18 @@ button {
 	span {
 		display: inline-block;
 	}
-	.optionContainer {
-		position: relative;
-		min-width: 1px;
-		display: inline-block !important;
-		height: 1em;
-		ul {
-			height: 1.2em;
-			padding: 0 1em;
-			overflow: hidden;
-			li {
-				margin-bottom: 0.5em;
-			}
-		}
-		.revelCont {
-			height: auto;
-			display: inline-table;
-			background: #eee;
-			padding: 0.5em 1em;
-			margin: 0 1em;
-			box-shadow: 0px 0px 2px #444;
-			border-radius: 5px;
-		}
-	}
+}
+.revelCont {
+	height: auto;
+	position: relative;
+	display: inline-table;
+	background: #fefefe;
+	padding: 0.5em 1em;
+	margin: -2px 1em 0;
+	border:1px #efefef solid;
+	border-top:0;
+	border-radius: 5px;
+	z-index: 1000;
 }
 .inputField {
 	position: relative;

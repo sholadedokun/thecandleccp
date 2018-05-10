@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import Heading from "../heading";
 import { Row, Col } from "react-bootstrap";
+import CustomeSelect from "../customSelect";
 export default class Payment extends Component {
 	constructor() {
 		super();
 		this.state = {};
 		this.focusInput = this.focusInput.bind(this);
 		this.keyDowned = this.keyDowned.bind(this);
+		this.isNumberKey = this.isNumberKey.bind(this);
 	}
 	focusInput(input) {
 		var thisInput = input.target;
@@ -20,10 +22,26 @@ export default class Payment extends Component {
 	}
 	keyDowned(input) {
 		var thisInput = input.target;
-		if (thisInput.name != 4) {
-			if (thisInput.value.length == 4) {
-				return thisInput.nextSibling.focus();
+		var thisKeyId = input.keyCode;
+
+		if (thisKeyId != 46 && thisKeyId != 8) {
+			if (thisInput.nextSibling) {
+				if (thisInput.value.length == 4) {
+					return thisInput.nextSibling.focus();
+				}
 			}
+		} else {
+			if (thisInput.value.length == 0 && thisInput.previousSibling) {
+				return thisInput.previousSibling.focus();
+			}
+		}
+	}
+	isNumberKey(evt) {
+		evt.target.value = evt.target.value.replace(/[^\d]/, "");
+	}
+	selectedCustomItem(item) {
+		if (item == "signout") {
+			this.signoutUser();
 		}
 	}
 	render() {
@@ -55,10 +73,10 @@ export default class Payment extends Component {
 								<div class="eachField">
 									<label>CARD NUMBER</label>
 									<div class="inputField" id="cardNumber">
-										<input type="text" maxLength="4" name="1" required onClick={this.focusInput} onKeyDown={this.keyDowned} />
-										<input type="text" maxLength="4" name="2" required onClick={this.focusInput} onKeyDown={this.keyDowned} />
-										<input type="text" maxLength="4" name="3" required onKeyDown={this.keyDowned} onClick={this.focusInput} />
-										<input type="text" maxLength="4" name="4" required onKeyDown={this.keyPressed} onClick={this.focusInput} />
+										<input type="text" maxLength="4" name="1" required onClick={this.focusInput} onKeyUp={this.isNumberKey} onKeyDown={this.keyDowned} />
+										<input type="text" maxLength="4" name="2" required onClick={this.focusInput} onKeyUp={this.isNumberKey} onKeyDown={this.keyDowned} />
+										<input type="text" maxLength="4" name="3" required onKeyDown={this.keyDowned} onKeyUp={this.isNumberKey} onClick={this.focusInput} />
+										<input type="text" maxLength="4" name="4" required onKeyDown={this.keyDowned} onKeyUp={this.isNumberKey} onClick={this.focusInput} />
 									</div>
 								</div>
 							</div>
@@ -66,13 +84,23 @@ export default class Payment extends Component {
 								<div class="eachField_multi">
 									<label>EXPIRATION DATE</label>
 									<div class="inputField">
-										<input type="text" />
+										<CustomeSelect
+											selectedItem={this.selectedCustomItem.bind(this)}
+											selectItem={[{ name: "Jan", value: "01" }, { name: "Feb", value: "02" }]}
+											rightImage="sdfsdf"
+											leftIcon="fas fa-angle-down"
+										/>
 									</div>
 								</div>
 								<div class="eachField_multi">
 									<label>&nbsp;&nbsp;</label>
 									<div class="inputField">
-										<input type="text" />
+										<CustomeSelect
+											selectedItem={this.selectedCustomItem.bind(this)}
+											selectItem={[{ name: "18", value: "18" }, { name: "19", value: "19" }, { name: "20", value: "20" }, { name: "21", value: "21" }, { name: "22", value: "22" }]}
+											rightImage="sdfsdf"
+											leftIcon="fas fa-angle-down"
+										/>
 									</div>
 								</div>
 								<div class="eachField_multi">
@@ -92,6 +120,8 @@ export default class Payment extends Component {
 							</div>
 						</div>
 					</div>
+					<button className="primaryButton">Make Payment</button>
+					<button className="disabledButton">Cancel</button>
 				</Col>
 				<Col xs={4} className="campaignEstimate">
 					<div className="estimateContainer">
