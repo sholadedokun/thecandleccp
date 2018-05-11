@@ -43,12 +43,13 @@ class AddAdSet extends Component {
 					/>
 				);
 			case 2:
-				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
 			case 3:
 				return <Payment baseCost={baseCost} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
-	uploadCreatives(data) {
+	uploadCreatives() {
+		var data = this.state.creative;
 		let that = this;
 		console.log(this.state);
 		let campaignDetails = this.state.campaignDetails;

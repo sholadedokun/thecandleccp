@@ -31,7 +31,6 @@ export default class uploadAdCreative extends Component {
 		//send the adSet description to the addAdSet parent container through the setCampaignDetails props
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = arrObjectFieldChecker.bind(this, [], this.state.creative, "data")();
-		console.log(errors);
 		if (_.isEmpty(errors)) {
 			this.props.setCreatives(this.state);
 		}

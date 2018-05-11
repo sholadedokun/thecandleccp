@@ -10,6 +10,10 @@ export default class Payment extends Component {
 		this.keyDowned = this.keyDowned.bind(this);
 		this.isNumberKey = this.isNumberKey.bind(this);
 	}
+	makePayment() {
+		//make payment and receive response for payment.
+		this.props.setCreatives();
+	}
 	focusInput(input) {
 		var thisInput = input.target;
 		if (thisInput.name != 1) {
@@ -120,7 +124,9 @@ export default class Payment extends Component {
 							</div>
 						</div>
 					</div>
-					<button className="primaryButton">Make Payment</button>
+					<button className="primaryButton" onClick={this.makePayment.bind(this)}>
+						Make Payment
+					</button>
 					<button className="disabledButton">Cancel</button>
 				</Col>
 				<Col xs={4} className="campaignEstimate">
