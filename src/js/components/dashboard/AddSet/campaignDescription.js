@@ -33,11 +33,16 @@ class AdSetDescription extends Component {
 				weather: "all",
 				gender: "all",
 				scenario: [""],
-				timing: [""],
+				timing: [{ from: "", to: "" }],
 				advanceTiming: [""],
 				mcpv: 100,
 				fastDisplay: ""
 			},
+			baseInterval:"2|min",
+			cyclePerMin:3, //number of cycle an Image adevert can occur within a min.
+			minCyclePerDay:20, //minimum number of cycle that an adset can have in a day
+			minAdDays:30, //minimum Number of days an adset can be added;
+			minCost:100, //minimum number of cost per cycle
 			scenariosList: ["Car Accident", "User Stares at Board", "Kim Jong Un Lunched a Nuclear Bomb"],
 			loading: false,
 			errors: {},
@@ -173,13 +178,19 @@ class AdSetDescription extends Component {
 	}
 	addMoreField(dataLable) {
 		let data = this.state.data;
-		data[dataLable].push("");
+		data[dataLable].push({ from: "", to: "" });
 		this.setState({ data });
 	}
 	removeThisField(dataLable, index) {
 		let data = this.state.data;
 		data[dataLable].splice(index, 1);
 		this.setState({ data });
+	}
+	componentWillMount(){
+		let totalCost=0;
+		totalCost=this.state.minCost * this.state.minCyclePerDay * this.state.minAdDays;
+		this.setState({totalCost})
+		console.log(totalCost);
 	}
 	// selectTime(index, from, to){
 	//     let newTime= this.state.data;
@@ -206,7 +217,7 @@ class AdSetDescription extends Component {
 	setTime(index, position, value) {
 		console.log(value);
 		let timing = this.state.data.timing;
-		timing[index] = timing[index] || {};
+		timing[index] = timing[index] || { from: "", to: "" };
 		timing[index][position] = value;
 		this.setState({
 			data: { ...this.state.data, timing }
@@ -229,6 +240,7 @@ class AdSetDescription extends Component {
 			scenariosList,
 			errors,
 			errorMessages,
+			totalCost,
 			data: { campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom }
 		} = this.state;
 		const { campaign, allCampaigns } = this.props;
@@ -539,22 +551,22 @@ class AdSetDescription extends Component {
                                                                         <span  className="moreRemover" onClick={this.advanceTimingToggle.bind(this, 0)}><Icon icon="minus-circle"  /></span>
 
                                                              }                                  </label> */}
-								{advanceTiming.map((item, index) => {
+								{timing.map((item, index) => {
 									return (
 										<div key={_.uniqueId()} className={`${errors.timing ? "error" : ""}`}>
 											<span className="SelectDate">
-												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} />
+												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "from")} setTime={timing[index].from} />
 												<span className="arrowRange rangeSeperator">
 													<Icon icon="fas fa-long-arrow-alt-right" />
 												</span>
-												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} />
+												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} setTime={timing[index].to} />
 											</span>
-											{advanceTiming.length - 1 === index ? (
-												<span className="moreAdder" onClick={this.addMoreField.bind(this, "advanceTiming")}>
+											{timing.length - 1 === index ? (
+												<span className="moreAdder" onClick={this.addMoreField.bind(this, "timing")}>
 													<Icon icon="fas fa-plus-circle" />
 												</span>
 											) : (
-												<span className="moreRemover" onClick={this.removeThisField.bind(this, "advanceTiming", index)}>
+												<span className="moreRemover" onClick={this.removeThisField.bind(this, "timing", index)}>
 													<Icon icon="fas fa-minus-circle" />
 												</span>
 											)}
@@ -618,7 +630,7 @@ class AdSetDescription extends Component {
 					<div className="estimateContainer">
 						<div className="priceEstimate">
 							<label>Estimated Cost</label>
-							<Heading size="sm" title={`&#8358; ${baseCost.formatMoney(2)}`} />
+							<Heading size="sm" title={`&#8358; ${totalCost.formatMoney(2)}`} />
 							<label>NGN</label>
 						</div>
 						<div className="priceEstimate">

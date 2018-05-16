@@ -856,12 +856,14 @@ button {
 	color:#fff;
 	@extend .planeBackgroundHover;
 }
-.disabledButton, cancelButton {
+.disabledButton, 
+.cancelButton {
 	@extend .actionButton;
 	background: #eee;
 	color: #aaa;
 }
-.disabledButton:hover, cancelButton:hover {
+.disabledButton:hover, 
+.cancelButton:hover {
 	background: #ddd;
 	color: #555;
 }

@@ -105,7 +105,7 @@ class AddAdSet extends Component {
 			};
 			//send the details to the API, wait for response and continue to add creatives.
 
-			//if it's a new campaign is selected to be added...
+			//if it's a new campaign is selected to be added ...
 			if (this.props.newCampaign && this.props.newCampaign.id == details.campaign_id) {
 				this.setState({ currentStep: 2, campaignDetails: details });
 			} else {

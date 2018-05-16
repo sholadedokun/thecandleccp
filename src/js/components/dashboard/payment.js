@@ -127,7 +127,7 @@ export default class Payment extends Component {
 					<button className="primaryButton" onClick={this.makePayment.bind(this)}>
 						Make Payment
 					</button>
-					<button className="disabledButton">Cancel</button>
+					<button className="cancelButton">Cancel</button>
 				</Col>
 				<Col xs={4} className="campaignEstimate">
 					<div className="estimateContainer">
