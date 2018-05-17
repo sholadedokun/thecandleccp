@@ -16,7 +16,7 @@ class AddAdSet extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentStep: 0,
+			currentStep: 1,
 			currentBoardLocations: "",
 			baseCost: 300000
 		};

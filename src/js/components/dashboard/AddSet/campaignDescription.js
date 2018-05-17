@@ -38,11 +38,19 @@ class AdSetDescription extends Component {
 				mcpv: 100,
 				fastDisplay: ""
 			},
-			baseInterval:"2|min",
-			cyclePerMin:3, //number of cycle an Image adevert can occur within a min.
-			minCyclePerDay:20, //minimum number of cycle that an adset can have in a day
-			minAdDays:30, //minimum Number of days an adset can be added;
-			minCost:100, //minimum number of cost per cycle
+			baseInterval: "2|min",
+			cyclePerMin: 3, //number of cycle an Image adevert can occur within a min.
+			minCyclePerDay: 20, //minimum number of cycle that an adset can have in a day
+			minAdDays: 30, //minimum Number of days an adset can be added;
+			minCost: 100, //minimum number of cost per cycle
+			priceAugument: {
+				age: { value: 0.1, amount: 0 },
+				time: { value: 0.1, amount: 0 },
+				weather: { value: 0.1, amount: 0 },
+				scenario: { value: 0.1, amount: 0 },
+				traffic: { value: 0.1, amount: 0 },
+				gender: { value: 0.1, amount: 0 }
+			},
 			scenariosList: ["Car Accident", "User Stares at Board", "Kim Jong Un Lunched a Nuclear Bomb"],
 			loading: false,
 			errors: {},
@@ -164,9 +172,6 @@ class AdSetDescription extends Component {
 			retina_detect: true
 		};
 	}
-	// componentWillReceiveProps(nextProps) {
-	// 	errorHandler.bind(this, nextProps)();
-	// }
 	setOptionValue(index, option, e) {
 		let data = this.state.data;
 		if (arguments.length > 2) {
@@ -186,23 +191,13 @@ class AdSetDescription extends Component {
 		data[dataLable].splice(index, 1);
 		this.setState({ data });
 	}
-	componentWillMount(){
-		let totalCost=0;
-		totalCost=this.state.minCost * this.state.minCyclePerDay * this.state.minAdDays;
-		this.setState({totalCost})
-		console.log(totalCost);
+	componentWillMount() {
+		let totalCost = this.updateBaseCost(this.state.minCost);
+		this.setState({ totalCost, baseCost: totalCost, lowestMinCost: this.state.minCost });
 	}
-	// selectTime(index, from, to){
-	//     let newTime= this.state.data;
-	//
-	//     if(newTime.advanceTiming.length==0 && (newTime.timing[index]==="" || typeof newTime.timing[index]==="undefined") ){
-	//         newTime.timing[index]=`${from} - ${to}`
-	//     }
-	//     else{
-	//         newTime.timing[index]=""
-	//     }
-	//     this.setState({data:newTime})
-	// }
+	updateBaseCost(minCost) {
+		return minCost * this.state.minCyclePerDay * this.state.minAdDays;
+	}
 	advanceTimingToggle(operands) {
 		let data = this.state.data;
 		if (operands == 1) {
@@ -224,6 +219,45 @@ class AdSetDescription extends Component {
 		});
 		console.log(this.state.data.advanceTiming);
 	}
+	changeMCPV(e) {
+		if (e.target.value >= this.state.lowestMinCost) {
+			let totalCost = this.updateBaseCost(e.target.value);
+			this.updateContent({ baseCost: totalCost, totalCost }, "", "allContent");
+			this.setState({
+				data: { ...this.state.data, mcpv: e.target.value },
+				minCost: e.target.value
+			});
+		}
+	}
+	updateContent(state, minValue, setValue, e) {
+		let value = setValue || e.target.value;
+		let baseCost = state.baseCost || this.state.baseCost;
+		let priceAugument = Object.assign({}, this.state.priceAugument);
+		console.log(state, minValue, setValue);
+		if (value != minValue && value != "allContent" && this.state.priceAugument[state].amount == 0) {
+			priceAugument[state].amount = baseCost * this.state.priceAugument[state].value;
+		} else if (value == minValue) {
+			priceAugument[state].amount = 0;
+		} else if (value == "allContent") {
+			_.map(priceAugument, (item, index) => {
+				if (item.amount != 0) priceAugument[index].amount = baseCost * item.value;
+			});
+			console.log(priceAugument);
+		}
+		let totalCost = _.reduce(
+			priceAugument,
+			(accum, item, index) => {
+				return (accum += item.amount);
+			},
+			baseCost
+		);
+		this.setState({
+			data: { ...this.state.data, [state]: value },
+			priceAugument,
+			totalCost,
+			baseCost
+		});
+	}
 	confirmInput() {
 		//send the adSet description to the addAdSet parent container through the setCampaignDetails props
 		this.setState({ loading: true, errorMessages: [] });
@@ -241,6 +275,8 @@ class AdSetDescription extends Component {
 			errors,
 			errorMessages,
 			totalCost,
+			lowestMinCost,
+			minCost,
 			data: { campaign_id, name, brandColor, scenario, max_age, min_age, gender, traffic, weather, timing, advanceTiming, totalSpendAmount, totalSpendType, mcpv, fastDisplay, dateFrom }
 		} = this.state;
 		const { campaign, allCampaigns } = this.props;
@@ -341,7 +377,7 @@ class AdSetDescription extends Component {
 										placeholder="Enter Brand Color Pantone"
 									/>
 								</span>
-								<span className="minimumValues">Hex Code Req.(e.g# FA8943)</span>
+								<span className="minimumValues">Hex Code Req.(e.g FA8943)</span>
 							</div>
 						</Row>
 						<Row id="audience" className="formSections">
@@ -350,13 +386,7 @@ class AdSetDescription extends Component {
 								<label> Age </label>
 								<span className="SelectDate">
 									<span className={`formField rangeSelect ${errors.min_age ? "error" : ""}`}>
-										<select
-											onChange={e =>
-												this.setState({
-													data: { ...this.state.data, min_age: e.target.value }
-												})
-											}
-											value={min_age}>
+										<select onChange={this.updateContent.bind(this, "min_age", 20, null)} value={min_age}>
 											{this.ageOption.map((item, index) => (
 												<option key={index} value={item}>
 													{item}
@@ -386,33 +416,15 @@ class AdSetDescription extends Component {
 							</div>
 							<div className="inputField">
 								<label> Gender </label>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, gender: "all" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "gender", "all", "all")}>
 									<span className={`radioLabel ${gender === "all" ? "active" : ""}`}>All</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, gender: "male" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "gender", "all", "male")}>
 									<span className={`radioLabel ${gender === "male" ? "active" : ""}`}>
 										<span className="icon icon-male"> </span>Male
 									</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, gender: "female" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "gender", "all", "female")}>
 									<span className={`radioLabel ${gender === "female" ? "active" : ""}`}>
 										<span className="icon icon-female"> </span>Female
 									</span>
@@ -423,33 +435,15 @@ class AdSetDescription extends Component {
 							<Heading size="sm" title="Situation" />
 							<div className="inputField">
 								<label> Traffic </label>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, traffic: "all" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "traffic", "all", "all")}>
 									<span className={`radioLabel ${traffic === "all" ? "active" : ""}`}>All Situations</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, traffic: "light" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "traffic", "all", "light")}>
 									<span className={`radioLabel ${traffic === "light" ? "active" : ""}`}>
 										<span className="icon icon-streetlight"> </span>Light
 									</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, traffic: "heavy" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "traffic", "all", "heavy")}>
 									<span className={`radioLabel ${traffic === "heavy" ? "active" : ""}`}>
 										<span className="icon icon-stop"> </span>Heavy
 									</span>
@@ -457,44 +451,20 @@ class AdSetDescription extends Component {
 							</div>
 							<div className="inputField">
 								<label> Weather </label>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, weather: "all" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "weather", "all", "all")}>
 									<span className={`radioLabel ${weather === "all" ? "active" : ""}`}>All Conditions</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, weather: "rainy" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "weather", "all", "rainy")}>
 									<span className={`radioLabel ${weather === "rainy" ? "active" : ""}`}>
 										<span className="icon icon-rain"> </span>Rainy
 									</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, weather: "cloudy" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "weather", "all", "cloudy")}>
 									<span className={`radioLabel ${weather === "cloudy" ? "active" : ""}`}>
 										<span className="icon icon-cloudy"> </span>Cloudy
 									</span>
 								</span>
-								<span
-									className="inputContainer radio"
-									onClick={() =>
-										this.setState({
-											data: { ...this.state.data, weather: "sunny" }
-										})
-									}>
+								<span className="inputContainer radio" onClick={this.updateContent.bind(this, "weather", "all", "sunny")}>
 									<span className={`radioLabel ${weather === "sunny" ? "active" : ""}`}>
 										<span className="icon icon-sun"> </span>Sunny
 									</span>
@@ -560,16 +530,16 @@ class AdSetDescription extends Component {
 													<Icon icon="fas fa-long-arrow-alt-right" />
 												</span>
 												<AdvanceTiming setNewTime={this.setTime.bind(this, index, "to")} setTime={timing[index].to} />
+												{timing.length - 1 === index ? (
+													<span className="moreAdder" onClick={this.addMoreField.bind(this, "timing")}>
+														<Icon icon="fas fa-plus-circle" />
+													</span>
+												) : (
+													<span className="moreRemover" onClick={this.removeThisField.bind(this, "timing", index)}>
+														<Icon icon="fas fa-minus-circle" />
+													</span>
+												)}
 											</span>
-											{timing.length - 1 === index ? (
-												<span className="moreAdder" onClick={this.addMoreField.bind(this, "timing")}>
-													<Icon icon="fas fa-plus-circle" />
-												</span>
-											) : (
-												<span className="moreRemover" onClick={this.removeThisField.bind(this, "timing", index)}>
-													<Icon icon="fas fa-minus-circle" />
-												</span>
-											)}
 										</div>
 									);
 								})}
@@ -587,19 +557,9 @@ class AdSetDescription extends Component {
 									</ToolTipMarker>
 								</label>
 								<span className="inputContainer">
-									<input
-										type="text"
-										name="mcpv"
-										placeholder=""
-										value={mcpv}
-										onChange={e =>
-											this.setState({
-												data: { ...this.state.data, mcpv: e.target.value }
-											})
-										}
-									/>
+									<input type="text" name="mcpv" placeholder="" value={minCost} onChange={this.changeMCPV.bind(this)} />
 								</span>
-								<span className="minimumValues">Minimum Amount is &#8358;100</span>
+								<span className="minimumValues">Minimum Amount is &#8358;{lowestMinCost}</span>
 							</div>
 							<div className="inputField">
 								<label>
@@ -630,7 +590,11 @@ class AdSetDescription extends Component {
 					<div className="estimateContainer">
 						<div className="priceEstimate">
 							<label>Estimated Cost</label>
-							<Heading size="sm" title={`&#8358; ${totalCost.formatMoney(2)}`} />
+							<span className="flexDisplay">
+								<Heading size="sm" title="&#8358;" />
+								<Heading size="sm" title={` ${totalCost.formatMoney(2)}`} />
+							</span>
+
 							<label>NGN</label>
 						</div>
 						<div className="priceEstimate">
