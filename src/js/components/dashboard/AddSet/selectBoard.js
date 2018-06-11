@@ -8,19 +8,6 @@ export default class SelectBoard extends Component {
 	constructor(props) {
 		super();
 		this.state = {
-			boards: [
-				{
-					coordinate: "",
-					width: "",
-					height: "",
-					divisibleHeight: 2,
-					state: "Lagos",
-					address: "4, salvation Road, off Opebi.",
-					imageUrl: "images/space1.jpg",
-					boardBitmap: "",
-					boardDescription: ""
-				}
-			],
 			selectedBoardIndex: "",
 			error: ""
 		};
@@ -31,11 +18,10 @@ export default class SelectBoard extends Component {
 			this.setState({ error: "Please select a board to continue" });
 			return;
 		}
-		this.props.selectedBoard(this.state.boards[0]);
+		this.props.selectedBoard(this.props.allBoards[this.state.selectedBoardIndex]);
 	}
 	render() {
 		const { boards, selectedBoardIndex, error } = this.state;
-		console.log(this.props);
 		return (
 			<Row className="campaignContainer">
 				<Col xs={5}>

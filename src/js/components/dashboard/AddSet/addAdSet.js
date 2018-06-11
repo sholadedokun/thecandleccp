@@ -16,7 +16,7 @@ class AddAdSet extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentStep: 1,
+			currentStep: 0,
 			currentBoardLocations: "",
 			baseCost: 300000
 		};
@@ -45,7 +45,7 @@ class AddAdSet extends Component {
 			case 2:
 				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
 			case 3:
-				return <Payment baseCost={baseCost} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+				return <Payment transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
 	uploadCreatives() {
@@ -88,12 +88,13 @@ class AddAdSet extends Component {
 		// console.log(Board)
 		if (Board) {
 			this.props.selectBoard(Board);
-			this.setState({ currentStep: 1 });
+			this.setState({ currentStep: 1, Board });
 		}
 	}
 	setCampaignDetails(details) {
 		if (details) {
 			details.mode = 0;
+			console.log(details);
 			const { min_age, max_age, gender, weather, traffic } = details;
 			//using local config as dictionary to reformat to the required parameters by the API
 			details.trigger = {

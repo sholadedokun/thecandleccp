@@ -38,13 +38,13 @@ class AdSetDescription extends Component {
 				mcpv: 100,
 				fastDisplay: ""
 			},
-			baseInterval: "2|min",
-			cyclePerMin: 3, //number of cycle an Image adevert can occur within a min.
+			baseInterval: "2|min", //
+			cyclePerMin: 3, //number of cycle an Image advert can show within a min.
 			minCyclePerDay: 20, //minimum number of cycle that an adset can have in a day
 			minAdDays: 30, //minimum Number of days an adset can be added;
 			minCost: 100, //minimum number of cost per cycle
 			priceAugument: {
-				age: { value: 0.1, amount: 0 },
+				age: { value: 0.1, amount: 0 }, //you only need to send the value, 
 				time: { value: 0.1, amount: 0 },
 				weather: { value: 0.1, amount: 0 },
 				scenario: { value: 0.1, amount: 0 },
@@ -263,7 +263,7 @@ class AdSetDescription extends Component {
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state.data }, ["fastDisplay", "scenario", "advanceTiming"]))();
 		if (_.isEmpty(errors)) {
-			this.props.setCampaignDetails(this.state.data);
+			this.props.setCampaignDetails({...this.state.data, totalCost:this.state.totalCost});
 		}
 		// this.props.setCampaignDetails();
 	}
