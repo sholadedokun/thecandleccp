@@ -40,3 +40,5 @@ export const FETCH_ADSET = "FETCH_ADSET";
 //PAYMENT ACTIONS
 export const ADD_CARD = "ADD_CARD";
 export const CARD_ERROR = "CARD_ERROR";
+export const FETCH_ALL_CARDS = "FETCH_ALL_CARDS";
+export const VALIDATE_CARD = "VALIDATE_CARD";

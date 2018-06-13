@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Heading from "../heading";
 import { Row, Col } from "react-bootstrap";
-import CustomeSelect from "../customSelect";
 import DisplayBoard from "./displayBoard";
-import AddCard from "./addCard";
+
+import AllCards from "./getAllCards";
 export default class Payment extends Component {
 	makePayment() {
 		//make payment and receive response for payment.
@@ -35,7 +35,8 @@ export default class Payment extends Component {
 						</ul>
 					</div>
 					<Heading size="md" title="Payment Details" />
-					<AddCard />
+					<AllCards />
+
 					<button className="primaryButton" onClick={this.makePayment.bind(this)}>
 						Make Payment
 					</button>

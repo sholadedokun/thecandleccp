@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CustomeSelect from "../customSelect";
-import { addCard } from "../../actions/paymentActions";
+import { addCard, validateOTP } from "../../actions/paymentActions";
 import { connect } from "react-redux";
 import ErrorMessages from "../errorMessages";
 class AddCard extends Component {
@@ -53,7 +53,7 @@ class AddCard extends Component {
 			expiry_year: this.state.expiry_year,
 			pin: this.state.pin
 		};
-		this.props.addCard(cardDetails).then(data => console.log(data));
+		this.props.addCard(cardDetails).then(data => this.props.validateOTP(data).then(dataV => console.log(dataV, "validated")));
 	}
 	render() {
 		return (
@@ -184,4 +184,4 @@ function mapStateToProps(state) {
 		error: state.payment.error
 	};
 }
-export default connect(mapStateToProps, { addCard })(AddCard);
+export default connect(mapStateToProps, { addCard, validateOTP })(AddCard);

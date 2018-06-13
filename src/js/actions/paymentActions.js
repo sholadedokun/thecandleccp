@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ADSET_CREATE, UNAUTH_USER, CARD_ERROR, ADD_CARD } from "./actionTypes";
+import { ADSET_CREATE, VALIDATE_CARD, CARD_ERROR, ADD_CARD, FETCH_ALL_CARDS } from "./actionTypes";
 
 const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
 export function sendPayment(payload) {
@@ -17,7 +17,7 @@ export function sendPayment(payload) {
 					// dispatch(fetchAdset())
 					resolve(response.data);
 				})
-				.catch((e) => {
+				.catch(e => {
 					// If request is bad...
 					// - Show an error to the user
 					dispatch(cardError(e.response.data.message));
@@ -42,6 +42,44 @@ export function addCard(payload) {
 				.catch(e => {
 					// If request is bad...
 					// - Show an error to the user
+					dispatch(cardError(e.response.data.message));
+				});
+		});
+	};
+}
+export function getCards() {
+	return function(dispatch) {
+		return new Promise(resolve => {
+			axios
+				.get(`${ROOT_URL}/cards?token=${localStorage.getItem("TheCandleToken")}`)
+				.then(response => {
+					// If request is good...
+					// - Update state to indicate user is authenticated
+					dispatch({ type: FETCH_ALL_CARDS, payload: response.data });
+					// dispatch(fetchAdset())
+					resolve(response.data);
+				})
+				.catch(e => {
+					// If request is bad...
+					// - Show an error to the user
+					dispatch(cardError(e.response.data.message));
+				});
+		});
+	};
+}
+export function validateOTP(payload) {
+	payload.token = localStorage.getItem("TheCandleToken");
+	payload.otp = 12345;
+	return function(dispatch) {
+		return new Promise(resolve => {
+			axios
+				.post(`${ROOT_URL}/cards/validateotp`, payload)
+				.then(response => {
+					// If request is good...
+					dispatch({ type: VALIDATE_CARD, payload: response });
+					resolve(response.data);
+				})
+				.catch(e => {
 					dispatch(cardError(e.response.data.message));
 				});
 		});
