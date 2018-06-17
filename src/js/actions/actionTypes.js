@@ -42,3 +42,5 @@ export const ADD_CARD = "ADD_CARD";
 export const CARD_ERROR = "CARD_ERROR";
 export const FETCH_ALL_CARDS = "FETCH_ALL_CARDS";
 export const VALIDATE_CARD = "VALIDATE_CARD";
+export const REMOVE_CARD = "REMOVE_CARD";
+export const PAYMENT_STATUS = "PAYMENT_STATUS";

@@ -3,6 +3,7 @@ import CustomeSelect from "../customSelect";
 import { addCard, validateOTP } from "../../actions/paymentActions";
 import { connect } from "react-redux";
 import ErrorMessages from "../errorMessages";
+import Icon from "../icon";
 class AddCard extends Component {
 	constructor() {
 		super();
@@ -46,6 +47,7 @@ class AddCard extends Component {
 		}
 	}
 	addCard() {
+		this.setState({ addingCard: true });
 		let cardDetails = {
 			card_no: this.state.card1 + this.state.card2 + this.state.card3 + this.state.card4,
 			cvv: this.state.cvv,
@@ -53,7 +55,7 @@ class AddCard extends Component {
 			expiry_year: this.state.expiry_year,
 			pin: this.state.pin
 		};
-		this.props.addCard(cardDetails).then(data => this.props.validateOTP(data).then(dataV => console.log(dataV, "validated")));
+		this.props.addCard(cardDetails).then(data => this.props.validateOTP(data).then());
 	}
 	render() {
 		return (
@@ -170,10 +172,23 @@ class AddCard extends Component {
 						</div>
 					</div>
 				</div>
-				<button className="primaryButton" onClick={this.addCard.bind(this)}>
-					Add Card
-				</button>
-				<button className="cancelButton">Cancel</button>
+				<div>
+					{this.state.addingCard ? (
+						<div>
+							<Icon icon="fas fa-spinner fa-spin loading" />
+						</div>
+					) : (
+						<div>
+							<button className="primaryButton" onClick={this.addCard.bind(this)}>
+								Add Card
+							</button>
+							<button className="cancelButton" onClick={this.props.cancelCard}>
+								Cancel
+							</button>
+						</div>
+					)}
+				</div>
+
 				{this.props.error ? <ErrorMessages errorMessage={[this.props.error]} /> : ""}
 			</div>
 		);

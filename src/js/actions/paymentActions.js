@@ -1,7 +1,6 @@
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ADSET_CREATE, VALIDATE_CARD, CARD_ERROR, ADD_CARD, FETCH_ALL_CARDS } from "./actionTypes";
-
+import { PAYMENT_STATUS, REMOVE_CARD, VALIDATE_CARD, CARD_ERROR, ADD_CARD, FETCH_ALL_CARDS } from "./actionTypes";
 const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
 export function sendPayment(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
@@ -13,7 +12,7 @@ export function sendPayment(payload) {
 				.then(response => {
 					// If request is good...
 					// - Update state to indicate user is authenticated
-					dispatch({ type: ADSET_CREATE, payload: response });
+					dispatch({ type: PAYMENT_STATUS, payload: response });
 					// dispatch(fetchAdset())
 					resolve(response.data);
 				})
@@ -77,6 +76,24 @@ export function validateOTP(payload) {
 				.then(response => {
 					// If request is good...
 					dispatch({ type: VALIDATE_CARD, payload: response });
+					resolve(response.data);
+				})
+				.catch(e => {
+					dispatch(cardError(e.response.data.message));
+				});
+		});
+	};
+}
+export function deleteCard(id) {
+	let token = localStorage.getItem("TheCandleToken");
+	return function(dispatch) {
+		return new Promise(resolve => {
+			axios
+				.delete(`${ROOT_URL}/cards/${id}?token=${token}&id=${id}`)
+				.then(response => {
+					// If request is good...
+					response.id = id;
+					dispatch({ type: REMOVE_CARD, payload: response });
 					resolve(response.data);
 				})
 				.catch(e => {
