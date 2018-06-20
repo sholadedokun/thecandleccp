@@ -1,17 +1,22 @@
 @import url(/Users/USER/Documents/GitHub/thecandleccp/src/styles/font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300italic,500,500italic");
-.actionButton, .primaryButton, .disabledButton, .cancelButton {
+.actionButton, .primaryButton, .disabledButton,
+.cancelButton {
   padding: 15px 20px;
-  background: #1a9179;
+  background: #cc0000;
   box-shadow: 0 0 2px #aaa;
   min-width: 100px;
   text-align: center;
   margin-right: 20px;
-  color: #fff;
+  color: #eee;
   border-radius: 4px;
   margin-top: 1em;
   cursor: pointer;
+}
+
+.nop {
+  padding: 0;
 }
 
 body {
@@ -159,7 +164,7 @@ a {
 
 .header .post_campaign_ads:hover {
   font-weight: bold;
-  background: #1a9179 !important;
+  background: #cc0000 !important;
   color: #fff;
 }
 
@@ -181,7 +186,7 @@ a {
 
 .header .buttonLink {
   box-shadow: 0 0 3px #999;
-  color: #1a9179 !important;
+  color: #cc0000 !important;
   line-height: 0;
   background: #eee;
   border: 1px solid #eee;
@@ -215,19 +220,20 @@ a {
 }
 
 .logo {
-  margin-top: 0.5em;
   color: #70818e;
   font-size: 1.6em;
   text-shadow: none !important;
   font-weight: 300;
-}
-
-.logo a:hover {
-  color: inherit;
+  width: 6em;
 }
 
 .logo .sublogo {
   color: #f4d06f;
+}
+
+.footerLogo {
+  width: 4.5em;
+  display: block;
 }
 
 .section {
@@ -354,12 +360,20 @@ a {
   width: 300px !important;
 }
 
-.linearBackground, .navigator .liner, .primaryButton {
-  background: linear-gradient(#38c4b1, #1a9179) !important;
+.linearBackground, .navigator .liner {
+  background: linear-gradient(#cc0000, #aa0000) !important;
 }
 
-.linearBackgroundHover, .primaryButton:hover {
-  background: linear-gradient(#27b3a0, #098068) !important;
+.linearBackgroundHover {
+  background: linear-gradient(#aa0000, #990000) !important;
+}
+
+.planeBackground, .primaryButton {
+  background: #cc0000 !important;
+}
+
+.planeBackgroundHover, .primaryButton:hover {
+  background: #aa0000 !important;
 }
 
 .errorNotification {
@@ -413,7 +427,7 @@ a {
 .dashboard .campaignTable .campaign_menu li.active {
   color: #555;
   font-weight: bold;
-  border-bottom: 5px solid #1a9179;
+  border-bottom: 5px solid #cc0000;
   margin-bottom: -1px;
   z-index: 2;
   position: relative;
@@ -482,7 +496,8 @@ a {
   margin-right: 2em;
 }
 
-.dashboard .campaign_actionables .actionButton, .dashboard .campaign_actionables .primaryButton, .dashboard .campaign_actionables .disabledButton, .dashboard .campaign_actionables .cancelButton,
+.dashboard .campaign_actionables .actionButton, .dashboard .campaign_actionables .primaryButton, .dashboard .campaign_actionables .disabledButton, .dashboard .campaign_actionables
+.cancelButton,
 .dashboard .campaign_actionables .disabledButton {
   font-size: 0.85em;
   margin: 0em 0.5em;
@@ -569,7 +584,7 @@ a {
 }
 
 .dashboard .total_result .headings {
-  color: #1a9179;
+  color: #cc0000;
   width: 40%;
   margin-left: 6%;
 }
@@ -640,7 +655,7 @@ a {
 }
 
 .dashboard_menu li.active a {
-  color: #1a9179 !important;
+  color: #cc0000 !important;
   font-weight: bold;
 }
 
@@ -728,7 +743,7 @@ a {
   top: 0;
   padding: 0.45em 0;
   text-align: center;
-  border-right: 1px solid #38c4b1;
+  border-right: 1px solid #c00;
 }
 
 .navigator li {
@@ -820,6 +835,60 @@ ul {
   padding: 2em 4em;
 }
 
+.campaignEstimate {
+  margin-top: 4em;
+}
+
+.campaignEstimate .estimateContainer {
+  position: fixed;
+}
+
+.priceEstimate {
+  margin-bottom: 1.5em;
+  background: #fff;
+  padding: 1.5em;
+  width: 16em;
+  border-radius: 4px;
+  box-shadow: 0px 1px 2px #ccc;
+}
+
+.priceEstimate label {
+  font-size: 0.75em;
+  font-weight: normal;
+  color: #aaa;
+}
+
+.priceEstimate h3 {
+  margin: 0 !important;
+}
+
+.priceEstimate .boardPoints {
+  font-size: 0.75em;
+  border-top: 1px solid #aaa;
+  margin-top: 2em;
+  padding-top: 1em;
+  list-style: circle;
+  list-style-type: circle;
+}
+
+.priceEstimate .boardPoints li {
+  list-style-type: circle;
+  display: block;
+  margin-top: 0.5em;
+  color: #aaa;
+}
+
+.paymentDetails {
+  margin: 2.5em 0 4em;
+  color: #999;
+}
+
+.paymentDetails h3 {
+  margin-top: 0em;
+  margin-bottom: 1em;
+  color: #000;
+}
+
 input,
 select,
 textarea,
@@ -884,19 +953,23 @@ button {
 }
 
 .primaryButton:hover {
-  font-weight: bold;
+  color: #fff;
 }
 
-.disabledButton {
+.disabledButton,
+.cancelButton {
   background: #eee;
   color: #aaa;
 }
 
-.cancelButton {
-  min-width: 160px;
-  text-align: center;
+.disabledButton:hover,
+.cancelButton:hover {
+  background: #ddd;
   color: #555;
-  background: linear-gradient(#eaeaea, #ddd) !important;
+}
+
+.flexDisplay {
+  display: flex;
 }
 
 .detailsMenu {
@@ -953,31 +1026,17 @@ button {
   display: inline-block;
 }
 
-.customSelect .optionContainer {
-  position: relative;
-  min-width: 1px;
-  display: inline-block !important;
-  height: 1em;
-}
-
-.customSelect .optionContainer ul {
-  height: 1.2em;
-  padding: 0 1em;
-  overflow: hidden;
-}
-
-.customSelect .optionContainer ul li {
-  margin-bottom: 0.5em;
-}
-
-.customSelect .optionContainer .revelCont {
+.revelCont {
   height: auto;
+  position: relative;
   display: inline-table;
-  background: #eee;
+  background: #fefefe;
   padding: 0.5em 1em;
-  margin: 0 1em;
-  box-shadow: 0px 0px 2px #444;
+  margin: -2px 1em 0;
+  border: 1px #efefef solid;
+  border-top: 0;
   border-radius: 5px;
+  z-index: 1000;
 }
 
 .inputField {
@@ -1100,11 +1159,11 @@ button {
   width: 100%;
   padding: 10px;
   color: #555;
-  min-width: 50px;
+  font-size: 0.75em;
 }
 
 .inputField .radio .active {
-  background: #595;
+  background: #cc0000;
   color: #fff;
 }
 
@@ -1357,7 +1416,8 @@ input[type="file"] {
   border-radius: 4px;
   border: 1px #dfeaef solid;
   padding: 0em;
-  margin-top: 2.5em;
+  position: relative;
+  margin: 2.5em 0.5em 0;
 }
 
 .adSetContainer .hrule {
@@ -1678,6 +1738,47 @@ input[type="file"] {
   color: #d8d8d8;
 }
 
+.analyticsBoard .viewBoard .liveStreamContainer .liveFeeds {
+  text-align: right;
+  padding: 4em 1em 1em;
+  border-right: 2px #f4f5fa solid;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .liveFeeds li {
+  display: block;
+  margin-right: 0.5em;
+  padding-bottom: 1em;
+  cursor: pointer;
+  width: 100%;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .liveFeeds li i {
+  display: block;
+  width: 20%;
+  margin-left: 80%;
+  border-bottom: 1px solid #c00;
+  transition: width 0.5s, margin-left 0.5s;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .liveFeeds li:hover i {
+  width: 50%;
+  margin-left: 50%;
+  transition: width 1s, margin-left 1s;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .VideoDisplay {
+  padding: 4em 2em;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .VideoDisplay .video-js {
+  width: 100%;
+  height: 400px;
+}
+
+.analyticsBoard .viewBoard .liveStreamContainer .feedDescription {
+  text-align: left;
+}
+
 .analyticsBoard .viewBoard .viewContainer {
   padding: 0 1.75em;
 }
@@ -1880,6 +1981,65 @@ input[type="file"] {
 .lowest::before,
 .lowestClass {
   background: #dd00ff !important;
+}
+
+.cardDetails {
+  width: auto;
+  margin-top: 4em;
+}
+
+.cardDetails .cardRadio {
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  border: 2px solid #cc0000;
+  display: inline-block;
+}
+
+.cardDetails .eachCardDetail {
+  display: inline-block;
+}
+
+.cardDetails .cardInput #cardNumber input {
+  width: 75px;
+}
+
+.cardDetails .cardInput #cvv input {
+  flex: 0.75;
+  width: 65px;
+}
+
+.cardDetails .cardInput #holdersName input {
+  letter-spacing: 2px;
+}
+
+.cardDetails .cardInput .inputField {
+  border: 1px solid #eee;
+  background: #ffffff;
+  border-radius: 4px;
+  display: flex;
+  width: auto;
+  margin: 0 0 0.5em;
+}
+
+.cardDetails .cardInput .inputField input {
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  flex: auto;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  margin: 0 0.25em;
+  width: 90px;
+}
+
+.cardDetails .cardInput .cardFieldGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardDetails .cardInput .cardFieldGroup .eachField {
+  flex: auto;
 }
 
 @keyframes barEnter {

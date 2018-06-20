@@ -853,22 +853,22 @@ button {
 	@extend .planeBackground;
 }
 .primaryButton:hover {
-	color:#fff;
+	color: #fff;
 	@extend .planeBackgroundHover;
 }
-.disabledButton, 
+.disabledButton,
 .cancelButton {
 	@extend .actionButton;
 	background: #eee;
 	color: #aaa;
 }
-.disabledButton:hover, 
+.disabledButton:hover,
 .cancelButton:hover {
 	background: #ddd;
 	color: #555;
 }
-.flexDisplay{
-	display:flex;
+.flexDisplay {
+	display: flex;
 }
 .detailsMenu {
 	margin-top: 8em;
@@ -922,8 +922,8 @@ button {
 	background: #fefefe;
 	padding: 0.5em 1em;
 	margin: -2px 1em 0;
-	border:1px #efefef solid;
-	border-top:0;
+	border: 1px #efefef solid;
+	border-top: 0;
 	border-radius: 5px;
 	z-index: 1000;
 }
@@ -1760,6 +1760,51 @@ input[type="file"] {
 .cardDetails {
 	width: auto;
 	margin-top: 3em;
+	.addNewcard {
+		margin-bottom: 0.5em;
+		min-height:1em;
+		display: block;
+		a {
+			float: right;
+		}
+	}
+	.eachCard {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 2em;
+		.eachCardDetail {
+			width: auto;
+			min-height: 4em;
+			display: inline-block;
+			.cardNumber {
+				font-size: 1.2em;
+				display: block;
+			}
+			.cardExpiry {
+				font-size: 1em;
+				display: block;
+			}
+		}
+		.cardRadio {
+			height: 3rem;
+			width: 3rem;
+			border-radius: 50%;
+			border: 2px solid $primary-color;
+			display: inline-block;
+			position: relative;
+			cursor: pointer;
+		}
+		.cardRadio::after {
+			content: "";
+			background: #f00;
+			width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 50%;
+			top: 0.5rem;
+			left: 0.5rem;
+			position: absolute;
+		}
+	}
 	.cardInput {
 		#cardNumber {
 			input {

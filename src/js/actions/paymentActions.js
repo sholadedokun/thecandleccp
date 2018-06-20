@@ -27,28 +27,30 @@ export function sendPayment(payload) {
 export function addCard(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			// Submit email/password to the server
-			axios
-				.post(`${ROOT_URL}/cards`, payload)
-				.then(response => {
+			axios.post(`${ROOT_URL}/cards`, payload).then(
+				response => {
 					// If request is good...
 					// - Update state to indicate user is authenticated
 					dispatch({ type: ADD_CARD, payload: response });
-					// dispatch(fetchAdset())
 					resolve(response.data);
-				})
-				.catch(e => {
+				},
+				e => {
 					// If request is bad...
 					// - Show an error to the user
-					dispatch(cardError(e.response.data.message));
-				});
+					console.log(e.response, e.response.data.message);
+					// reject();
+
+					// dispatch({ type: CARD_ERROR, payload: e.response.data.message });
+				}
+			);
 		});
 	};
 }
 export function getCards() {
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.get(`${ROOT_URL}/cards?token=${localStorage.getItem("TheCandleToken")}`)
 				.then(response => {
@@ -61,6 +63,7 @@ export function getCards() {
 				.catch(e => {
 					// If request is bad...
 					// - Show an error to the user
+					reject();
 					dispatch(cardError(e.response.data.message));
 				});
 		});
@@ -70,7 +73,7 @@ export function validateOTP(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
 	payload.otp = 12345;
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.post(`${ROOT_URL}/cards/validateotp`, payload)
 				.then(response => {
@@ -79,6 +82,7 @@ export function validateOTP(payload) {
 					resolve(response.data);
 				})
 				.catch(e => {
+					reject();
 					dispatch(cardError(e.response.data.message));
 				});
 		});
