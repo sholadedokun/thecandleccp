@@ -1762,7 +1762,7 @@ input[type="file"] {
 	margin-top: 3em;
 	.addNewcard {
 		margin-bottom: 0.5em;
-		min-height:1em;
+		min-height: 1em;
 		display: block;
 		a {
 			float: right;
@@ -1776,13 +1776,18 @@ input[type="file"] {
 			width: auto;
 			min-height: 4em;
 			display: inline-block;
-			.cardNumber {
-				font-size: 1.2em;
+			.cardLabel {
+				font-size: 0.35em;
+				text-transform: uppercase;
+				letter-spacing: 2px;
 				display: block;
 			}
+			.cardNumber,
 			.cardExpiry {
-				font-size: 1em;
+				font-size: 2em;
 				display: block;
+				word-spacing: 4px;
+				letter-spacing: 2px;
 			}
 		}
 		.cardRadio {
@@ -1794,15 +1799,13 @@ input[type="file"] {
 			position: relative;
 			cursor: pointer;
 		}
-		.cardRadio::after {
-			content: "";
+		.selectedCard{
 			background: #f00;
 			width: 1.5rem;
 			height: 1.5rem;
 			border-radius: 50%;
 			top: 0.5rem;
 			left: 0.5rem;
-			position: absolute;
 		}
 	}
 	.cardInput {

@@ -9,7 +9,7 @@ class GetCards extends Component {
 		super();
 		this.state = {
 			addCard: false,
-			currentSelected: 1
+			currentSelected: 0
 		};
 	}
 	componentWillMount() {
@@ -29,14 +29,16 @@ class GetCards extends Component {
 				{allCards
 					? allCards.map((item, index) => (
 							<div class="eachCard priceDetails">
-								<span onClick={this.payWithCard.bind(this, item)} className={currentSelected == index ? "cardRadio Selected" : "cardRadio"} />
+								<span onClick={this.payWithCard.bind(this, item)} className={`cardRadio ${currentSelected == index ? "selectedCard" : ""}`} />
 								<span className="eachCardDetail">
-									<span className="cardNumber">Card Number: **** **** **** {item.last4digits} </span>
+									<span className="cardNumber">
+										<span className="cardLabel">Card Number</span> **** **** **** {item.last4digits}
+									</span>
 									<span className="cardExpiry">
-										Expires: {item.expiry_month}/{item.expiry_year}
+										<span className="cardLabel">Expires</span>
+										{item.expiry_month}/{item.expiry_year}
 									</span>
 								</span>
-								
 								<a onClick={this.deleteCard.bind(this, item)} className="removeCard">
 									<Icon icon="far fa-trash-alt" size="sm" />
 								</a>
@@ -48,7 +50,6 @@ class GetCards extends Component {
 						<Icon icon="fas fa-plus" size="sm" /> Add New Card
 					</a>
 				</div>
-				
 
 				{!cardValidated && (this.state.addCard || (allCards && allCards.length < 1)) ? <AddCard cancelCard={() => this.setState({ addCard: false })} /> : ""}
 
