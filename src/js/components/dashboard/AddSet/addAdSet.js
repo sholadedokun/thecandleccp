@@ -7,7 +7,7 @@ import { createCampaign } from "../../../actions/campaignActions";
 import SelectBoard from "./selectBoard";
 import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
-import Payment from "../payment";
+import Order from "../order";
 import { Col, Row, Grid } from "react-bootstrap";
 import { ADSET_DICTIONARY } from "../../../config.js";
 import _ from "lodash";
@@ -45,7 +45,7 @@ class AddAdSet extends Component {
 			case 2:
 				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
 			case 3:
-				return <Payment transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+				return <Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
 	uploadCreatives() {

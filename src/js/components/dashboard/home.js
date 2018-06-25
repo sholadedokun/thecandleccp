@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { fetchCampaign } from "../../actions/campaignActions";
+import { fetchCampaign, deleteCampaign } from "../../actions/campaignActions";
 import { fetchUser, modalStatus } from "../../actions/userActions";
 import { fetchBoards } from "../../actions/boardActions";
 import { connect } from "react-redux";
@@ -182,6 +182,7 @@ class DashHome extends Component {
 				}
 			}
 		};
+		this.editList = [];
 	}
 	displayAdsets(index) {
 		this.props.changeRoute("/adSets/" + index);
@@ -197,6 +198,15 @@ class DashHome extends Component {
 		//update the data of the dataset of the example;
 		lineChart.data.datasets[0].data = value;
 		this.setState({ lineChart, activeBigline: type });
+	}
+	listEditor(item, e) {
+		e.target.checked ? this.editList.push(item.id) : (this.editList = this.editList.filter(list => list != item.id));
+		console.log(this.editList);
+	}
+	deleteCampaign() {
+		if (this.editList.length > 0) {
+			this.props.deleteCampaign(this.editList);
+		}
 	}
 	render() {
 		const { modalOpen, modalLoad, analyticsType, totalView, totalReach, totalSpent, totalImpression, activeBigline } = this.state;
@@ -337,7 +347,9 @@ class DashHome extends Component {
 								<Icon icon="fas fa-plus" /> Create Campaign
 							</span>
 							<span className="formField">Edit</span>
-							<span className="formField">Delete</span>
+							<span className="formField" onClick={this.deleteCampaign.bind(this)}>
+								Delete
+							</span>
 						</Col>
 						<Col xs={12} sm={6} className="filter float-sm-right">
 							<span className="formField">Sort</span>
@@ -361,18 +373,18 @@ class DashHome extends Component {
 							<li>Total Spent</li>
 						</ul>
 					</Col>
-					{_.map(allCampaigns, (item, index) => {
+					{_.map(allCampaigns, item => {
 						return (
-							<Col componentClass="ul" className="each_campaign" key={_.uniqueId()} onClick={this.displayAdsets.bind(this, item.id)}>
+							<Col componentClass="ul" className="each_campaign" key={_.uniqueId()}>
 								<li>
 									<span>
-										<input type="checkbox" />
+										<input type="checkbox" onClick={this.listEditor.bind(this, item)} />
 									</span>
 								</li>
 								<li>
 									<Toggler status={item.status} />
 								</li>
-								<li>{item.name}</li>
+								<li onClick={this.displayAdsets.bind(this, item.id)}>{item.name}</li>
 								<li>
 									<span className={`activityIndicator ${!item.activity ? "inactive" : item.activity == "active" ? "active" : "completed"}`} />
 									<span>{item.activity || "inactive"}</span>
@@ -424,6 +436,8 @@ class DashHome extends Component {
 		);
 	}
 }
-
-const mapDispatchToProps = { modalStatus };
-export default connect(null, mapDispatchToProps)(DashHome);
+function mapStateToProps(state) {
+	return { allCampaigns: state.campaigns.allCampaigns };
+}
+const mapDispatchToProps = { modalStatus, fetchCampaign, deleteCampaign };
+export default connect(mapStateToProps, mapDispatchToProps)(DashHome);

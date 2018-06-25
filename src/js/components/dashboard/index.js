@@ -94,7 +94,7 @@ class Dashboard extends Component {
 							render={({ location }) => (
 								<ReactCSSTransitionGroup key={location.key} transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 									<Switch location={location}>
-										<Route exact={true} path={`${match.url}`} component={() => <Home allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} />} />
+										<Route exact={true} path={`${match.url}`} component={() => <Home location={location} changeRoute={this.changeRoute.bind(this)} />} />
 										<Route
 											exact={true}
 											path={`${match.url}/adSets/:campaignId`}

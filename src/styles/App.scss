@@ -1789,23 +1789,23 @@ input[type="file"] {
 				word-spacing: 4px;
 				letter-spacing: 2px;
 			}
+			.blockedNumbers {
+				display: inline-block;
+				margin-top: 0.5em;
+			}
 		}
 		.cardRadio {
-			height: 3rem;
-			width: 3rem;
+			height: 1.5rem;
+			width: 1.5rem;
 			border-radius: 50%;
 			border: 2px solid $primary-color;
 			display: inline-block;
 			position: relative;
 			cursor: pointer;
 		}
-		.selectedCard{
+		.selectedCard {
 			background: #f00;
-			width: 1.5rem;
-			height: 1.5rem;
-			border-radius: 50%;
-			top: 0.5rem;
-			left: 0.5rem;
+			padding: 0.25rem;
 		}
 	}
 	.cardInput {
