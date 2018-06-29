@@ -1,4 +1,4 @@
-@import url(/Users/USER/Documents/GitHub/thecandleccp/src/styles/font-awesome.min.css);
+@import url(/Users/USER/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/thecandleccp/src/styles/font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300italic,500,500italic");
 .actionButton, .primaryButton, .disabledButton,
@@ -1985,19 +1985,64 @@ input[type="file"] {
 
 .cardDetails {
   width: auto;
-  margin-top: 4em;
+  margin-top: 3em;
 }
 
-.cardDetails .cardRadio {
-  height: 2em;
-  width: 2em;
+.cardDetails .addNewcard {
+  margin-bottom: 0.5em;
+  min-height: 1em;
+  display: block;
+}
+
+.cardDetails .addNewcard a {
+  float: right;
+}
+
+.cardDetails .eachCard {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.cardDetails .eachCard .eachCardDetail {
+  width: auto;
+  min-height: 4em;
+  display: inline-block;
+}
+
+.cardDetails .eachCard .eachCardDetail .cardLabel {
+  font-size: 0.35em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+}
+
+.cardDetails .eachCard .eachCardDetail .cardNumber,
+.cardDetails .eachCard .eachCardDetail .cardExpiry {
+  font-size: 1.25em;
+  display: block;
+  word-spacing: 4px;
+  letter-spacing: 2px;
+}
+
+.cardDetails .eachCard .eachCardDetail .blockedNumbers {
+  display: inline-block;
+  margin-top: 0.5em;
+}
+
+.cardDetails .eachCard .cardRadio {
+  height: 1.5rem;
+  width: 1.5rem;
   border-radius: 50%;
   border: 2px solid #cc0000;
   display: inline-block;
+  position: relative;
+  cursor: pointer;
 }
 
-.cardDetails .eachCardDetail {
-  display: inline-block;
+.cardDetails .eachCard .selectedCard {
+  background: #f00;
+  padding: 0.25rem;
 }
 
 .cardDetails .cardInput #cardNumber input {

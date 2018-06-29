@@ -3,7 +3,7 @@ import Nav from "./navigation";
 import { connect } from "react-redux";
 import { selectBoard } from "../../../actions/boardActions";
 import { createAdset, uploadCreative } from "../../../actions/adSetActions";
-import { createCampaign } from "../../../actions/campaignActions";
+import { createCampaign, fetchCampaign } from "../../../actions/campaignActions";
 import SelectBoard from "./selectBoard";
 import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
@@ -18,7 +18,8 @@ class AddAdSet extends Component {
 		this.state = {
 			currentStep: 0,
 			currentBoardLocations: "",
-			baseCost: 300000
+			baseCost: 300000,
+			adSet_id: null
 		};
 	}
 	displaySteps() {
@@ -45,43 +46,49 @@ class AddAdSet extends Component {
 			case 2:
 				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
 			case 3:
-				return <Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
+				return <Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} addCampaignAdset={this.addCampaignAdset.bind(this)} />;
 		}
 	}
-	uploadCreatives() {
-		var data = this.state.creative;
-		let that = this;
-		console.log(this.state);
+	addCampaignAdset() {
 		let campaignDetails = this.state.campaignDetails;
-		if (!this.state.adSet_id) {
+		if (!this.state.adSet_id && this.state.adSet_id != 0) {
+			console.log("tryning to create campaign again");
 			this.props.createCampaign(this.props.newCampaign).then(campaigndata => {
-				console.log(campaigndata, campaignDetails);
-				campaignDetails.campaign_id = campaigndata.data.id;
-				that.props.createAdset(campaignDetails).then(addSet => {
-					that.setState({ adSet_id: addSet.id });
-					that.uploadCreatives.bind(that, data)();
+				//console.log(campaigndata, campaignDetails);
+
+				this.props.fetchCampaign().then(data => {
+					campaignDetails.campaign_id = campaigndata.data.id;
+					this.props.createAdset(campaignDetails).then(adSet => {
+						console.log(adSet, "tryning to create adset again");
+						this.setState({ adSet_id: adSet.id });
+						console.log(adSet.id, this.state.adSet_id, "tryning to create adset again");
+						this.uploadCreatives();
+					});
 				});
 			});
-		} else {
-			for (var i = 0; i < data.creative.length; i++) {
-				let formData = new FormData();
-				if (data.creative[i].type == "image" || data.creative[i].type == "video") {
-					formData.append("file", data.creative[i].formEntity);
-				} else {
-					formData.append("url", data.creative[i].url);
-				}
-				formData.append("token", localStorage.getItem("TheCandleToken"));
-				formData.append("type", data.creative[i].type);
-				formData.append("position", data.creative[i].dimension.x.split("|")[0]);
-				formData.append("adset_id", this.state.adSet_id);
-				this.props.uploadCreative(formData).then(creativeData => {
-					console.log(data.creative.length, i);
-					if (i == data.creative.length) {
-						console.log("here");
-						that.props.close();
-					}
-				});
+		}
+	}
+	uploadCreatives(adSet) {
+		console.log(this.state.adSet_id);
+		var data = this.state.creative;
+		for (var i = 0; i < data.creative.length; i++) {
+			let formData = new FormData();
+			if (data.creative[i].type == "image" || data.creative[i].type == "video") {
+				formData.append("file", data.creative[i].formEntity);
+			} else {
+				formData.append("url", data.creative[i].url);
 			}
+			formData.append("token", localStorage.getItem("TheCandleToken"));
+			formData.append("type", data.creative[i].type);
+			formData.append("position", data.creative[i].dimension.x.split("|")[0]);
+			formData.append("adset_id", adSet);
+			this.props.uploadCreative(formData).then(creativeData => {
+				console.log(data.creative.length, i);
+				if (i == data.creative.length) {
+					console.log("here");
+					this.props.close();
+				}
+			});
 		}
 	}
 	selectedBoard(Board) {
@@ -139,5 +146,5 @@ function mapStateToProps(state) {
 		// campaign:state.campaigns.campaignData
 	};
 }
-const mapDispatchToProps = { selectBoard, createAdset, uploadCreative, createCampaign };
+const mapDispatchToProps = { selectBoard, createAdset, uploadCreative, createCampaign, fetchCampaign };
 export default connect(mapStateToProps, mapDispatchToProps)(AddAdSet);

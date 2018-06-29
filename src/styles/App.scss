@@ -41,7 +41,6 @@ a {
 
 //landing page
 .banner {
-	background: url("./backgroundPictures/banner_md.jpg") no-repeat top fixed;
 	height: 750px;
 	h1,
 	h2,
@@ -82,6 +81,43 @@ a {
 		}
 	}
 }
+//carousel
+.slider {
+	height: 750px;
+	margin-bottom: -18rem;
+}
+#cr1 {
+	background: url("./backgroundPictures/banner_md.jpg") no-repeat top center;
+}
+#cr2 {
+	background: url("./backgroundPictures/banner2.jpg") no-repeat top center;
+}
+#cr3 {
+	background: url("./backgroundPictures/banner3.jpg") no-repeat top center;
+}
+.carousel {
+	color: #fefefe;
+	height: 750px;
+	background: #555;
+	text-align: center;
+	padding: 17rem 2.5rem 1rem;
+	h1,
+	h2,
+	h3,
+	h4 {
+		letter-spacing: 1px;
+	}
+}
+.carousel_dots {
+	bottom: 3.5rem;
+	li {
+		button:before {
+			opacity: 0.45;
+			color: #fff;
+		}
+	}
+}
+
 .bigInput {
 	margin: 4em auto 12em;
 	display: block;
@@ -128,7 +164,7 @@ a {
 }
 .header {
 	padding-top: 1em;
-	z-index: 0;
+	z-index: 10;
 	.profile_display {
 		margin-top: 1em;
 		padding: 4px 20px;
@@ -1087,6 +1123,7 @@ input[type="file"] {
 .errorContainer {
 	margin-top: 1em;
 	width: 100%;
+	display:inline-block;
 }
 .error {
 	border: 1px solid #a55 !important;
@@ -1760,6 +1797,7 @@ input[type="file"] {
 .cardDetails {
 	width: auto;
 	margin-top: 3em;
+	padding:2.5em 2em 2em;
 	.addNewcard {
 		margin-bottom: 0.5em;
 		min-height: 1em;
@@ -1784,7 +1822,7 @@ input[type="file"] {
 			}
 			.cardNumber,
 			.cardExpiry {
-				font-size: 2em;
+				font-size: 1.25em;
 				display: block;
 				word-spacing: 4px;
 				letter-spacing: 2px;

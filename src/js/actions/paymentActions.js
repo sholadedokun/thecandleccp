@@ -28,11 +28,9 @@ export function addCard(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
 	return function(dispatch) {
 		return new Promise((resolve, reject) => {
-			// Submit email/password to the server
 			axios.post(`${ROOT_URL}/cards`, payload).then(
 				response => {
 					// If request is good...
-					// - Update state to indicate user is authenticated
 					dispatch({ type: ADD_CARD, payload: response });
 					resolve(response.data);
 				},
@@ -40,9 +38,8 @@ export function addCard(payload) {
 					// If request is bad...
 					// - Show an error to the user
 					console.log(e.response, e.response.data.message);
-					// reject();
-
-					// dispatch({ type: CARD_ERROR, payload: e.response.data.message });
+					reject();
+					dispatch({ type: CARD_ERROR, payload: e.response.data.message });
 				}
 			);
 		});

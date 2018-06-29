@@ -119,8 +119,9 @@ export default class uploadAdCreative extends Component {
 							</Col>
 							<Heading size="sm" title="Disclaimer" />
 							<p>
-								Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
-								vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
+								By clicking next you agree to all candle’s , alpha and jam advertising and content management agreement and Term&Condition , Please visit candle.media/policy for more. <br />
+								By clicking next, you also indemnify the network her partners and boards of any legal clams against her by your ad material / campaign.<br />
+								Please note that all ads that do not meet our design specification and brand guideline as seen in candle.media/design-brandguidline will not be approved. <br />
 							</p>
 						</Row>
 					</Col>

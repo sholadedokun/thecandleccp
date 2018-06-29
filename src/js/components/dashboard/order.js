@@ -7,7 +7,7 @@ import Payment from "./payment";
 export default class Order extends Component {
 	paymentSuccessful() {
 		//make payment and receive response for payment.
-		this.props.setCreatives();
+		this.props.addCampaignAdset();
 	}
 
 	render() {

@@ -14,12 +14,7 @@ export function createCampaign(payload, first) {
 					// If request is good...
 					// - Update state to indicate user is authenticated
 					dispatch({ type: CAMPAIGN_CREATE, payload: response });
-					if (first) {
-						dispatch(fetchCampaign(resolve().bind(response)));
-					} else {
-						dispatch(fetchCampaign());
-						resolve(response);
-					}
+					resolve(response);
 				})
 				.catch(() => {
 					// If request is bad...
@@ -64,15 +59,12 @@ export function deleteCampaign(toDelete) {
 	};
 }
 
-export function fetchCampaign(cDispatch) {
-	console.log(localStorage.getItem("TheCandleToken"));
-
+export function fetchCampaign() {
 	return function(dispatch) {
 		return new Promise(resolve => {
 			axios
 				.get(`${ROOT_URL}/campaigns?token=${localStorage.getItem("TheCandleToken")}`)
 				.then(response => {
-					if (cDispatch) cDispatch();
 					dispatch({ type: FETCH_CAMPAIGN, payload: response.data });
 					resolve(response);
 				})

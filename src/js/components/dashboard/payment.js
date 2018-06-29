@@ -60,13 +60,16 @@ class Payment extends Component {
 								</div>
 						  ))
 						: ""}
-					<div className="addNewcard">
-						<a onClick={e => this.setState({ addCard: true })} className="">
-							<Icon icon="fas fa-plus" size="sm" /> Add New Card
-						</a>
-					</div>
 
-					{!cardValidated && (this.state.addCard || (allCards && allCards.length < 1)) ? <AddCard cancelCard={() => this.setState({ addCard: false })} /> : ""}
+					{!cardValidated && (this.state.addCard || (allCards && allCards.length < 1)) ? (
+						<AddCard cancelCard={() => this.setState({ addCard: false })} />
+					) : (
+						<div className="addNewcard">
+							<a onClick={e => this.setState({ addCard: true })} className="">
+								<Icon icon="fas fa-plus" size="sm" /> Add New Card
+							</a>
+						</div>
+					)}
 
 					{error ? <ErrorMessages errorMessage={[error]} /> : ""}
 				</div>
