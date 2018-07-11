@@ -85,11 +85,13 @@ export function fetchUser() {
 					resolve(response);
 				})
 				.catch(error => {
+					reject(error);
 					if (!error.response) {
 						dispatch(authError([NO_INTERNET]));
 					} else if (error.response.data.message == "Invalid token") {
 						dispatch(signoutUser(error.response.data.message));
 						dispatch(authError(error.response.data.message));
+					} else {
 					}
 				});
 		});

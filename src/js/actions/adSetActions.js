@@ -7,7 +7,7 @@ export function createAdset(payload) {
 	// console.log(window.localStorage.getItem('TheCandleToken'))
 	payload.token = localStorage.getItem("TheCandleToken");
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			// Submit email/password to the server
 
 			axios
@@ -22,6 +22,7 @@ export function createAdset(payload) {
 				.catch(() => {
 					// If request is bad...
 					// - Show an error to the user
+					reject();
 					dispatch(adsetError("Error Adding Adset, Please try again."));
 				});
 		});
@@ -30,7 +31,7 @@ export function createAdset(payload) {
 
 export function uploadCreative(creative) {
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.post(`${ROOT_URL}/creatives`, creative, {
 					headers: {
@@ -42,6 +43,7 @@ export function uploadCreative(creative) {
 					resolve(response);
 				})
 				.catch(error => {
+					reject();
 					let errorData = error.response.data.error;
 					dispatch(adsetError(errorData));
 				});
@@ -51,7 +53,7 @@ export function uploadCreative(creative) {
 
 export function fetchAdset(campaign_id) {
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.get(`${ROOT_URL}/adsets?token=${localStorage.getItem("TheCandleToken")}&campaign_id=${campaign_id}`)
 				.then(response => {
@@ -60,6 +62,7 @@ export function fetchAdset(campaign_id) {
 				})
 				.catch(error => {
 					let errorData = error.response.data.error;
+					reject();
 					dispatch(adsetError(errorData));
 				});
 		});

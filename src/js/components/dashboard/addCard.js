@@ -55,21 +55,18 @@ class AddCard extends Component {
 			expiry_year: this.state.expiry_year,
 			pin: this.state.pin
 		};
-		this.props.addCard(cardDetails).then(
-			data =>
-				this.props
-					.validateOTP(data)
-					.then()
-					.catch(e => console.log("error validating card")),
-			e => console.log("error adding card")
-		);
+		this.props
+			.addCard(cardDetails)
+			.then(
+				data =>
+					this.props.validateOTP(data)									
+			)
+			.then(
+				vData=> console.log(vData)
+			)
+			.catch(e => this.setState({ addingCard: false }));
 	}
-	componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
-		if (nextProps.error) {
-			this.setState({ addingCard: false });
-		}
-	}
+
 	render() {
 		return (
 			<div class="priceEstimate cardDetails">
@@ -205,9 +202,5 @@ class AddCard extends Component {
 		);
 	}
 }
-function mapStateToProps(state) {
-	return {
-		error: state.payment.error
-	};
-}
-export default connect(mapStateToProps, { addCard, validateOTP })(AddCard);
+
+export default connect(null, { addCard, validateOTP })(AddCard);

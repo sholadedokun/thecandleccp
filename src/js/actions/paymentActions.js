@@ -5,7 +5,7 @@ const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
 export function sendPayment(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			// Submit email/password to the server
 			axios
 				.post(`${ROOT_URL}/pay`, payload)
@@ -19,7 +19,7 @@ export function sendPayment(payload) {
 				.catch(e => {
 					// If request is bad...
 					// - Show an error to the user
-					dispatch(cardError(e.response.data.message));
+					reject(e.response.data.message);
 				});
 		});
 	};
@@ -35,11 +35,13 @@ export function addCard(payload) {
 					resolve(response.data);
 				},
 				e => {
-					// If request is bad...
-					// - Show an error to the user
-					console.log(e.response, e.response.data.message);
+					let error;
+					if (e) {
+						error = "Error adding card, Please try again";
+					}
 					reject();
-					dispatch({ type: CARD_ERROR, payload: e.response.data.message });
+					dispatch(cardError(error));
+					
 				}
 			);
 		});
@@ -79,7 +81,7 @@ export function validateOTP(payload) {
 					resolve(response.data);
 				})
 				.catch(e => {
-					reject();
+					reject(e.response.data);
 					dispatch(cardError(e.response.data.message));
 				});
 		});
@@ -88,7 +90,7 @@ export function validateOTP(payload) {
 export function deleteCard(id) {
 	let token = localStorage.getItem("TheCandleToken");
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.delete(`${ROOT_URL}/cards/${id}?token=${token}&id=${id}`)
 				.then(response => {
@@ -98,12 +100,13 @@ export function deleteCard(id) {
 					resolve(response.data);
 				})
 				.catch(e => {
+					reject(e.response.data);
 					dispatch(cardError(e.response.data.message));
 				});
 		});
 	};
 }
-export function cardError(error) {
+function cardError(error) {
 	return {
 		type: CARD_ERROR,
 		payload: error

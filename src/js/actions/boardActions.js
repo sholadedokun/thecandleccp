@@ -12,7 +12,7 @@ export function selectBoard(boardId) {
 
 export function fetchBoards() {
 	return function(dispatch) {
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			axios
 				.get(`${ROOT_URL}/boards?token=${localStorage.getItem("TheCandleToken")}`)
 				.then(response => {
@@ -21,6 +21,7 @@ export function fetchBoards() {
 				})
 				.catch(error => {
 					let errorData = error.response.data.error;
+					reject();
 					dispatch(campaignError(errorData));
 				});
 		});
