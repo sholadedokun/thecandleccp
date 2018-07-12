@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles/App.min.css";
-import "./styles/icomoon/style.css";
-import "./styles/animation.min.css";
-import App from "./js/App";
+import "./App.css";
+import "./assets/icomoon/style.css";
+import "./assets/animation.css";
+import App from "./App";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
-import { AUTH_USER } from "./js/actions/actionTypes";
+import { AUTH_USER } from "./actions/actionTypes";
 import registerServiceWorker from "./registerServiceWorker";
-import reducers from "./js/reducers";
+import reducers from "./reducers";
 import logger from "redux-logger";
 
 //applying reduxThunk as middleware enabled us to use dispatch from actions
