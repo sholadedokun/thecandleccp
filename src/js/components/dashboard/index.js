@@ -16,6 +16,7 @@ import Adsets from "./adSets";
 import Toggler from "../toggle";
 import ActivityIndicator from "../activityIndicator";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import ErrorBoundary from "../errorBoundry";
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -92,17 +93,19 @@ class Dashboard extends Component {
 						</div>
 						<Route
 							render={({ location }) => (
-								<ReactCSSTransitionGroup key={location.key} transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-									<Switch location={location}>
-										<Route exact={true} path={`${match.url}`} component={() => <Home location={location} changeRoute={this.changeRoute.bind(this)} />} />
-										<Route
-											exact={true}
-											path={`${match.url}/adSets/:campaignId`}
-											component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
-										/>
-										{console.log(location, match)}
-									</Switch>
-								</ReactCSSTransitionGroup>
+								<ErrorBoundary>
+									<ReactCSSTransitionGroup key={location.key} transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+										<Switch location={location}>
+											<Route exact={true} path={`${match.url}`} component={() => <Home location={location} changeRoute={this.changeRoute.bind(this)} />} />
+											<Route
+												exact={true}
+												path={`${match.url}/adSets/:campaignId`}
+												component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
+											/>
+											{console.log(location, match)}
+										</Switch>
+									</ReactCSSTransitionGroup>
+								</ErrorBoundary>
 							)}
 						/>
 					</Row>

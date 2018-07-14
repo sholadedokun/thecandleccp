@@ -35,13 +35,8 @@ export function addCard(payload) {
 					resolve(response.data);
 				},
 				e => {
-					let error;
-					if (e) {
-						error = "Error adding card, Please try again";
-					}
 					reject();
-					dispatch(cardError(error));
-					
+					dispatch(cardError("Error adding card, Please try again"));
 				}
 			);
 		});
@@ -78,6 +73,7 @@ export function validateOTP(payload) {
 				.then(response => {
 					// If request is good...
 					dispatch({ type: VALIDATE_CARD, payload: response });
+					getCards();
 					resolve(response.data);
 				})
 				.catch(e => {

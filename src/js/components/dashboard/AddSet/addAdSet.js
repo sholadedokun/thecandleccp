@@ -11,6 +11,7 @@ import Order from "../order";
 import { Col, Row, Grid } from "react-bootstrap";
 import { ADSET_DICTIONARY } from "../../../config.js";
 import _ from "lodash";
+import ErrorBoundary from "../../errorBoundry";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class AddAdSet extends Component {
 	constructor(props) {
@@ -31,22 +32,36 @@ class AddAdSet extends Component {
 		//     allCampaigns.push(newCampaign)
 		switch (currentStep) {
 			case 0:
-				return <SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />;
+				return (
+					<ErrorBoundary>
+						<SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />
+					</ErrorBoundary>
+				);
 			case 1:
 				return (
-					<CampaignDescription
-						key={_.uniqueId()}
-						setCampaignDetails={this.setCampaignDetails.bind(this)}
-						allCampaigns={allCampaigns}
-						campaign={newCampaign}
-						baseCost={baseCost}
-						estimatedCost={newCost => this.setState({ baseCost: newCost })}
-					/>
+					<ErrorBoundary>
+						<CampaignDescription
+							key={_.uniqueId()}
+							setCampaignDetails={this.setCampaignDetails.bind(this)}
+							allCampaigns={allCampaigns}
+							campaign={newCampaign}
+							baseCost={baseCost}
+							estimatedCost={newCost => this.setState({ baseCost: newCost })}
+						/>
+					</ErrorBoundary>
 				);
 			case 2:
-				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
+				return (
+					<ErrorBoundary>
+						<UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />
+					</ErrorBoundary>
+				);
 			case 3:
-				return <Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} addCampaignAdset={this.addCampaignAdset.bind(this)} />;
+				return (
+					<ErrorBoundary>
+						<Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} addCampaignAdset={this.addCampaignAdset.bind(this)} />
+					</ErrorBoundary>
+				);
 		}
 	}
 	addCampaignAdset() {
@@ -55,14 +70,13 @@ class AddAdSet extends Component {
 			console.log("tryning to create campaign again");
 			this.props.createCampaign(this.props.newCampaign).then(campaigndata => {
 				//console.log(campaigndata, campaignDetails);
-
 				this.props.fetchCampaign().then(data => {
 					campaignDetails.campaign_id = campaigndata.data.id;
 					this.props.createAdset(campaignDetails).then(adSet => {
 						console.log(adSet, "tryning to create adset again");
 						this.setState({ adSet_id: adSet.id });
 						console.log(adSet.id, this.state.adSet_id, "tryning to create adset again");
-						this.uploadCreatives();
+						this.uploadCreatives(adSet.id);
 					});
 				});
 			});

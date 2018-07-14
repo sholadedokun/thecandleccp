@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Heading from "../heading";
 import { Row, Col } from "react-bootstrap";
 import DisplayBoard from "./displayBoard";
-
+import ErrorBoundry from "../errorBoundry";
 import Payment from "./payment";
 export default class Order extends Component {
 	paymentSuccessful() {
@@ -35,7 +35,9 @@ export default class Order extends Component {
 						</ul>
 					</div>
 					<Heading size="md" title="Payment Details" />
-					<Payment paymentStatus={this.paymentSuccessful.bind(this)} amount={campaignDetails.totalCost} />
+					<ErrorBoundry>
+						<Payment paymentStatus={this.paymentSuccessful.bind(this)} amount={campaignDetails.totalCost} />
+					</ErrorBoundry>
 				</Col>
 				<Col xs={4} className="campaignEstimate">
 					<div className="">

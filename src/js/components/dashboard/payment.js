@@ -4,6 +4,7 @@ import ErrorMessages from "../errorMessages";
 import AddCard from "./addCard";
 import { getCards, deleteCard, sendPayment } from "../../actions/paymentActions";
 import Icon from "../icon";
+import _ from "lodash";
 class Payment extends Component {
 	constructor() {
 		super();
@@ -42,7 +43,7 @@ class Payment extends Component {
 				<div class="priceEstimate cardDetails">
 					{allCards
 						? allCards.map((item, index) => (
-								<div class="eachCard priceDetails">
+								<div class="eachCard priceDetails" key={_.uniqueId()}>
 									<span onClick={this.payWithCard.bind(this, item, index)} className={`cardRadio ${currentSelected == index ? "selectedCard" : ""}`} />
 									<span className="eachCardDetail">
 										<span className="cardNumber">

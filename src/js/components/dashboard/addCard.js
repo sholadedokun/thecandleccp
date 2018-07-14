@@ -4,6 +4,7 @@ import { addCard, validateOTP } from "../../actions/paymentActions";
 import { connect } from "react-redux";
 import ErrorMessages from "../errorMessages";
 import Icon from "../icon";
+import _ from "lodash";
 class AddCard extends Component {
 	constructor() {
 		super();
@@ -57,14 +58,14 @@ class AddCard extends Component {
 		};
 		this.props
 			.addCard(cardDetails)
-			.then(
-				data =>
-					this.props.validateOTP(data)									
-			)
-			.then(
-				vData=> console.log(vData)
-			)
-			.catch(e => this.setState({ addingCard: false }));
+			.then(data => {
+				this.props.validateOTP(data).then(vData => {
+					console.log(vData);
+				});
+			})
+			.catch(e => {
+				this.setState({ addingCard: false });
+			});
 	}
 
 	render() {
@@ -184,11 +185,11 @@ class AddCard extends Component {
 				</div>
 				<div>
 					{this.state.addingCard ? (
-						<div>
+						<div key={_.uniqueId()}>
 							<Icon icon="fas fa-spinner fa-spin loading" />
 						</div>
 					) : (
-						<div>
+							<div key={_.uniqueId()}>
 							<button className="primaryButton" onClick={this.addCard.bind(this)}>
 								Add Card
 							</button>
