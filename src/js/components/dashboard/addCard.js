@@ -4,7 +4,6 @@ import { addCard, validateOTP } from "../../actions/paymentActions";
 import { connect } from "react-redux";
 import ErrorMessages from "../errorMessages";
 import Icon from "../icon";
-import _ from "lodash";
 class AddCard extends Component {
 	constructor() {
 		super();
@@ -56,18 +55,21 @@ class AddCard extends Component {
 			expiry_year: this.state.expiry_year,
 			pin: this.state.pin
 		};
-		this.props
-			.addCard(cardDetails)
-			.then(data => {
-				this.props.validateOTP(data).then(vData => {
-					console.log(vData);
-				});
-			})
-			.catch(e => {
-				this.setState({ addingCard: false });
-			});
+		this.props.addCard(cardDetails).then(
+			data =>
+				this.props
+					.validateOTP(data)
+					.then()
+					.catch(e => console.log("error validating card")),
+			e => console.log("error adding card")
+		);
 	}
-
+	componentWillReceiveProps(nextProps) {
+		console.log(nextProps);
+		if (nextProps.error) {
+			this.setState({ addingCard: false });
+		}
+	}
 	render() {
 		return (
 			<div class="priceEstimate cardDetails">
@@ -185,11 +187,11 @@ class AddCard extends Component {
 				</div>
 				<div>
 					{this.state.addingCard ? (
-						<div key={_.uniqueId()}>
+						<div>
 							<Icon icon="fas fa-spinner fa-spin loading" />
 						</div>
 					) : (
-							<div key={_.uniqueId()}>
+						<div>
 							<button className="primaryButton" onClick={this.addCard.bind(this)}>
 								Add Card
 							</button>
@@ -203,5 +205,9 @@ class AddCard extends Component {
 		);
 	}
 }
-
-export default connect(null, { addCard, validateOTP })(AddCard);
+function mapStateToProps(state) {
+	return {
+		error: state.payment.error
+	};
+}
+export default connect(mapStateToProps, { addCard, validateOTP })(AddCard);

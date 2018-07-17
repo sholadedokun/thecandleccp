@@ -3,7 +3,7 @@ import Nav from "./navigation";
 import { connect } from "react-redux";
 import { selectBoard } from "../../../actions/boardActions";
 import { createAdset, uploadCreative } from "../../../actions/adSetActions";
-import { createCampaign, fetchCampaign } from "../../../actions/campaignActions";
+import { createCampaign } from "../../../actions/campaignActions";
 import SelectBoard from "./selectBoard";
 import CampaignDescription from "./campaignDescription";
 import UploadCreative from "./uploadAdCreative";
@@ -11,7 +11,6 @@ import Order from "../order";
 import { Col, Row, Grid } from "react-bootstrap";
 import { ADSET_DICTIONARY } from "../../../config.js";
 import _ from "lodash";
-import ErrorBoundary from "../../errorBoundry";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 class AddAdSet extends Component {
 	constructor(props) {
@@ -19,8 +18,7 @@ class AddAdSet extends Component {
 		this.state = {
 			currentStep: 0,
 			currentBoardLocations: "",
-			baseCost: 300000,
-			adSet_id: null
+			baseCost: 300000
 		};
 	}
 	displaySteps() {
@@ -32,77 +30,58 @@ class AddAdSet extends Component {
 		//     allCampaigns.push(newCampaign)
 		switch (currentStep) {
 			case 0:
-				return (
-					<ErrorBoundary>
-						<SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />
-					</ErrorBoundary>
-				);
+				return <SelectBoard key={_.uniqueId()} allBoards={this.props.allBoards} selectedBoard={this.selectedBoard.bind(this)} />;
 			case 1:
 				return (
-					<ErrorBoundary>
-						<CampaignDescription
-							key={_.uniqueId()}
-							setCampaignDetails={this.setCampaignDetails.bind(this)}
-							allCampaigns={allCampaigns}
-							campaign={newCampaign}
-							baseCost={baseCost}
-							estimatedCost={newCost => this.setState({ baseCost: newCost })}
-						/>
-					</ErrorBoundary>
+					<CampaignDescription
+						key={_.uniqueId()}
+						setCampaignDetails={this.setCampaignDetails.bind(this)}
+						allCampaigns={allCampaigns}
+						campaign={newCampaign}
+						baseCost={baseCost}
+						estimatedCost={newCost => this.setState({ baseCost: newCost })}
+					/>
 				);
 			case 2:
-				return (
-					<ErrorBoundary>
-						<UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />
-					</ErrorBoundary>
-				);
+				return <UploadCreative baseCost={baseCost} key={_.uniqueId()} setCreatives={data => this.setState({ creative: data, currentStep: 3 })} />;
 			case 3:
-				return (
-					<ErrorBoundary>
-						<Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} addCampaignAdset={this.addCampaignAdset.bind(this)} />
-					</ErrorBoundary>
-				);
+				return <Order transaction={{ allCampaigns, newCampaign, ...this.state }} key={_.uniqueId()} setCreatives={this.uploadCreatives.bind(this)} />;
 		}
 	}
-	addCampaignAdset() {
+	uploadCreatives() {
+		var data = this.state.creative;
+		let that = this;
+		console.log(this.state);
 		let campaignDetails = this.state.campaignDetails;
-		if (!this.state.adSet_id && this.state.adSet_id != 0) {
-			console.log("tryning to create campaign again");
+		if (!this.state.adSet_id) {
 			this.props.createCampaign(this.props.newCampaign).then(campaigndata => {
-				//console.log(campaigndata, campaignDetails);
-				this.props.fetchCampaign().then(data => {
-					campaignDetails.campaign_id = campaigndata.data.id;
-					this.props.createAdset(campaignDetails).then(adSet => {
-						console.log(adSet, "tryning to create adset again");
-						this.setState({ adSet_id: adSet.id });
-						console.log(adSet.id, this.state.adSet_id, "tryning to create adset again");
-						this.uploadCreatives(adSet.id);
-					});
+				console.log(campaigndata, campaignDetails);
+				campaignDetails.campaign_id = campaigndata.data.id;
+				that.props.createAdset(campaignDetails).then(addSet => {
+					that.setState({ adSet_id: addSet.id });
+					that.uploadCreatives.bind(that, data)();
 				});
 			});
-		}
-	}
-	uploadCreatives(adSet) {
-		console.log(this.state.adSet_id);
-		var data = this.state.creative;
-		for (var i = 0; i < data.creative.length; i++) {
-			let formData = new FormData();
-			if (data.creative[i].type == "image" || data.creative[i].type == "video") {
-				formData.append("file", data.creative[i].formEntity);
-			} else {
-				formData.append("url", data.creative[i].url);
-			}
-			formData.append("token", localStorage.getItem("TheCandleToken"));
-			formData.append("type", data.creative[i].type);
-			formData.append("position", data.creative[i].dimension.x.split("|")[0]);
-			formData.append("adset_id", adSet);
-			this.props.uploadCreative(formData).then(creativeData => {
-				console.log(data.creative.length, i);
-				if (i == data.creative.length) {
-					console.log("here");
-					this.props.close();
+		} else {
+			for (var i = 0; i < data.creative.length; i++) {
+				let formData = new FormData();
+				if (data.creative[i].type == "image" || data.creative[i].type == "video") {
+					formData.append("file", data.creative[i].formEntity);
+				} else {
+					formData.append("url", data.creative[i].url);
 				}
-			});
+				formData.append("token", localStorage.getItem("TheCandleToken"));
+				formData.append("type", data.creative[i].type);
+				formData.append("position", data.creative[i].dimension.x.split("|")[0]);
+				formData.append("adset_id", this.state.adSet_id);
+				this.props.uploadCreative(formData).then(creativeData => {
+					console.log(data.creative.length, i);
+					if (i == data.creative.length) {
+						console.log("here");
+						that.props.close();
+					}
+				});
+			}
 		}
 	}
 	selectedBoard(Board) {
@@ -160,5 +139,5 @@ function mapStateToProps(state) {
 		// campaign:state.campaigns.campaignData
 	};
 }
-const mapDispatchToProps = { selectBoard, createAdset, uploadCreative, createCampaign, fetchCampaign };
+const mapDispatchToProps = { selectBoard, createAdset, uploadCreative, createCampaign };
 export default connect(mapStateToProps, mapDispatchToProps)(AddAdSet);

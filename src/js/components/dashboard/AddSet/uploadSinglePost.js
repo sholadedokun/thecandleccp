@@ -48,9 +48,7 @@ export default class singlePost extends Component {
 											<p>{mediaName ? mediaName.name : "Select Image..."}</p>
 										</div>
 										<Heading size="xs" title="Upload Instructions" />
-										<p>
-											Kindly ensure that all ads are of high resolution, 4K for images and over 500dpi for image files. Also ensure that your images is approved by the concerned regulatory bodies.
-										</p>
+										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
 									</div>
 								);
 

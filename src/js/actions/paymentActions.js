@@ -20,6 +20,7 @@ export function sendPayment(payload) {
 					// If request is bad...
 					// - Show an error to the user
 					reject(e.response.data.message);
+					dispatch(cardError(e.response.data.message));
 				});
 		});
 	};
@@ -36,7 +37,7 @@ export function addCard(payload) {
 				},
 				e => {
 					reject();
-					dispatch(cardError("Error adding card, Please try again"));
+					dispatch(cardError(e.response.data.message));
 				}
 			);
 		});

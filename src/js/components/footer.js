@@ -12,7 +12,7 @@ export default ({ name, image, position }) => (
 						<span className="footerLogo">
 							<img src="images/Candle-.png" width="100%" />
 						</span>
-						<span>&copy; 2017, a product of Buck and Bage Limited. All rights reserved.</span>
+						<span>&copy; 2017 TheCandle all rights reserved.</span>
 					</Col>
 					<Col xs={12} sm={6} className="social">
 						<Heading size="xs" title="Follow us" />
@@ -21,7 +21,13 @@ export default ({ name, image, position }) => (
 								<Icon icon="fab fa-instagram" />
 							</a>
 							<a href="" target="_blank">
+								<Icon icon="fab fa-facebook" />
+							</a>
+							<a href="" target="_blank">
 								<Icon icon="fab fa-twitter" />
+							</a>
+							<a href="" target="_blank">
+								<Icon icon="fab fa-linkedin" />
 							</a>
 						</span>
 					</Col>

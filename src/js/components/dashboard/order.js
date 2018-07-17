@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Heading from "../heading";
 import { Row, Col } from "react-bootstrap";
 import DisplayBoard from "./displayBoard";
-import ErrorBoundry from "../errorBoundry";
+
 import Payment from "./payment";
 export default class Order extends Component {
 	paymentSuccessful() {
 		//make payment and receive response for payment.
-		this.props.addCampaignAdset();
+		this.props.setCreatives();
 	}
 
 	render() {
@@ -35,9 +35,7 @@ export default class Order extends Component {
 						</ul>
 					</div>
 					<Heading size="md" title="Payment Details" />
-					<ErrorBoundry>
-						<Payment paymentStatus={this.paymentSuccessful.bind(this)} amount={campaignDetails.totalCost} />
-					</ErrorBoundry>
+					<Payment paymentStatus={this.paymentSuccessful.bind(this)} amount={campaignDetails.totalCost} />
 				</Col>
 				<Col xs={4} className="campaignEstimate">
 					<div className="">
