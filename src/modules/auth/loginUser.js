@@ -20,7 +20,8 @@ class LoginUser extends Component {
 			errorMessages: []
 		};
 	}
-	loginUser() {
+	loginUser(e) {
+		e.preventDefault();
 		this.setState({ loading: true, errorMessages: [] });
 		let errors = emptyFieldChecker.bind(this, {}, _.omit({ ...this.state }, ["loading", "errors", "errorMessages"]))();
 		if (_.isEmpty(errors)) {
@@ -53,25 +54,27 @@ class LoginUser extends Component {
 					<Col xs={5}>
 						<div className="hrule" />
 					</Col>
-					<Col xs={12} className="inputField">
-						<span className={errors.username ? "inputContainer lg error" : "inputContainer lg"}>
-							<input type="text" value={username} onChange={e => this.setState({ username: e.target.value })} placeholder="Email" />
-						</span>
-					</Col>
-					<Col xs={12} className="inputField">
-						<span className={errors.password ? "inputContainer lg error" : "inputContainer lg"}>
-							<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Passowrd" />
-						</span>
-						{loading ? (
-							<div>
-								<Icon icon="fas fa-spinner fa-spin loading" />
-							</div>
-						) : (
-							<button className="primaryButton" onClick={this.loginUser.bind(this)}>
-								Login
-							</button>
-						)}
-					</Col>
+					<form onSubmit={this.loginUser.bind(this)}>
+						<Col xs={12} className="inputField">
+							<span className={errors.username ? "inputContainer lg error" : "inputContainer lg"}>
+								<input type="text" value={username} onChange={e => this.setState({ username: e.target.value })} placeholder="Email" />
+							</span>
+						</Col>
+						<Col xs={12} className="inputField">
+							<span className={errors.password ? "inputContainer lg error" : "inputContainer lg"}>
+								<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Passowrd" />
+							</span>
+							{loading ? (
+								<div>
+									<Icon icon="fas fa-spinner fa-spin loading" />
+								</div>
+							) : (
+								<button type="submit" className="primaryButton">
+									Login
+								</button>
+							)}
+						</Col>
+					</form>
 					<div>
 						<ErrorMessage errorMessage={this.props.error} />
 					</div>

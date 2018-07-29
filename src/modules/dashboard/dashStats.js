@@ -28,21 +28,23 @@ class DashHome extends Component {
 			sources: [
 				{
 					feedLink: {
-						src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
-						type: "application/x-mpegURL"
+						//	src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
+						src: "http://196.1.177.131/mjpg/video.mjpg?videoframeskipmode=empty&timestamp=1527099300365&Axis-Orig-Sw=true&username=root&password=admin4321",
+						type: "video/x-motion-jpeg"
 					},
 					feedDesc: {
-						name: "Madison",
+						name: "Madison ( Ikoyi)",
 						location: "Ikoyi-Lekki Bridge"
 					}
 				},
 				{
 					feedLink: {
-						src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
-						type: "application/x-mpegURL"
+						// src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
+						src: "http://196.1.177.131/mjpg/video.mjpg?videoframeskipmode=empty&timestamp=1527099300365&Axis-Orig-Sw=true&username=root&password=admin4321",
+						type: "video/x-motion-jpeg"
 					},
 					feedDesc: {
-						name: "Fela",
+						name: "Madison ( Lekki) ",
 						location: "Falomo Bridge Lagos"
 					}
 				}
