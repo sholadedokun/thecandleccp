@@ -20,11 +20,12 @@ class AddAdSet extends Component {
 			currentStep: 0,
 			currentBoardLocations: "",
 			baseCost: 300000,
-			adSet_id: null
+			adSet_id: null,
+			Board: {}
 		};
 	}
 	displaySteps() {
-		const { currentStep, baseCost } = this.state;
+		const { currentStep, baseCost, Board } = this.state;
 		const { allCampaigns, newCampaign } = this.props;
 		console.log(newCampaign);
 		//pushing the saved Campaigns into the already existing campaings...
@@ -46,6 +47,7 @@ class AddAdSet extends Component {
 							allCampaigns={allCampaigns}
 							campaign={newCampaign}
 							baseCost={baseCost}
+							minCost={Board.cost}
 							estimatedCost={newCost => this.setState({ baseCost: newCost })}
 						/>
 					</ErrorBoundary>

@@ -42,7 +42,7 @@ class AdSetDescription extends Component {
 			cyclePerMin: 3, //number of cycle an Image advert can show within a min.
 			minCyclePerDay: 20, //minimum number of cycle that an adset can have in a day
 			minAdDays: 30, //minimum Number of days an adset can be added;
-			minCost: 100, //minimum number of cost per cycle
+			//minCost: 100, //minimum number of cost per cycle
 			priceAugument: {
 				age: { value: 0.1, amount: 0 }, //you only need to send the value,
 				time: { value: 0.1, amount: 0 },
@@ -192,8 +192,8 @@ class AdSetDescription extends Component {
 		this.setState({ data });
 	}
 	componentWillMount() {
-		let totalCost = this.updateBaseCost(this.state.minCost);
-		this.setState({ totalCost, baseCost: totalCost, lowestMinCost: this.state.minCost });
+		let totalCost = this.updateBaseCost(this.props.minCost);
+		this.setState({ totalCost, baseCost: totalCost, lowestMinCost: this.props.minCost });
 	}
 	updateBaseCost(minCost) {
 		return minCost * this.state.minCyclePerDay * this.state.minAdDays;

@@ -10,6 +10,9 @@ import Loading from "../../components/loading";
 import _ from "lodash";
 import DashStats from "./dashStats";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import ErrorBoundary from "../../js/components/errorBoundry";
+import Adsets from ".../Adsets";
+import Billings from "../Billings";
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -27,14 +30,17 @@ class Dashboard extends Component {
 		},
 		ManageAds: {
 			title: "Manage Ads",
+			defaultLink: "",
 			subMenu: [{ title: "All Campaigns" }, { title: "Edit Campaigns" }]
 		},
 		Billings: {
 			title: "Billings",
+			defaultLink: "",
 			subMenu: [{ title: "Billing History" }, { title: "Current Spending" }]
 		},
 		Account: {
 			title: "Account",
+			defaultLink: "",
 			subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
 		}
 	};
@@ -75,15 +81,44 @@ class Dashboard extends Component {
 							<ReactCSSTransitionGroup component="ul" transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 								{this.dashBoardMenu[currentSub].subMenu.reduce((accumulator, item, index) => {
 									if (index < this.dashBoardMenu[currentSub].subMenu.length - 1) {
-										return accumulator.concat(<Link key={`key_${index}`} to={match.url + (item.path || "")}>{item.title}</Link>);
+										return accumulator.concat(
+											<Link key={`key_${index}`} to={match.url + (item.path || "")}>
+												{item.title}
+											</Link>
+										);
 									} else {
-										return <li key={`key_${index}`}>{accumulator.concat(<Link key={`key_${index}`} to={match.url + (item.path || "")}>{item.title}</Link>)}</li>;
+										return (
+											<li key={`key_${index}`}>
+												{accumulator.concat(
+													<Link key={`key_${index}`} to={match.url + (item.path || "")}>
+														{item.title}
+													</Link>
+												)}
+											</li>
+										);
 									}
 								}, [])}
 							</ReactCSSTransitionGroup>
 						</div>
 					</div>
-					<DashStats location={location} changeRoute={this.changeRoute.bind(this)} />
+					<Route
+						render={({ location }) => (
+							<ErrorBoundary>
+								<ReactCSSTransitionGroup key={location.key} transitionName="basicTransition" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+									<Switch location={location}>
+										<Route exact={true} path={`${match.url}`} component={() => <DashStats location={location} changeRoute={this.changeRoute.bind(this)} />} />
+										<Route
+											exact={true}
+											path={`${match.url}/adSets/:campaignId`}
+											component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
+										/>
+										<Route exact={true} path={`${match.url}/Billings`} component={() => <Billings location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Billings"} />} />
+										{console.log(location, match)}
+									</Switch>
+								</ReactCSSTransitionGroup>
+							</ErrorBoundary>
+						)}
+					/>
 				</Row>
 			);
 	}

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Heading from "../heading";
-import Rate from "../rating";
+import Heading from "../../js/components/heading";
+import Rate from "../../js/components/rating";
 import { Grid, Col } from "react-bootstrap";
-import Toggler from "../toggle";
-import ActivityIndicator from "../activityIndicator";
-import Icon from "../icon";
+import Toggler from "../../js/components/toggle";
+import ActivityIndicator from "../../js/components/activityIndicator";
+import Icon from "../../js/components/icon";
 import { fetchAdset } from "../../actions/adSetActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
