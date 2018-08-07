@@ -11,7 +11,7 @@ import _ from "lodash";
 import DashStats from "./dashStats";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import ErrorBoundary from "../../js/components/errorBoundry";
-import Adsets from ".../Adsets";
+import Adsets from "../Adsets";
 import Billings from "../Billings";
 class Dashboard extends Component {
 	constructor(props) {
@@ -35,8 +35,8 @@ class Dashboard extends Component {
 		},
 		Billings: {
 			title: "Billings",
-			defaultLink: "",
-			subMenu: [{ title: "Billing History" }, { title: "Current Spending" }]
+			defaultLink: "/billings",
+			subMenu: [{ title: "Billing History", path: "/billings" }, { title: "Current Spending" }]
 		},
 		Account: {
 			title: "Account",
@@ -45,8 +45,9 @@ class Dashboard extends Component {
 		}
 	};
 	changeRoute(route) {
-		console.log(this.props);
+		console.log(route);
 		this.props.history.push(this.props.match.url + route);
+		this.setState({ currentSub: route });
 	}
 	componentWillMount() {
 		this.props.fetchUser().then(data => this.props.fetchCampaign().then(data => this.props.fetchBoards().then(data => this.setState({ loading: false }))));
@@ -112,7 +113,7 @@ class Dashboard extends Component {
 											path={`${match.url}/adSets/:campaignId`}
 											component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
 										/>
-										<Route exact={true} path={`${match.url}/Billings`} component={() => <Billings location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Billings"} />} />
+										<Route exact={true} path={`${match.url}/billings`} component={() => <Billings location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Billings"} />} />
 										{console.log(location, match)}
 									</Switch>
 								</ReactCSSTransitionGroup>

@@ -1,15 +1,14 @@
 import React from "react";
-import { Row, Col, Grid } from "react-bootstrap";
-
+import { Row, Col } from "react-bootstrap";
 import Howitworks from "../static/howitworks";
 import Hopin from "./components/hopin";
 import WhatPeopleAreSaying from "./components/whatpeoplearesaying";
-
 import Heading from "../../components/heading";
 import Carousel from "../../components/carousel";
+import { connect } from "react-redux";
+import { setEmail, modalStatus } from "../../actions/userActions";
 
-
-const home = () => (
+const home = ({ email, setEmail, modalStatus }) => (
 	<Row>
 		<Col className="banner">
 			{/*<QuickRegister /> */}
@@ -36,7 +35,13 @@ const home = () => (
 		</Col>
 		<Howitworks />
 		<WhatPeopleAreSaying />
-		<Hopin />
+		<Hopin updateEmail={e => setEmail(e)} callModal={() => modalStatus(true, "register")} eValue={email} />
 	</Row>
 );
-export default home;
+function mapStateToProps(state) {
+	return {
+		email: state.user.regEmail
+	};
+}
+const mapDispatchToProps = { modalStatus, setEmail };
+export default connect(mapStateToProps, mapDispatchToProps)(home);

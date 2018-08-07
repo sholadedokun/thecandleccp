@@ -17,10 +17,10 @@ export default ({ name, image, position }) => (
 					<Col xs={12} sm={6} className="social">
 						<Heading size="xs" title="Follow us" />
 						<span>
-							<a href="" target="_blank">
+							<a href="https://www.instagram.com/candle.ng/" target="_blank">
 								<Icon icon="fab fa-instagram" />
 							</a>
-							<a href="" target="_blank">
+							<a href="https://www.twitter.com/candle.ng/" target="_blank">
 								<Icon icon="fab fa-twitter" />
 							</a>
 						</span>

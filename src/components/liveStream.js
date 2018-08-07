@@ -9,11 +9,9 @@ class LiveStream extends React.Component {
 	constructor() {
 		super();
 	}
-	// shouldComponentUpdate() {
-	// 	return false;
-	// }
+
 	componentDidMount() {
-		this.createPlayer();
+		//this.createPlayer();
 	}
 	createPlayer() {
 		this.player = videojs(
@@ -35,20 +33,32 @@ class LiveStream extends React.Component {
 	}
 	// destroy player on unmount
 	componentWillUnmount() {
-		this.destroyPlayer();
+		//this.destroyPlayer();
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.sources != this.props.sources) {
-			this.player.src(nextProps.sources);
-		}
+		// if (nextProps.sources != this.props.sources) {
+		// 	this.player.src(nextProps.sources);
+		// }
 	}
-
 	render() {
 		const { name, location } = this.props.feedDescription;
+		const { url } = this.props.sources;
+		const iFrameStyle = {
+			"-moz-transform-origin": "top left",
+			"-webkit-transform-origin": "top left",
+			"-o-transform-origin": "top left",
+			"-ms-transform-origin": "top left",
+			"transform-origin": "top left",
+			width: "2100px",
+			height: "1080px",
+			border: "none",
+			"-webkit-transform": "scale(0.4655)",
+			"-moz-transform": "scale(0.4655)"
+		};
 		return (
 			<div>
-				<div data-vjs-player>
-					<video ref={node => (this.videoNode = node)} className="video-js" width="inherit" />
+				<div className="video-js">
+					<iframe src={url} style={iFrameStyle} width="inherit" />
 				</div>
 				<Row>
 					<Col xs="12" className="feedDescription">

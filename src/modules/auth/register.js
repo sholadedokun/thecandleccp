@@ -13,7 +13,7 @@ class RegisterUser extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: "",
+			email: props.email,
 			firstName: "",
 			lastName: "",
 			phone: "",

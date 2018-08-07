@@ -78,18 +78,7 @@ class Header extends Component {
 					</NavItem>
 				)
 			},
-			{
-				displayOn: "regularRoute",
-				component: (
-					<NavItem
-						key="nav_item_8"
-						onClick={() => {
-							this.goTo("/");
-						}}>
-						Feature
-					</NavItem>
-				)
-			},
+
 			{
 				displayOn: "regularRoute",
 				component: (
@@ -211,7 +200,7 @@ class Header extends Component {
 							{user.modalState.page === "login" ? (
 								<Login key={"login"} close={this.handleCloseModal.bind(this)} />
 							) : user.modalState.page == "register" ? (
-								<Register key={"register"} close={this.handleCloseModal.bind(this)} />
+								<Register key={"register"} close={this.handleCloseModal.bind(this)} email={this.props.email} />
 							) : user.modalState.page == "createCampaign" ? (
 								<CreateCampaign key={"campaign"} close={this.handleCloseModal.bind(this)} />
 							) : (
@@ -227,7 +216,8 @@ class Header extends Component {
 function mapStateToProps(state) {
 	return {
 		user: state.user,
-		allCampaigns: state.campaigns.allCampaigns
+		allCampaigns: state.campaigns.allCampaigns,
+		email:state.user.regEmail
 	};
 }
 const mapDispatchToProps = { signoutUser, modalStatus };

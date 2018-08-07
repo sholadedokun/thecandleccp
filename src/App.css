@@ -1316,7 +1316,8 @@ input[type="file"] {
       padding: 4em 2em; }
       .analyticsBoard .viewBoard .liveStreamContainer .VideoDisplay .video-js {
         width: 100%;
-        height: 400px; }
+        height: 500px;
+        overflow: hidden; }
     .analyticsBoard .viewBoard .liveStreamContainer .feedDescription {
       text-align: left; }
     .analyticsBoard .viewBoard .viewContainer {

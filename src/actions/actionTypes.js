@@ -20,6 +20,7 @@ export const FETCH_OFFERS = "fetch_offers";
 export const SWITCH_MODAL_STATE = "switch_modal_state";
 export const FETCH_USER = "FETCH_USER";
 export const NO_INTERNET = "Please check your internet connection and try again";
+export const SET_EMAIL = "SET_EMAIL";
 
 //CAMPAIGN ACTIONS
 export const CAMPAIGN_CREATE = "CAMPAIGN_CREATE";
@@ -46,5 +47,6 @@ export const VALIDATE_CARD = "VALIDATE_CARD";
 export const REMOVE_CARD = "REMOVE_CARD";
 export const PAYMENT_STATUS = "PAYMENT_STATUS";
 export const LOADING_PAYMENT_DETAIL = "LOADING_PAYMENT_DETAIL ";
-export const VALIDATING_CARD_DETAILS = "VALIDATING_CARD_DETAILS"; 
+export const VALIDATING_CARD_DETAILS = "VALIDATING_CARD_DETAILS";
 export const ADDING_NEW_CARD = "ADDING_NEW_CARD";
+export const GET_TRANSACTIONS = "GET_TRANSACTIONS";

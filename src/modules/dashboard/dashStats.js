@@ -29,7 +29,7 @@ class DashHome extends Component {
 				{
 					feedLink: {
 						//	src: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8",
-						src: "http://196.1.177.131/mjpg/video.mjpg?videoframeskipmode=empty&timestamp=1527099300365&Axis-Orig-Sw=true&username=root&password=admin4321",
+						url: "http://196.1.177.130:8181/mjpg/video.mjpg?videoframeskipmode=empty&Axis-Orig-Sw=true",
 						type: "video/x-motion-jpeg"
 					},
 					feedDesc: {
@@ -40,12 +40,12 @@ class DashHome extends Component {
 				{
 					feedLink: {
 						// src: "http://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
-						src: "http://196.1.177.131/mjpg/video.mjpg?videoframeskipmode=empty&timestamp=1527099300365&Axis-Orig-Sw=true&username=root&password=admin4321",
-						type: "video/x-motion-jpeg"
+						url: "http://196.1.177.130:8181/mjpg/video.mjpg?videoframeskipmode=empty&Axis-Orig-Sw=true",
+						type: "video/JPEG"
 					},
 					feedDesc: {
-						name: "Madison ( Lekki) ",
-						location: "Falomo Bridge Lagos"
+						name: "Madison (Lekki) ",
+						location: "Ikoyi-Lekki Bridge"
 					}
 				}
 			],
@@ -318,10 +318,10 @@ class DashHome extends Component {
 											<Col xs={12} className="nop">
 												<Col xs={1} componentClass="ul" className="liveFeeds">
 													<li onClick={e => this.setState({ currentFeed: 0 })}>
-														Madison<i />
+														Madison Ikoyi<i />
 													</li>
 													<li onClick={e => this.setState({ currentFeed: 1 })}>
-														Fela<i />
+														Madison Lekki<i />
 													</li>
 												</Col>
 												<Col xs="11" className="VideoDisplay">

@@ -60,7 +60,7 @@ class LoginUser extends Component {
 					</Col>
 					<Col xs="12" className="inputField">
 						<span className={errors.password ? "inputContainer lg error" : "inputContainer lg"}>
-							<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Passowrd" />
+							<input type="password" value={password} onChange={e => this.setState({ password: e.target.value })} placeholder="Password" />
 						</span>
 						{loading ? (
 							<div>

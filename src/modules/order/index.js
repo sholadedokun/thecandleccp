@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Heading from "../../components/heading";
 import { Row, Col } from "react-bootstrap";
 import DisplayBoard from "../campaign/components/displayBoard";
-
 import Payment from "./payment";
 import ErrorBoundry from "../../js/components/errorBoundry";
 export default class Order extends Component {

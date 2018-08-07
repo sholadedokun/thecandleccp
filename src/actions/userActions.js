@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, NO_INTERNET } from "./actionTypes";
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, NO_INTERNET, SET_EMAIL } from "./actionTypes";
 import _ from "lodash";
 
 const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
@@ -54,6 +54,16 @@ export function signUpUser(values) {
 		});
 	};
 }
+
+export function setEmail(email) {
+	return function(dispatch) {
+		dispatch({
+			type: SET_EMAIL,
+			payload: email
+		});
+	};
+}
+
 export function authError(error) {
 	return {
 		type: AUTH_ERROR,
