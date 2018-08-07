@@ -11,6 +11,7 @@ class Payment extends Component {
 			loading: false,
 			showAddCard: true,
 			addCard: false,
+			validateOtp:false,
 			currentSelected: 0
 		};
 	}
@@ -34,7 +35,7 @@ class Payment extends Component {
 		this.setLoading(true);
 		this.props
 			.addCard(cardDetails)
-			.then(data => this.handleValidateOTP(data))
+			.then(data => this.setState({validateOtp: true}))
 			.catch(e => this.setLoading(false));
 	}
 	handleValidateOTP(data) {
@@ -68,7 +69,7 @@ class Payment extends Component {
 	}
 	render() {
 		const { cardValidated, allCards = [], error } = this.props;
-		const { currentSelected, addCard } = this.state;
+		const { currentSelected, addCard, validateOtp } = this.state;
 		return (
 			<div>
 				<div className="priceEstimate cardDetails">
@@ -91,7 +92,8 @@ class Payment extends Component {
 								</a>
 							</div>
 						))}
-					{addCard && <AddCard loading={this.state.loading} onAddCard={this.handleAddCard.bind(this)} cancelCard={() => this.setState({ addCard: false })} />}
+					{addCard && !validateOTP && <AddCard loading={this.state.loading} onAddCard={this.handleAddCard.bind(this)} cancelCard={() => this.setState({ addCard: false })} />}
+					{addCard && validateOTP&& <ValidateOTP resendCode={} validate={} error={} />}
 					{!addCard && (
 						<div className="addNewcard">
 							<a onClick={e => this.setState({ addCard: true })} className="">
