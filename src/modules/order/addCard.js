@@ -62,7 +62,7 @@ class AddCard extends Component {
 
 	render() {
 		return (
-			<div className="priceEstimate cardDetails">
+			<div className="cardDetails cardPin">
 				<div className="cardInput priceDetails">
 					<div className="cardFieldGroup">
 						<div className="eachField">
@@ -181,7 +181,7 @@ class AddCard extends Component {
 					<div style={{ display: this.props.loading ? "block" : "none" }}>
 						<Icon icon="fas fa-spinner fa-spin loading" />
 					</div>
-					<div style={{ display: this.props.loading ? "none" : "block" }}>
+					<div style={{ display: this.props.loading ? "none" : "flex" }}>
 						<button className="primaryButton" onClick={this.addCard.bind(this)}>
 							Add Card
 						</button>

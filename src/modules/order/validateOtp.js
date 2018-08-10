@@ -1,14 +1,21 @@
 import React from "react";
 import Heading from "../../js/components/heading";
-export default ({ resendCode, validate, error }) => {
+export default ({ otpValue, ChangeOtpValue, resendCode, validate, error, otpMessage }) => {
 	return (
 		<div>
 			<Heading title="Validate OTP" size="md" />
-			<heading title="An OTP has been sent to your phone, please type the digits below" size="xs" />
-			<form onSubmit={() => validate()}>
-				<input type="text" placeholder="Type OTP here" />
-				<button type="submit">Send</button>
-				<span onClick={resendCode}>Click here to resend code</span>
+			<Heading title={otpMessage} size="xs" />
+			<form onSubmit={e => validate(e)}>
+				<div className="inputField" style={{ display: "flex" }}>
+					<input type="text" placeholder="Type OTP here" onChange={ChangeOtpValue} value={otpValue} />
+					<button className="primaryButton" type="submit">
+						Send
+					</button>
+				</div>
+
+				<div onClick={resendCode}>
+					<a>Click here to resend code</a>
+				</div>
 			</form>
 			{error ? <span className="">{error}</span> : ""}
 		</div>

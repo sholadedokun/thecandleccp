@@ -9,7 +9,7 @@ export default function(state = { loadingPaymentDetails: true }, action) {
 		case LOADING_PAYMENT_DETAIL:
 			return { ...state, error: "", loadingPaymentDetails: true };
 		case ADD_CARD:
-			return { ...state, error: "", selectedCard: action.payload, validatingCard: false, addingNewCard: false };
+			return { ...state, error: "", flwRef: action.payload.flwRef, otpMessage: action.payload.message, validatingCard: false, addingNewCard: false };
 		case FETCH_ALL_CARDS:
 			return { ...state, error: "", allCards: action.payload, loadingPaymentDetails: false };
 		case VALIDATE_CARD:

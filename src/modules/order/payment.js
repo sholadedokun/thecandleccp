@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ErrorMessages from "../../components/errorMessages";
 import AddCard from "./addCard";
-import { getCards, deleteCard, sendPayment, addCard, validateOTP } from "../../js/actions/paymentActions";
+import { getCards, deleteCard, sendPayment, addCard, validateOTP } from "../../actions/paymentActions";
 import Icon from "../../components/icon";
+import ValidateOTP from "./validateOtp";
 class Payment extends Component {
 	constructor() {
 		super();
@@ -11,7 +12,8 @@ class Payment extends Component {
 			loading: false,
 			showAddCard: true,
 			addCard: false,
-			validateOtp:false,
+			otpValue: "",
+			validateOtp: false,
 			currentSelected: 0
 		};
 	}
@@ -35,11 +37,12 @@ class Payment extends Component {
 		this.setLoading(true);
 		this.props
 			.addCard(cardDetails)
-			.then(data => this.setState({validateOtp: true}))
+			.then(data => this.setState({ validateOtp: true, flwref: data.flwRef, otpMessage: data.message }))
 			.catch(e => this.setLoading(false));
 	}
-	handleValidateOTP(data) {
-		this.props.validateOTP(data).then(response => {
+	handleValidateOTP(e) {
+		e.preventDefault();
+		this.props.validateOTP({ otp: this.state.otpValue, flwRef: this.props.flwRef }).then(response => {
 			this.setLoading(false);
 			this.setState({ addCard: false });
 			if (response) this.props.getCards();
@@ -68,12 +71,12 @@ class Payment extends Component {
 			});
 	}
 	render() {
-		const { cardValidated, allCards = [], error } = this.props;
+		const { cardValidated, allCards = [], error, billing, otpValue } = this.props;
 		const { currentSelected, addCard, validateOtp } = this.state;
 		return (
 			<div>
 				<div className="priceEstimate cardDetails">
-					{allCards &&
+					{!addCard &&
 						allCards.map((item, index) => (
 							<div key={`card_${index}`} className="eachCard priceDetails">
 								<span onClick={this.payWithCard.bind(this, item, index)} className={`cardRadio ${currentSelected == index ? "selectedCard" : ""}`} />
@@ -92,8 +95,18 @@ class Payment extends Component {
 								</a>
 							</div>
 						))}
-					{addCard && !validateOTP && <AddCard loading={this.state.loading} onAddCard={this.handleAddCard.bind(this)} cancelCard={() => this.setState({ addCard: false })} />}
-					{addCard && validateOTP&& <ValidateOTP resendCode={} validate={} error={} />}
+					{addCard && !validateOtp && <AddCard loading={this.state.loading} onAddCard={this.handleAddCard.bind(this)} cancelCard={() => this.setState({ addCard: false })} />}
+					{addCard &&
+						validateOtp && (
+							<ValidateOTP
+								ChangeOtpValue={e => this.setState({ otpValue: e.target.value })}
+								otpValue={otpValue}
+								resendCode={() => console.log("resend code")}
+								validate={this.handleValidateOTP.bind(this)}
+								error={""}
+								otpMessage={this.state.otpMessage}
+							/>
+						)}
 					{!addCard && (
 						<div className="addNewcard">
 							<a onClick={e => this.setState({ addCard: true })} className="">
@@ -104,10 +117,16 @@ class Payment extends Component {
 
 					{error ? <ErrorMessages errorMessage={[error]} /> : ""}
 				</div>
-				<button className="primaryButton" onClick={this.makePayment.bind(this)}>
-					Make Payment
-				</button>
-				<button className="cancelButton">Cancel</button>
+				{billing ? (
+					""
+				) : (
+					<div>
+						<button className="primaryButton" onClick={this.makePayment.bind(this)}>
+							Make Payment
+						</button>
+						<button className="cancelButton">Cancel</button>
+					</div>
+				)}
 			</div>
 		);
 	}
@@ -119,7 +138,9 @@ function mapStateToProps(state) {
 		cardValidated: state.payment.cardValidated,
 		validatingCardDetails: state.payment.validatingCard,
 		loadingPaymentDetails: state.payment.loadingPaymentDetails,
-		addingNewCard: state.payment.addingNewCard
+		addingNewCard: state.payment.addingNewCard,
+		flwRef: state.payment.flwRef,
+		otpMessage: state.payment.otpMessage
 	};
 }
 export default connect(mapStateToProps, { getCards, deleteCard, sendPayment, addCard, validateOTP })(Payment);

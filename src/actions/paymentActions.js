@@ -23,22 +23,19 @@ export function addCard(payload) {
 	return function(dispatch) {
 		const token = localStorage.getItem("TheCandleToken");
 		dispatch({ type: VALIDATING_CARD_DETAILS, payload: true });
-		axios
-			.post(`${ROOT_URL}/cards`, { ...payload, token })
-			.then(response => {
-				console.log(response);
-
-				dispatch({ type: ADD_CARD, payload: response });
-				return axios.get(`${ROOT_URL}/cards?token=${token}`);
-			})
-			.then(response => {
-				dispatch({ type: FETCH_ALL_CARDS, payload: response.data });
-			})
-			.catch(e => {
-				console.log(e);
-
-				dispatch(cardError(e.message));
-			});
+		return new Promise((resolve, reject) => {
+			axios
+				.post(`${ROOT_URL}/cards`, { ...payload, token })
+				.then(response => {
+					resolve(response.data);
+					dispatch({ type: ADD_CARD, payload: response.data });
+				})
+				.catch(e => {
+					console.log(e);
+					reject(e);
+					dispatch(cardError(e.message));
+				});
+		});
 	};
 }
 export function getCards() {
@@ -59,18 +56,20 @@ export function getCards() {
 }
 export function validateOTP(payload) {
 	payload.token = localStorage.getItem("TheCandleToken");
-	payload.otp = 12345;
 	return function(dispatch) {
-		axios
-			.post(`${ROOT_URL}/cards/validateotp`, payload)
-			.then(response => {
-				// If request is good...
-				getCards();
-				dispatch({ type: VALIDATE_CARD, payload: response });
-			})
-			.catch(e => {
-				dispatch(cardError(e.message));
-			});
+		return new Promise((resolve, reject) => {
+			axios
+				.post(`${ROOT_URL}/cards/validateotp`, payload)
+				.then(response => {
+					// If request is good...
+					getCards();
+					resolve(response.data);
+					dispatch({ type: VALIDATE_CARD, payload: response });
+				})
+				.catch(e => {
+					dispatch(cardError(e.message));
+				});
+		});
 	};
 }
 export function deleteCard(id) {
@@ -95,7 +94,7 @@ export function fetchTransactions() {
 			.get(`${ROOT_URL}/transactions?token=${token}`)
 			.then(response => {
 				// If request is good...
-				dispatch({ type: GET_TRANSACTIONS, payload: response });
+				dispatch({ type: GET_TRANSACTIONS, payload: response.data });
 			})
 			.catch(e => {
 				dispatch(cardError(e.message));

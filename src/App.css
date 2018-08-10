@@ -383,6 +383,33 @@ a {
     margin-right: 0;
     width: 13%; }
 
+.dashboard .transactionTable li {
+  padding: 0;
+  text-align: left;
+  width: 9%;
+  display: inline-block;
+  margin: 0% 1%; }
+
+.dashboard .transactionTable li:nth-child(3) {
+  width: 25%; }
+
+.dashboard .transactionTable li:nth-child(4) {
+  width: 25%; }
+
+.dashboard .transactionTable li:nth-child(5) {
+  width: 20%; }
+
+.dashboard .transactionTable li:nth-child(1),
+.dashboard .transactionTable li:nth-child(2) {
+  width: 3% !important; }
+
+.dashboard .transactionTable li:last-child {
+  margin-right: 0;
+  width: auto; }
+
+.dashboard .transactionTable .campaign_header li {
+  margin: 0; }
+
 .dashboard .campaign_actionables {
   text-align: left;
   padding: 0.5em 0 1em;
@@ -1517,7 +1544,7 @@ input[type="file"] {
       background: #f00;
       padding: 0.25rem; }
   .cardDetails .cardInput #cardNumber input {
-    width: 75px; }
+    flex: auto; }
   .cardDetails .cardInput #cvv input {
     flex: 0.75;
     width: 65px; }
@@ -1528,7 +1555,7 @@ input[type="file"] {
     background: #ffffff;
     border-radius: 4px;
     display: flex;
-    width: auto;
+    width: 100%;
     margin: 0 0 0.5em; }
     .cardDetails .cardInput .inputField input {
       text-transform: uppercase;
@@ -1537,13 +1564,15 @@ input[type="file"] {
       background: transparent;
       border: none;
       padding: 8px;
-      margin: 0 0.25em;
-      width: 90px; }
+      margin: 0 0.25em; }
   .cardDetails .cardInput .cardFieldGroup {
     display: flex;
     justify-content: space-between; }
     .cardDetails .cardInput .cardFieldGroup .eachField {
       flex: auto; }
+
+.cardPin {
+  padding: 0; }
 
 @keyframes barEnter {
   from {

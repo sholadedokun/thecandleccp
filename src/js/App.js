@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Header from "./components/header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Grid, Row } from "react-bootstrap";
-
 import Home from "./components/home";
 import Dashboard from "./components/dashboard/";
 import Howitworks from "./components/howitworks";
