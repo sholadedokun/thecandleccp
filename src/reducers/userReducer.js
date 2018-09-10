@@ -1,4 +1,4 @@
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, SET_EMAIL } from "../actions/actionTypes";
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, SET_EMAIL, UPDATE_USER_DETAILS, UPDATE_USER_PASSWORD } from "../actions/actionTypes";
 
 export default function(state = { error: [], modalState: { isOpen: false, page: null } }, action) {
 	switch (action.type) {
@@ -14,6 +14,10 @@ export default function(state = { error: [], modalState: { isOpen: false, page: 
 			return { ...state, error: [], regEmail: action.payload };
 		case SWITCH_MODAL_STATE:
 			return { ...state, error: [], modalState: action.payload };
+		case UPDATE_USER_DETAILS:
+			return { ...state, error: [], data: action.payload };
+		case UPDATE_USER_PASSWORD:
+			return { ...state, passwordUpdated: true };
 	}
 	return state;
 }

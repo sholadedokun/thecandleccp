@@ -21,6 +21,8 @@ export const SWITCH_MODAL_STATE = "switch_modal_state";
 export const FETCH_USER = "FETCH_USER";
 export const NO_INTERNET = "Please check your internet connection and try again";
 export const SET_EMAIL = "SET_EMAIL";
+export const UPDATE_USER_DETAILS = "UPDATE_USER_DETAILS";
+export const UPDATE_USER_PASSWORD = "UPDATE_USER_PASSWORD";
 
 //CAMPAIGN ACTIONS
 export const CAMPAIGN_CREATE = "CAMPAIGN_CREATE";

@@ -13,6 +13,7 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import ErrorBoundary from "../../js/components/errorBoundry";
 import Adsets from "../Adsets";
 import Billings from "../Billings";
+import UserAccount from "../UserAccount";
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -40,8 +41,8 @@ class Dashboard extends Component {
 		},
 		Account: {
 			title: "Account",
-			defaultLink: "",
-			subMenu: [{ title: "Edit Account" }, { title: "Deactivate Account" }]
+			defaultLink: "/userAccount",
+			subMenu: [{ title: "Edit Account", path: "/userAccount" }, { title: "Deactivate Account" }]
 		}
 	};
 	changeRoute(route) {
@@ -114,7 +115,11 @@ class Dashboard extends Component {
 											component={() => <Adsets allCampaigns={allCampaigns} location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Hello"} />}
 										/>
 										<Route exact={true} path={`${match.url}/billings`} component={() => <Billings location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "Billings"} />} />
-										{console.log(location, match)}
+										<Route
+											exact={true}
+											path={`${match.url}/userAccount`}
+											component={() => <UserAccount location={location} changeRoute={this.changeRoute.bind(this)} createCampaign={() => "UserAccount"} />}
+										/>
 									</Switch>
 								</ReactCSSTransitionGroup>
 							</ErrorBoundary>

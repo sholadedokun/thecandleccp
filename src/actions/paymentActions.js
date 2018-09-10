@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BrowserRouter as Router } from "react-router-dom";
 import { PAYMENT_STATUS, REMOVE_CARD, VALIDATE_CARD, CARD_ERROR, ADD_CARD, FETCH_ALL_CARDS, VALIDATING_CARD_DETAILS, LOADING_PAYMENT_DETAIL, GET_TRANSACTIONS } from "./actionTypes";
 const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
 export function sendPayment(payload) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, NO_INTERNET, SET_EMAIL } from "./actionTypes";
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_USER, SWITCH_MODAL_STATE, UPDATE_USER_DETAILS, UPDATE_USER_PASSWORD, NO_INTERNET, SET_EMAIL } from "./actionTypes";
 import _ from "lodash";
 
 const ROOT_URL = "http://thecandleapi.herokuapp.com/api";
@@ -90,6 +90,59 @@ export function fetchUser() {
 				.then(response => {
 					dispatch({
 						type: FETCH_USER,
+						payload: response.data
+					});
+					resolve(response);
+				})
+				.catch(error => {
+					reject(error);
+					if (!error.response) {
+						dispatch(authError([NO_INTERNET]));
+					} else if (error.response.data.message == "Invalid token") {
+						dispatch(signoutUser(error.response.data.message));
+						dispatch(authError(error.response.data.message));
+					} else {
+					}
+				});
+		});
+	};
+}
+export function updateUser(user) {
+	user.token = localStorage.getItem("TheCandleToken");
+	return function(dispatch) {
+		return new Promise((resolve, reject) => {
+			axios
+				.post(`${ROOT_URL}/accounts/basic/update`, user)
+				.then(response => {
+					dispatch({
+						type: UPDATE_USER_DETAILS,
+						payload: response.data
+					});
+					resolve(response);
+				})
+				.catch(error => {
+					reject(error);
+					if (!error.response) {
+						dispatch(authError([NO_INTERNET]));
+					} else if (error.response.data.message == "Invalid token") {
+						dispatch(signoutUser(error.response.data.message));
+						dispatch(authError(error.response.data.message));
+					} else {
+					}
+				});
+		});
+	};
+}
+
+export function updatePassword(password) {
+	password.token = localStorage.getItem("TheCandleToken");
+	return function(dispatch) {
+		return new Promise((resolve, reject) => {
+			axios
+				.post(`${ROOT_URL}/accounts/password/update`, password)
+				.then(response => {
+					dispatch({
+						type: UPDATE_USER_PASSWORD,
 						payload: response.data
 					});
 					resolve(response);
