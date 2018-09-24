@@ -3,6 +3,7 @@ import { Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { updateUser, updatePassword } from "../../actions/userActions";
 import _ from "lodash";
+import Heading from "../../components/heading";
 class userAccount extends Component {
 	constructor(props) {
 		super(props);
@@ -36,25 +37,56 @@ class userAccount extends Component {
 		console.log(this.props);
 		return (
 			<div className="section container">
-				<h1>The Account Page</h1>
-				<h3>Basis Info</h3>
-				<form onSubmit={this.changeBasicInfo.bind(this)}>
-					<lable>{userDetails.email}</lable>
-					<input type="text" placeholder="Email Address" value={email} onChange={e => this.setState({ email: e.target.value })} />
-					<lable>{userDetails.name}</lable>
-					<input type="text" placeholder="Name" value={name} onChange={e => this.setState({ name: e.target.value })} />
-					<lable>{userDetails.phone}</lable>
-					<input type="text" placeholder="Phone" value={phone} onChange={e => this.setState({ phone: e.target.value })} />
-					<button>Update</button>
-				</form>
-				<form onSubmit={this.changePassword.bind(this)}>
-					<h3>Password Change</h3>
-					<input type="password" placeholder="Previous Password" value={password} onChange={e => this.setState({ password: e.target.value })} />
-					<input type="password" placeholder="Current Password" value={new_password} onChange={e => this.setState({ new_password: e.target.value })} onKeyUp={this.match.bind(this)} />
-					<input type="password" placeholder="Re-type Current Password" value={retypePasssword} onChange={e => this.setState({ retypePasssword: e.target.value })} onKeyUp={this.match.bind(this)} />
-					{passwordMatch ? <span>match</span> : retypePasssword.length > 0 ? <div>{`Doesn't Match`}</div> : ""}
-					<button>Update</button>
-				</form>
+				<Heading size="md" title="The Account Page" />
+				<Col xs={6} className="dashboard  priceEstimate cardDetails">
+					<Heading size="sm" title="Basic Info" />
+					<form onSubmit={this.changeBasicInfo.bind(this)} className="formSections">
+						<div className="inputField">
+							<label>Change Email from {userDetails.email}</label>
+							<span className="inputContainer md">
+								<input type="text" placeholder="New Email Address" value={email} onChange={e => this.setState({ email: e.target.value })} />
+							</span>
+						</div>
+						<div className="inputField">
+							<label>Change Name from {userDetails.name}</label>
+							<span className="inputContainer md">
+								<input type="text" placeholder="Name" value={name} onChange={e => this.setState({ name: e.target.value })} />
+							</span>
+						</div>
+						<div className="inputField">
+							<label>{userDetails.phone}</label>
+							<span className="inputContainer md">
+								<input type="text" placeholder="Phone" value={phone} onChange={e => this.setState({ phone: e.target.value })} />
+							</span>
+						</div>
+						<button className="primaryButton">Update</button>
+					</form>
+				</Col>
+				<Col xs={6} className="dashboard">
+					<Heading size="sm" title="Password Update" />
+					<form onSubmit={this.changePassword.bind(this)} className="formSections">
+						<div className="inputField">
+							<label>Previous Password</label>
+							<span className="inputContainer">
+								<input type="password" placeholder="Type Previous Password" value={password} onChange={e => this.setState({ password: e.target.value })} />
+							</span>
+						</div>
+						<div className="inputField">
+							<label>New Password</label>
+							<span className="inputContainer ">
+								<input type="password" placeholder="Type New Password" value={new_password} onChange={e => this.setState({ new_password: e.target.value })} onKeyUp={this.match.bind(this)} />
+							</span>
+						</div>
+						<div className="inputField">
+							<label>Retype New Password</label>
+							<span className="inputContainer">
+								<input type="password" placeholder="Re-type New Password" value={retypePasssword} onChange={e => this.setState({ retypePasssword: e.target.value })} onKeyUp={this.match.bind(this)} />
+							</span>
+						</div>
+						{passwordMatch ? <span>match</span> : retypePasssword.length > 0 ? <div>{`Doesn't Match`}</div> : ""}
+						<button className="primaryButton">Update</button>
+					</form>
+				</Col>
 			</div>
 		);
 	}
