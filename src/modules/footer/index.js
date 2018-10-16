@@ -10,7 +10,7 @@ export default ({ name, image, position }) => (
 				<Row>
 					<Col xs={12} sm={6} className="copy">
 						<span className="footerLogo">
-							<img src="images/Candle-.png" width="100%" />
+							<img src="/images/Candle-.png" width="100%" />
 						</span>
 						<span>&copy; 2017, a product of Buck and Bage Limited. All rights reserved.</span>
 					</Col>
@@ -18,10 +18,10 @@ export default ({ name, image, position }) => (
 						<Heading size="xs" title="Follow us" />
 						<span>
 							<a href="https://www.instagram.com/candle.ng/" target="_blank">
-								<Icon icon="fab fa-instagram" />
+								<Icon icon="/fab fa-instagram" />
 							</a>
 							<a href="https://www.twitter.com/candle.ng/" target="_blank">
-								<Icon icon="fab fa-twitter" />
+								<Icon icon="/fab fa-twitter" />
 							</a>
 						</span>
 					</Col>

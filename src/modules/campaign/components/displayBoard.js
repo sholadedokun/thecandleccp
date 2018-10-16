@@ -59,7 +59,7 @@ export default class DisplayBoard extends Component {
 							{(function() {
 								switch (item.type) {
 									case "image":
-										return <img src={item.data} width="100%" />;
+										return <img src={`/${item.data}`} width="100%" />;
 									case "video":
 										return (
 											<video width="100%" autoPlay loop>
@@ -81,7 +81,7 @@ export default class DisplayBoard extends Component {
 	render() {
 		return (
 			<div className="displayBoardPreview" id="previewContainer">
-				<img src="images/displayBoard_1.png" id="displayBoard" className="displayBoard" width="100%" height="100%" />
+				<img src="/images/displayBoard_1.png" id="displayBoard" className="displayBoard" width="100%" height="100%" />
 				{this.mapAdCreativeToBoard()}
 			</div>
 		);

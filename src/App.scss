@@ -1927,6 +1927,17 @@ input[type="file"] {
 .cardPin {
 	padding: 0;
 }
+
+//User Account
+
+.accountCard {
+	width: 100%;
+	padding: 4em 10em;
+	label {
+		text-align: left;
+	}
+}
+
 //animation keyframes
 @keyframes barEnter {
 	from {

@@ -173,7 +173,7 @@ a {
 		line-height: 0;
 		background: #eee;
 		border: 1px solid #eee;
-		padding:5px 20px;
+		padding: 5px 20px;
 		border-radius: 3px;
 		text-align: center;
 		text-transform: capitalize;
@@ -1856,6 +1856,12 @@ input[type="file"] {
 			}
 		}
 	}
+}
+//User Account
+
+.accountCard {
+	width: 100%;
+	padding: 0 2em;
 }
 
 //animation keyframes

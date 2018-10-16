@@ -41,7 +41,7 @@ export default class SelectBoard extends Component {
 							return (
 								<Col xs={6} sm={4}>
 									<div key={index} className={selectedBoardIndex === index ? "spaceContainer active" : "spaceContainer"} onClick={() => this.setState({ selectedBoardIndex: index })}>
-										<img src={item.imageUrl || "images/space1.jpg"} />
+										<img src={`/${item.imageUrl || "images/space1.jpg"}`} />
 										<span className="location">
 											<Icon icon="fas fa-map-marker-alt"> </Icon> {item.location}
 										</span>

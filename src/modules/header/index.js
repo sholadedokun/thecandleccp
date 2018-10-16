@@ -177,7 +177,7 @@ class Header extends Component {
 						<Navbar.Header>
 							<Navbar.Brand>
 								<a href="/" className="logo">
-									<img src="images/Candle-.png" width="100%" />
+									<img src="/images/Candle-.png" width="100%" />
 								</a>
 							</Navbar.Brand>
 							<Navbar.Toggle />
@@ -217,7 +217,7 @@ function mapStateToProps(state) {
 	return {
 		user: state.user,
 		allCampaigns: state.campaigns.allCampaigns,
-		email:state.user.regEmail
+		email: state.user.regEmail
 	};
 }
 const mapDispatchToProps = { signoutUser, modalStatus };

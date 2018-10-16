@@ -52,7 +52,7 @@ class Header extends Component {
 			</li>
 		];
 		let authenticated_bar = [
-			<li role="presentation" className="active" >
+			<li role="presentation" className="active">
 				<Link to="/dashboard">Dashboard</Link>
 			</li>,
 			<li role="presentation" onClick={this.userLogin.bind(this, "signOut")}>
@@ -63,7 +63,7 @@ class Header extends Component {
 			</li>
 		];
 		let unAuthenticate = [
-			<li role="presentation" onClick={() => this.props.modalStatus(true, "login")} >
+			<li role="presentation" onClick={() => this.props.modalStatus(true, "login")}>
 				<a className="buttonLink" href="#">
 					login
 				</a>
@@ -113,7 +113,7 @@ class Header extends Component {
 						<Navbar.Header>
 							<Navbar.Brand>
 								<a href="/" className="logo">
-									<img src="images/Candle-.png" width="100%" />
+									<img src="/images/Candle-.png" width="100%" />
 								</a>
 							</Navbar.Brand>
 							<Navbar.Toggle />

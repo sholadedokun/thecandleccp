@@ -10,7 +10,7 @@ export default ({ name, image, position }) => (
 				<Row>
 					<Col xs={12} sm={6} className="copy">
 						<span className="footerLogo">
-							<img src="images/Candle-.png" width="100%" />
+							<img src="/images/Candle-.png" width="100%" />
 						</span>
 						<span>&copy; 2017 TheCandle all rights reserved.</span>
 					</Col>

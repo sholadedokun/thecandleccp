@@ -1520,6 +1520,10 @@ input[type="file"] {
     .cardDetails .cardInput .cardFieldGroup .eachField {
       flex: auto; }
 
+.accountCard {
+  width: 100%;
+  padding: 0 2em; }
+
 @keyframes barEnter {
   from {
     height: 0; }

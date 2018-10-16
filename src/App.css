@@ -1574,6 +1574,12 @@ input[type="file"] {
 .cardPin {
   padding: 0; }
 
+.accountCard {
+  width: 100%;
+  padding: 4em 10em; }
+  .accountCard label {
+    text-align: left; }
+
 @keyframes barEnter {
   from {
     height: 0; }
